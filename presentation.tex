@@ -1,0 +1,812 @@
+%%% Local Variables: 
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% End:
+
+%%LyX 2.3.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{prftree, bussproofs}
+\usepackage{fancyvrb}
+\usepackage{soul}
+
+\usepackage{fontspec}
+\setmonofont[Scale=0.9]{FreeMono}
+
+\newtheorem{property}[theorem]{Property}
+\newtheorem{axiom}[theorem]{Axiom}
+
+\global\long\def\evidence#1{\left\llbracket#1\right\rrbracket}
+\newcommand{\form}[1]{\scalebox{1.087}{\boldmath{#1}}}
+\global\long\def\ctx{\text{\ensuremath{\mathcal{\text{Ctx}}}}}%
+\global\long\def\set{\text{\textbf{Set}}}%
+\global\long\def\ty#1{\text{Ty}\left(#1\right)}%
+\global\long\def\tm#1#2{\text{Tm}\left(#1,#2\right)}%
+
+\newcommand{\Psh}[1]{\text{Psh}\left(#1\right)}
+\newcommand{\singleton}[0]{\left\{ \star\right\}}
+\newcommand{\coe}[2]{\int_{#1}{#2}}
+\newcommand{\homo}[3]{\text{Hom}_{#1}\left(#2,#3\right)}
+%\newcommand{\op}[1]{\textfrak{#1}}
+\newcommand{\op}[1]{\mathtt{#1}}
+
+%\newcommand{\type}{\text{\textbf{T}}}
+\newcommand{\type}{\mathcal{U}}
+\newcommand{\pa}[3]{\op{Path}_{#1}\left(#2, #3\right)}
+\newcommand{\compt}[5]{\op{comp}^{#1} \ {#2} \ \left[{#3} \mapsto{#4} \right] \ {#5}}
+\newcommand{\fillt}[5]{\op{fill}^{#1} \ {#2} \ \left[{#3} \mapsto{#5} \right] \ {#5}}
+
+\newcommand{\isequiv}[3]{\op{isEquiv} \ #1 \ #2 \ #3}
+
+\usepackage{graphicx}
+\usepackage{tikz,tikz-cd}
+\usepackage{tkz-graph}
+\usetikzlibrary{decorations.markings,calc}
+\usetikzlibrary{shapes.geometric}
+
+\GraphInit[vstyle = Classic]
+\tikzset{
+LabelStyle/.style = { %rectangle, %draw,
+                        minimum width = 2em, %fill = white!50,
+                        text = black, font = \bfseries },
+  VertexStyle/.append style = { shape = circle,
+  								fill = black,
+  								minimum size = 2pt,
+  								inner sep=2pt,
+                                %font = \Large\bfseries
+                                	},
+  EdgeStyle/.append style = {->, bend left} }
+
+
+\pgfdeclarelayer{edgelayer}
+\pgfdeclarelayer{nodelayer}
+\pgfsetlayers{edgelayer,nodelayer,main}
+
+\tikzstyle{none}=[inner sep=0pt]
+
+
+\tikzstyle{simple}=[-,draw=black,line width=1.000]
+\tikzstyle{arrow}=[-,draw=black,postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}]
+
+\usepackage{graphicx}
+\usepackage{multimedia}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC 
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{default}
+% or ...dff
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title[Cubical models for Univalence]{The Constructive Model of \\ Univalence in  Cubical Sets}
+\subtitle{}
+\author[W. Vanhulle]{W. Vanhulle\inst{1} \and A. Nuyts\inst{2}\and D. Devriese\inst{3}}
+\institute[KUL]{\inst{1}Student \and \inst{2}Supervisor \and \inst{3}Promoter}
+\date[30/05/19]{45 min. public seminar}
+
+\makebeamertitle
+
+\pgfdeclareimage[height=0.5cm]{institution-logo}{figures/kuleuven}
+\logo{\pgfuseimage{institution-logo}}
+
+\AtBeginSubsection[]{%
+  \frame<beamer>{ 
+    \frametitle{Outline}   
+    \tableofcontents[currentsection,currentsubsection] 
+  }
+}
+
+%\beamerdefaultoverlayspecification{<+->}
+\begin{frame}{Outline}
+
+\tableofcontents{}
+
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Homotopy type theory (HoTT)}
+
+%\includegraphics[width=0.8\textwidth]{figures/}
+\centering
+$$ p,q : a =_X b \quad r,s : p =_{\texttt{Id}_X(a,b)} q$$ 
+
+\input{figures/homotopy.tikz}
+
+
+foundations based on type theory and topology
+
+\end{frame}
+
+\begin{frame}{Short history of HoTT }
+
+\begin{itemize}
+ \item groupoid model, Hofmann  (1996)
+ \item univalence axiom, Voevodsky (2009)
+ \item univalent foundations, Voevodsky, Grayson, Coquand (2013)
+\end{itemize}
+
+\begin{figure}[h!]
+\centering    
+\includegraphics[width=0.7\textwidth]{figures/HoTT-pic.png}
+  \caption{Univalent foundations 2013--2014}
+ \end{figure} 
+
+
+\end{frame}
+
+\begin{frame}{Role of univalence}
+
+\begin{axiom}[Univalence axiom]
+ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map $\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)$ is an equivalence of types. 
+\end{axiom}
+
+\begin{itemize}
+ \item equivalence = homotopy equivalence
+ \item mathematics ``up to homotopy''
+ \item forces equalities to be paths
+\end{itemize}
+
+
+
+\begin{figure}[h!]
+\centering    
+\includegraphics[width=0.5\textwidth]{figures/seifert.png}
+  \caption{Seifert-Van Kampen theorem in HoTT. Hou, Shulman (2016)}
+ \end{figure} 
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Origin univalence}
+
+\begin{columns}[c]
+    \column{.5\textwidth}
+        \begin{center}
+            \begin{figure}[h!]
+                \includegraphics[height=.7\textheight]{figures/voevodsky.jpg}
+                \caption{Vladimir Voevodsky}
+            \end{figure} 
+        \end{center}
+    \column{.5\textwidth}
+        \begin{quotation}
+            Why ``univalent''?
+        \end{quotation}
+
+        \pause
+
+        \begin{quotation}
+        ... these foundations seem to be faithful to the way in which I think about mathematical objects in my head ...
+        \end{quotation}
+
+        faithful = univalent in a Russion translation of Boardman (2006)
+
+\end{columns}
+
+
+
+
+\end{frame}
+
+
+
+\begin{frame}{Implementation of univalence}
+
+What about:
+\begin{itemize}
+\item implementing HoTT?
+\item calculations with very simple types as $\mathbb{N}$?
+\end{itemize}
+
+\begin{quotation}
+Can we, given a term $t: \mathbb{N}$ constructed using the univalence axiom, construct two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ such that $u$ does not involve the univalence axiom?
+\end{quotation}
+
+\pause
+
+... Huber (2016) $\Rightarrow$ canonicity of $\mathbb{N}$ in cubical type theory (CTT)
+
+$$ t \equiv ua ( ... )  \rightsquigarrow u \equiv S ( \dots ( 0 ) \ldots ) : \mathbb{N}  $$
+
+
+\end{frame}
+
+
+\begin{frame}{Cubical type theory}
+
+Dimension variables $i,j,k : \mathbb{I}$ as primitives:
+
+\begin{figure}[h!]
+    \includegraphics[width=.7\textwidth]{figures/cubes.png}
+    \caption{Discrete ``$n$-cubes''. Huber (2016)}
+\end{figure}
+
+\begin{itemize}
+\item univalence becomes \emph{constructable}
+\item computational interpretation for univalence 
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Why cubes?}
+
+\begin{figure}[h!]
+    \includegraphics[width=.8\textwidth]{figures/cube-joke.jpg}
+    \caption{Internet meme. EnigmaChord (2016)}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Cubes model HoTT equality}
+ 
+\begin{itemize}
+ \item equalities $\Rightarrow$ edges of cubes
+ \item equalities between equalities (homotopies) $\Rightarrow$ faces of cubes, ...
+\end{itemize}
+
+\begin{figure}
+ \input{figures/squarification.tikz}
+ \caption{ \texttt{P} is an equality (homotopy) between equality $A\ i$ and constant equality at $A \ 0$}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Operations on cubes}
+ 
+\begin{columns}[c]
+    \column{.5\textwidth}
+        \begin{center}
+            \begin{figure}[h!]
+                \includegraphics[height=.6\textheight]{figures/kan.jpg}
+                \caption{Daniel Kan}
+            \end{figure} 
+        \end{center}
+    \column{.5\textwidth}
+        
+        Necessary for modelling HoTT:
+        
+        \begin{itemize}
+         \item  composition $\Rightarrow$ equality type
+         \item glueing $\Rightarrow$ univalence
+        \end{itemize}
+
+
+        \begin{figure}[h!]
+                \includegraphics[height=.4\textheight]{figures/extension.png}
+                \caption{Adding the lid with composition. Huber (2016)}
+        \end{figure} 
+
+        
+\end{columns}
+\end{frame}
+
+
+
+\section{Cubical model}
+
+
+\begin{frame}{Content of my thesis}
+
+\begin{itemize}
+\item cubes as base categories for a model of HoTT
+\item the proof of univalence in this model
+\item some applications and alternative models
+\end{itemize}
+
+\centering
+\includegraphics[width=0.7\textwidth]{figures/groups}
+
+
+\end{frame}
+
+\begin{frame}{Presheaves on $\mathcal{C}$}
+ 
+ Maps (contravariant functors) $\mathcal{C} \rightarrow \mathbf{Set}$ denoted by $\hat{\mathcal{C}}$
+ 
+ \begin{itemize}
+ \item generalize sheaves (see sheafication)
+ \item model type theories, Dybjer (1994)
+ \end{itemize}
+ 
+ \begin{example}[Reflexive directed graphs]    
+ Take $\mathcal{C} = \{0,1\}$ and $\text{Hom}_{\mathcal{C}}= \{B,E,R\}$
+ 
+ \input{figures/reflexive.tikz}    
+ 
+ 
+ 
+\end{example} 
+
+ 
+\end{frame}
+
+\begin{frame}{Presheaf model on $\mathcal{C}$}
+ 
+ Gives interpretations for stuff in type theory:
+ \begin{itemize}
+  \item contexts $\Gamma$ are the category $\widehat{\mathcal{C}}$
+  \item types are a presheaf $$\widehat{\int_{\mathcal{C}} \Gamma}$$
+  \item terms are elements of $$\prod _{I \in \mathcal{C}, \rho \in \Gamma (I)} A(I,\rho)$$
+ \end{itemize}
+
+ \pause
+ 
+ Bonuses:
+ 
+ \begin{itemize}
+  \item verify consistency of type theory in sets
+  \item find primitives for implementations
+ \end{itemize}
+ 
+\end{frame}
+
+\begin{frame}{Types with presheaves}
+
+  \begin{example}
+  A type $A$  over $\mathcal{C} = \{0,1\}$ is a refined graphs,   
+  terms $a,b:A$ are edges in refined graph:
+  \begin{figure}\label{depgraphdiag}
+\begin{center} 
+\input{figures/nested.tikz}  
+\end{center}    
+  \end{figure}
+ \end{example}
+\end{frame}
+
+\begin{frame}{Distributive lattice}
+ 
+%  In cubical type theory, $\mathcal{C} \not = \{0, 1\}$ but $\mathcal{C} = \square$.
+%  
+%  \pause 
+%  
+
+ 
+ 
+  \begin{columns}[c]
+    \column{.5\textwidth}
+          Let $i, j , k, ... \in \mathbb{A}$ countable = ``dimension variables'' 
+ 
+ \begin{definition}[Free De Morgan algebra]
+ Distributive lattice containing:
+ 
+ \begin{itemize}
+  \item $i \wedge j$ (min of $i$, $j$)
+  \item $i \vee 0$ (computes to $i$)
+  \item $\neg k$ (negation)
+  \item de Morgan rules.
+ 
+ \end{itemize}
+
+ ... denoted by $dM(i,j,k,...)$
+\end{definition}
+ 
+
+    \column{.5\textwidth}
+        \begin{figure}
+       \includegraphics[width=0.8\textwidth]{figures/lattice}
+       \caption{A distributive lattice}
+       \end{figure}
+\end{columns}
+ 
+ 
+\end{frame}
+
+\begin{frame}
+ 
+
+
+ 
+ \begin{definition}[cube category $\square$]
+ 
+  objects are $\{ I \mid |I| < \infty , I \subset \mathbb{A} \}$
+  morphisms $J\rightarrow I$ are maps $I \mapsto dM(J)$ 
+%\item types float above contexts
+ 
+ \end{definition}
+ 
+  \begin{example}[presheaf model on $\square$]
+ contexts $\Gamma$ are presheaves $\square \rightarrow \mathbf{Set}$
+ shaped by lattice structure $\Rightarrow$ complicated!
+ 
+ \begin{figure}
+ 
+ \includegraphics[width=0.6\textwidth]{figures/context}
+ 
+  \caption{a context $\Gamma$ applied to $\{i,j\}$}
+  \end{figure}
+ \end{example}
+ 
+\end{frame}
+
+\begin{frame}{Types in $\widehat{\square}$}
+ \begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{figures/types}
+\caption{A type $A$ within context $\Gamma$. Huber (2016)}
+ \end{figure}
+ 
+\end{frame}
+
+
+\begin{frame}{Types in presheaf models}
+
+In the presheaf model on $\square$:
+\begin{itemize}
+    \item 
+    \item types no longer simply nested graphs
+\end{itemize}
+
+
+\begin{lemma}[Characterization of types]
+
+If $\Gamma \in \widehat{\mathcal{C}}$, then 
+$$\text{Ty}(\Gamma) \cong \left\{ (\Delta, \sigma) \mid \Delta \in \widehat{\mathcal{C}}, \sigma \in \text{Hom}_{\text{Ctx}}(\Delta , \Gamma) \right\}$$
+\end{lemma}
+
+\pause
+
+
+Interpreting types in presheaf model $\square$ hard but possible! 
+
+See long work on semantics by Coquand, Bezem, Huber, ... (2013-2017) 
+
+
+\end{frame}
+
+\begin{frame}{Path type}
+ 
+ Syntactical definition of \texttt{Path} type with typing rules:
+
+\begin{prooftree}
+\AxiomC{$ i : \mathbb{I} \vdash t : A$}
+\AxiomC{$i : \mathbb{I} \vdash t(i/0) = a : A$}
+\AxiomC{$i : \mathbb{I} \vdash t(i/1) = b : A$}
+\TrinaryInfC{$() \vdash \left< i \right> t : \texttt{Path} \ a\   b$}
+
+\end{prooftree}
+
+% \begin{prooftree}
+% \AxiomC{$\Gamma \vdash t : \pa{A}{u_0}{u_1}$}
+% \UnaryInfC{$\Gamma \vdash t 0 = u_0 : A$}
+% \end{prooftree}
+% 
+% \begin{prooftree}
+% \AxiomC{$\Gamma \vdash t : \pa{A}{u_0}{u_1}$}
+% \UnaryInfC{$\Gamma \vdash t 1 = u_1 : A$}
+% \end{prooftree}
+
+\begin{itemize}
+ \item almost models identity type
+ \item not necessarily transitive $\Rightarrow$ composition operation
+\end{itemize}
+
+
+\begin{figure}
+\centering
+\input{figures/transitivity.tikz}
+\caption{Transitivity can be proven with composition operation.}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Constructive model of type theory}
+ 
+
+
+ \begin{columns}[c]
+    \column{.5\textwidth}
+         Other types can be interpreted in the presheaf model $\widehat{\square}$
+ 
+ \begin{itemize}
+  \item product, sum types
+  \item natural numbers
+ \end{itemize}
+        
+         $\Rightarrow$ Constructive model for type theory
+ 
+        \begin{quotation}
+        What about univalence and HoTT?
+        \end{quotation}
+        
+        \pause
+        
+        $\Rightarrow$ Simplicial sets model univalence + glueing construction, Kapulkin (2012)
+    \column{.5\textwidth}
+        \begin{figure}
+       \includegraphics[width=0.7\textwidth]{figures/simplex}
+       \caption{Simplicial complex}
+       \end{figure}
+\end{columns}
+ 
+\end{frame}
+
+\begin{frame}{Partial types} 
+ Partial types are only defined on subpolyhedra of cubes:
+ 
+ 
+ \begin{figure}
+    \centering
+  \includegraphics[width=0.7\textwidth]{figures/types_side}
+  \caption{The partial type $A(i/0)$ in type $A$, syntactically: $A\ [(i = 0) \mapsto A(i/0)]$.}
+ \end{figure}
+
+ 
+ 
+\end{frame}
+
+\begin{frame}{Glueing equivalences}
+  
+  Equivalences are a crucial ingredient for the univalence axiom:
+  \begin{itemize}
+   \item maps $f : T \rightarrow A$ that correspond to homotopy equivalences
+   \item have inverse up-to some paths
+  \end{itemize}
+
+  
+   The \texttt{Glue} type was introduced to prove univalence:
+   \begin{itemize}
+    \item very complicated typing rules
+    \item glue equivalences  over partial types together:
+   \end{itemize}
+
+ 
+\begin{figure}
+ \includegraphics[width=0.5\textwidth]{figures/glue}
+% \caption{Glueing the equivalence over the partial type $T$.}
+\end{figure}
+
+  
+ 
+\end{frame}
+
+\begin{frame}{Proving univalence}
+
+\begin{axiom}[Univalence axiom]
+ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map $\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)$ is an equivalence of types. 
+\end{axiom}
+
+
+ 
+
+\begin{proof}
+
+\begin{itemize}
+
+\item The existence of a map $\texttt{ua} : (X\simeq Y) \rightarrow (X = Y)$ proven with \texttt{Glue} construction:
+ 
+ 
+ $$i : \mathbb{I} \vdash E= \texttt{Glue} \left[ (i=0) \mapsto (X, f),(i=1) \mapsto\left(Y, \texttt{id}_{Y}\right) \right] Y$$
+ 
+ $E$ is a path (equality) from $X$ to $Y$.
+ 
+ \item Remainder proven with ``contractibility of singletons''.
+ 
+ \end{itemize}
+\end{proof} 
+
+\end{frame}
+
+
+\section{Applications}
+
+
+\begin{frame}{Applying \texttt{ua} from univalence }
+ 
+ \begin{example}[Monoids]
+ 
+ $$M_1  \equiv (\mathbb{N}, (m,n)\mapsto m+n, 0)$$ and $$M_2 \equiv (\mathbb{N}_0, (m,n)\mapsto m+n -1, 1)$$
+\begin{itemize}
+ \item  are isomorphic by $$\lambda n \rightarrow n + 1 $$ 
+ \item (path-) equal in CTT
+\end{itemize}
+ 
+ \end{example}
+ 
+
+ 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Definition of a \st{monoid} magma}
+%{Building a path}
+
+setoid encoding uses operator ``\texttt{∙}'' and equivalence ``\texttt{≈}'':
+
+\begin{figure}
+\footnotesize
+\begin{BVerbatim}
+notZero n = Σ ℕ (λ m → (n ≡ (suc m)))
+ℕ₀ = Σ ℕ (λ n → notZero n) 
+
+op₂ : Op₂ ℕ₀
+op₂ (x , p)  (y , q) = 
+    (predℕ (x + y) , (predℕ (predℕ (x + y)) , sumLem x y p q) )
+
+M₂ : Algebra.Magma _ _
+M₂ = record { 
+  Carrier = ℕ₀ ;
+  _≈_ = (_≡_) ;
+  _∙_ = op₂ ;
+  isMagma = record {
+    isEquivalence = ≡equiv ;
+     ∙-cong = doubleCong op₂
+     }
+  }
+\end{BVerbatim}
+\end{figure}
+ 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Equality of carrier sets}
+
+ $\mathbb{N} \rightarrow \mathbb{N}_0: n\mapsto n + 1 $ is bijection
+ 
+ \begin{itemize}
+  \item is equivalence of types
+  \item $\texttt{ua}$ returns equality \texttt{ℕ ≡ ℕ₀}
+ \end{itemize}
+ 
+ 
+ \begin{figure}
+ \begin{BVerbatim}
+f : ℕ → ℕ₀ 
+f n = (suc n , ( n , refl ) )
+...
+fEquiv : ℕ ≃ ℕ₀ 
+fEquiv = (f ,  isoToIsEquiv (iso f g l' r'))
+
+fEq : ℕ ≡ ℕ₀ 
+fEq i = ua fEquiv i
+ \end{BVerbatim}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Transports}
+ 
+ 
+ \begin{columns}%[c]
+    \column{.5\textwidth}
+        Defined with a filling operation in CTT:
+        \begin{figure}
+            \begin{BVerbatim}
+transport : A ≡ B → A → B
+            \end{BVerbatim}
+            \end{figure}
+        Intuitively: special case of (heterogenous) topological transport in covering space:
+    \column{.5\textwidth}
+        \begin{figure}
+ \includegraphics[height=0.8\textheight]{figures/cover}
+ \end{figure}
+
+\end{columns}
+
+ 
+ 
+
+ 
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Equality of \st{monoids} magmas}
+
+Defined for every component of record type:
+
+\begin{figure}
+\begin{BVerbatim}
+mPath : s₁ ≡ s₂
+mPath = λ i → record {
+   Carrier = (fEq i) ;
+   _≈_ =  _≡_;
+   _∙_ = transOp' i ;
+   isMagma = record {
+    isEquivalence = ≡equiv  ;
+     ∙-cong   = ?
+     }
+   }
+\end{BVerbatim}
+\end{figure}
+
+\texttt{transOp'} defined by transporting along \texttt{ℕ ≡ ℕ₀}
+
+\end{frame}
+
+\begin{frame}{In algebraic topology}
+
+ \begin{columns}%[c]
+    \column{.6\textwidth}
+        Homotopy groups compute number of higher-dimensional holes
+        \begin{theorem}
+            $\pi _ 4 (S^3) \cong \mathbb{Z}_n$ for $n=2$ 
+
+            \end{theorem}
+            \begin{itemize}
+            \item proven in HoTT with univalence
+            \item $n$ implemented in CTT as a function
+            \item canonicity predicts termination
+            \end{itemize}
+        (bug in Agda or CTT prevents evaluation)
+
+        \column{.4\textwidth}
+            \begin{figure}
+                \includegraphics[height=0.4\textheight]{figures/loops}
+                \caption{from science4all}
+            \end{figure}
+    \end{columns}
+
+\end{frame}
+
+\section*{Summary}
+
+
+\begin{frame}{Summary}
+
+Final thoughts:
+\begin{itemize}
+ \item computational type theory is an alternative implementation 
+ \item composition operation may not be necessary
+ \item alternatives to complicated glue types: fundamental axioms and language of topoi
+\end{itemize}
+
+
+
+
+
+
+Thanks for watching!
+
+\end{frame}
+
+\appendix
+
+\section*{Appendix}
+
+\subsection*{For Further Reading}
+\begin{frame}[allowframebreaks]{For Further Reading}
+
+\bibliographystyle{amsalpha}
+\bibliography{../../../../Referenties/library}
+\end{frame}
+
+\end{document}

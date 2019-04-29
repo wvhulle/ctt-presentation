@@ -1,0 +1,8 @@
+\[ \begin{tikzcd}
+a \arrow[r, dashrightarrow] 
+& c  \\
+a 	\arrow[u, "refl"]	
+	\arrow[r, "p \  i"]
+& b  \arrow[u, "q \ j"] 
+\end{tikzcd}
+\] 

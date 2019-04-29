@@ -1,0 +1,19 @@
+ 
+\begin{tikzpicture}
+  %\SetGraphUnit{5}
+  \Vertex[x=0, y=0]{A}
+  \Vertex[ x=2,y=0]{B}
+  \Edge[](A)(B)
+  
+  \Vertex[x = 3, y = -2]{C}
+  \Vertex[x = 4, y = 1]{D}  
+  \Edge[](C)(D)
+  \Vertex[x = 5, y = -2]{E}
+  \Edge [](C)(E)
+  
+  \Loop[dist = 1cm, dir = NO](B)
+  \Loop[dist = 1cm, dir = NO](A)
+  \Loop[dist = 1cm, dir = NO](C)
+  \Loop[dist = 0.5cm, dir = NO](D)
+  \Loop[dist = 1cm, dir = NO](E)
+\end{tikzpicture} 
