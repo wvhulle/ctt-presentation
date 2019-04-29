@@ -148,14 +148,14 @@ LabelStyle/.style = { %rectangle, %draw,
 
 \begin{frame}{}
     \setbeamercovered{invisible}
-    A mathematician is asked by a friend who is a devout Christian: "Do you believe in one God?" 
+    A mathematician is asked by a friend who is a devout Christian: ``Do you believe in one God?'' 
     \begin{quotation}
     What does he reply?
     \end{quotation}
-    \pause
+    \pause{}
     
     
-    He answers: ``Yes - up to isomorphism.'' (© Michael Benjamin Stepp)
+    He answers: ``Yes -- up to isomorphism.'' (© Michael Benjamin Stepp)
 
 \fig{isomorphism}{Monkeys looking at isomorphic monkeys.}
 \end{frame}
@@ -179,7 +179,7 @@ homotopy equivalent spaces have the same ``number of \(n\)-dimensional holes''
 
 \begin{frame}{Holes are homotopy groups}
 
-computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad \text{or } [0,1]^n \rightarrow X\]
+computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
 
 \tcol{
                 \fig{loops}{A donut has two 1-dimensional homotopy classes.}
@@ -200,7 +200,7 @@ computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad
             \caption{A typed recursive function in Haskell}
         \end{figure}
     
-        \pause
+        \pause{}
         \item alternative constructive foundation of mathematics
         \begin{figure}
             \input{figures/agda_comp.verbatim}
@@ -382,9 +382,9 @@ $\Rightarrow$ terms of equality are like paths
             \end{figure} 
         \end{center}
     \column{.5\textwidth}
-        \begin{quotation}
-            Why ``univalent''?
-        \end{quotation}
+
+            Why is it called ``univalent''?
+
 
         \pause
 
@@ -395,10 +395,6 @@ $\Rightarrow$ terms of equality are like paths
         faithful = univalent in a Russion translation of Boardman (2006)
 
 \end{columns}
-
-
-
-
 \end{frame}
 
 
@@ -700,32 +696,29 @@ Interpreting types in presheaf model $\square$ hard but possible!
 
 \end{frame}
 
-\begin{frame}{Constructive model of type theory}{Streicher, Voevodsky Kapulkin 2006 -- 2012 }
+\begin{frame}{Constructive model of type theory}{}
  
 
 
  \begin{columns}[c]
     \column{.5\textwidth}
-         Other types can be interpreted in the presheaf model $\widehat{\square}$
- 
+         Other types can be interpreted in the presheaf model  $\widehat{\square}$
+          for constructive model for type theory:
  \begin{itemize}
   \item product, sum types
   \item natural numbers
  \end{itemize}
-        
-         $\Rightarrow$ Constructive model for type theory
  
-        \begin{quotation}
-        What about univalence and HoTT?
-        \end{quotation}
+        Univalence proven with:
         
-        \pause
-        
-        $\Rightarrow$ Simplicial sets model univalence + glueing construction, Kapulkin (2012)
+       \begin{itemize}
+        \item concepts from simplicial set model (Streicher, Voevodsky, Kapulkin et al. 2006 -- 2012)
+        \item partial types and glueing construction 
+       \end{itemize}
     \column{.5\textwidth}
         \begin{figure}
        \includegraphics[width=0.7\textwidth]{figures/simplex}
-       \caption{Simplicial complex}
+       \caption{Related concept of a simplicial complex}
        \end{figure}
 \end{columns}
  
@@ -850,8 +843,8 @@ M₂ = record {
  $\mathbb{N} \rightarrow \mathbb{N}_0: n\mapsto n + 1 $ is bijection
  
  \begin{itemize}
-  \item is equivalence of types
-  \item $\texttt{ua}$ returns equality \texttt{ℕ ≡ ℕ₀}
+  \item is equivalence of (set-like) types
+  \item univalence/\texttt{ua} returns equality \texttt{ℕ ≡ ℕ₀}
  \end{itemize}
  
  
