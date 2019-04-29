@@ -30,15 +30,28 @@
 
 \newcommand{\coe}[2]{\int_{#1}{#2}}
 \newcommand{\homo}[3]{\text{Hom}_{#1}\left(#2,#3\right)}
-\newcommand{\op}[1]{\mathtt{#1}}
 \newcommand{\type}{\mathcal{U}}
-\newcommand{\pa}[3]{\op{Path}_{#1}\left(#2, #3\right)}
-\newcommand{\compt}[5]{\op{comp}^{#1} \ {#2} \ \left[{#3} \mapsto{#4} \right] \ {#5}}
-\newcommand{\fillt}[5]{\op{fill}^{#1} \ {#2} \ \left[{#3} \mapsto{#5} \right] \ {#5}}
+\newcommand{\pa}[3]{\texttt{Path}_{#1}\left(#2, #3\right)}
+\newcommand{\compt}[5]{\texttt{comp}^{#1} \ {#2} \ \left[{#3} \mapsto{#4} \right] \ {#5}}
+\newcommand{\fillt}[5]{\texttt{fill}^{#1} \ {#2} \ \left[{#3} \mapsto{#5} \right] \ {#5}}
 
-\newcommand{\isequiv}[3]{\op{isEquiv} \ #1 \ #2 \ #3}
+\newcommand{\isequiv}[3]{\texttt{isEquiv} \ #1 \ #2 \ #3}
 
 \usepackage{graphicx}
+
+\newcommand{\fig}[2]{
+    \begin{figure}\begin{center}\includegraphics[width=0.8\textwidth,height=0.8\textheight,keepaspectratio=true]{figures/#1}\caption{#2\label{#1}}\end{center}
+    \end{figure}}
+
+\newcommand{\tcol}[2]{
+    \begin{columns}
+        \column{.5\textwidth}
+        #1
+        \column{.5\textwidth}
+        #2
+    \end{columns}
+}
+
 \usepackage{tikz,tikz-cd}
 \usepackage{tkz-graph}
 \usetikzlibrary{decorations.markings,calc}
@@ -155,22 +168,28 @@ LabelStyle/.style = { %rectangle, %draw,
 
 Isomorphism in algebraic topology is ``homotopy equivalence''
 
-[to homotopy equivalent spaces]
+\begin{columns}
+    \column{.5\textwidth}
+    \fig{mug}{A mug}
+    \column{.5\textwidth}
+    \fig{donut.jpg}{A donut}
+\end{columns}
 
-spaces with the same ``number of $n$-dimensional holes''
+homotopy equivalent spaces have the same ``number of $n$-dimensional holes''
 
 \end{frame}
 
 
-\begin{frame}{Holes}
+\begin{frame}{Holes are homtopy groups}
 
-computed by looking at $n$-dimensional homotopies 
+computed by looking at homotopy classes of embeddings $$S^n \rightarrow X, \quad \text{or } [0,1]^n \rightarrow X$$
 
-2-dimensional:
-[picture of deformation loops]
-
-3-dimensional:
-[deformation of surfaces]
+\tcol{
+                \fig{loops}{A donut has two 1-dimensional homotopy classes.}
+}
+    {
+                \fig{basketball_hollow}{A ball without center has two 2-dimensional homotopy classes.}
+}
 \end{frame}
 
 
@@ -196,7 +215,7 @@ computed by looking at $n$-dimensional homotopies
     
 \end{frame}
 
-\begin{frame}{Type theory as foundation of mathematics}
+\begin{frame}{Type theory as foundation of mathematics}{Russel, 1907}
 
 Invented to prevent paradox:
 
@@ -218,14 +237,67 @@ $x \not \in x$ is not a valid proposition anymore
 
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{equality type}{Martin-L\"of, 1984}
+    
+    Leibniz's principle (axiom):
+         $$f = g \Leftrightarrow f(x) = g(x), \forall x$$
+    
+    Not an axiom in type theory for decidability reasons.
+    
+    \pause
+    Equality ``$=$'' added as a type called \emph{propositional equality}:
+
+    \begin{itemize}
+        \item weaker than equality ``by definition''.
+        \item stronger than equivalence.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Identity eliminator}{Martin-L\"of, 1984}
+
+       Elimination rule of equality type:
+
+    \begin{definition}[path induction]
+            Given the following terms:
+        \begin{itemize}
+            \item a predicate $C : \prod_{x,y:A} (x =_A y) \rightarrow \mathcal{U}$
+            \item the base step $c:\prod_{x:A} C(x,x,\texttt{refl}_x)$
+        \end{itemize}
+            there is a function $f: \prod_{x,y:A} \prod_{p:x=_Ay}C(x,y,p)$ such that $f(x,x,\texttt{refl}_x) \equiv c(x).$
+        
+    \end{definition}
+
+    \pause
+
+    (describes how to compute with the equality type)
+    
+\end{frame}
+
+\begin{frame}{Intuition identity eliminator}
+
+    Role of eliminator:
+    \begin{quotation}
+        To prove a property $C$ that depends on terms $x,y$ and equalities $p:x=y$  it suffices to consider all the cases where
+        
+        \begin{itemize}
+            \item $x$ is definitionally equal to $y$
+            \item the term of the intensional equality type under consideration is $\texttt{refl}_x : x = x$.
+        \end{itemize}
+        \end{quotation}
+
+        Implications:
+        \begin{itemize}
+            \item proves transitivity, symmetry
+            \item equality type can have multiple terms
+        \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Homotopy type theory (HoTT)}
+\begin{frame}{Homotopy type theory (HoTT)}{Awodey, 2006}
 
-Gives \emph{homotopy} interpretation to identity type:
+Gives \emph{homotopy} interpretation to equality type:
 
 %\includegraphics[width=0.8\textwidth]{figures/}
 \centering
@@ -234,7 +306,7 @@ $$ p,q : a =_X b \quad r,s : p =_{\texttt{Id}_X(a,b)} q$$
 \input{figures/homotopy.tikz}
 
 
-foundations based on type theory and topology
+$\Rightarrow$ alternative foundations for mathematics based on type theory and topology
 
 \end{frame}
 
@@ -255,33 +327,54 @@ foundations based on type theory and topology
 
 % \end{frame}
 
-\begin{frame}{Role of univalence}
+\begin{frame}{Role of univalence}{Voevodsky, 2009}
 
 \begin{axiom}[Univalence axiom] 
  Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map \(\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)\) is an equivalence of types. 
 \end{axiom}
 
 \begin{itemize}
- \item equivalence = homotopy equivalence
- \item mathematics ``up to homotopy''
- \item forces equalities to be paths
+    \item equivalence of types is a bijection for set-like types \[\mathbb{N} \simeq \mathbb{N}_0 \]
+    \item univalence implies \[\mathbb{N} \simeq \mathbb{N}_0 \Rightarrow \mathbb{N} = \mathbb{N}\]
+
+    \item forces multiple terms of equality
 \end{itemize}
- 
 
+\pause
+\begin{quotation}
+$\Rightarrow$ terms of equality are like paths
+\end{quotation}
 
-\begin{figure}[h!]
-\centering    
-\includegraphics[width=0.5\textwidth]{figures/seifert.png}
-  \caption{Seifert-Van Kampen theorem in HoTT. Hou, Shulman (2016)}
- \end{figure} 
-
-
+% \begin{figure}[h!]
+% \centering    
+% \includegraphics[width=0.5\textwidth]{figures/seifert.png}
+%   \caption{Seifert-Van Kampen theorem in HoTT. Hou, Shulman (2016)}
+%  \end{figure} 
 
 
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{Consequences of path interpretation}
+     
+     
+     \tcol{
 
-\begin{frame}{Origin univalence}
+        in general:
+        \begin{itemize}
+          \item equivalence behaves like homotopy equivalence
+            \item mathematics ``up to homotopy''
+            \item lifting of path $p$ as in  algebraic topology: \emph{transport} gives the other ending point of $p_\star$
+        \end{itemize}
+     }
+     {
+        \fig{cover}{}
+     }     
+\end{frame}
+    
+
+
+\begin{frame}{Origin univalence}{Grayson, 2018}
 
 \begin{columns}[c]
     \column{.5\textwidth}
@@ -313,7 +406,7 @@ foundations based on type theory and topology
 
 
 
-\begin{frame}{Implementation of univalence}
+\begin{frame}{Computing with univalence}{Huber, 2015}
 
 What about:
 \begin{itemize}
@@ -327,7 +420,7 @@ Can we, given a term $t: \mathbb{N}$ constructed using the univalence axiom, con
 
 \pause
 
-... Huber (2016) $\Rightarrow$ canonicity of $\mathbb{N}$ in cubical type theory (CTT)
+ $\Rightarrow$ canonicity of $\mathbb{N}$ in cubical type theory (CTT)
 
 $$ t \equiv ua ( ... )  \rightsquigarrow u \equiv S ( \dots ( 0 ) \ldots ) : \mathbb{N}  $$
 
@@ -335,7 +428,7 @@ $$ t \equiv ua ( ... )  \rightsquigarrow u \equiv S ( \dots ( 0 ) \ldots ) : \ma
 \end{frame}
 
 
-\begin{frame}{Cubical type theory}
+\begin{frame}{Cubical type theory}{Cohen et al., 2015}
 
 Dimension variables $i,j,k : \mathbb{I}$ as primitives:
 
@@ -352,29 +445,41 @@ Dimension variables $i,j,k : \mathbb{I}$ as primitives:
 \end{frame}
 
 
-\begin{frame}{Why cubes?}
+\begin{frame}{Are cubes a good idea?}{EnigmaChord, 2016}
 
-\begin{figure}[h!]
-    \includegraphics[width=.8\textwidth]{figures/cube-joke.jpg}
-    \caption{Internet meme. EnigmaChord (2016)}
-\end{figure}
+\fig{cube-joke.jpg}{}
+
+\pause
+
+(yes, they model n-dimensional homotopies)
+
 \end{frame}
 
 
-\begin{frame}{Cubes model HoTT equality}
+\begin{frame}{Cubes model homotopy}{Altenkirch, Brunerie, Licata, et. al 2013}
  
+Homotopy groups are defined as equivalence classes:
+$$[0,1]^n \rightarrow X$$
+
+In homotopy type theory:
+\begin{quotation}
+ higher-dimensional paths $\cong$ higher-dimensional eqalities.
+\end{quotation}
+\pause
+
+Cubes give discrete description of higher-dimensional paths:
 \begin{itemize}
  \item equalities $\Rightarrow$ edges of cubes
  \item equalities between equalities (homotopies) $\Rightarrow$ faces of cubes, ...
 \end{itemize}
 
-\begin{figure}
- \input{figures/squarification.tikz}
- \caption{ \texttt{P} is an equality (homotopy) between equality $A\ i$ and constant equality at $A \ 0$}
-\end{figure}
+% \begin{figure}
+%  \input{figures/squarification.tikz}
+%  \caption{ \texttt{P} is an equality (homotopy) between equality $A\ i$ and constant equality at $A \ 0$}
+% \end{figure}
 \end{frame}
 
-\begin{frame}{Operations on cubes}
+\begin{frame}{Operations on cubes}{Bezem, Coquand, Huber et al., 2013}
  
 \begin{columns}[c]
     \column{.5\textwidth}
@@ -408,8 +513,9 @@ Dimension variables $i,j,k : \mathbb{I}$ as primitives:
 \section{Cubical model}
 
 
-\begin{frame}{Content of my thesis}
+\begin{frame}{Topics touched in my thesis}
 
+Literature review about:
 \begin{itemize}
 \item cubes as base categories for a model of HoTT
 \item the proof of univalence in this model
@@ -422,7 +528,7 @@ Dimension variables $i,j,k : \mathbb{I}$ as primitives:
 
 \end{frame}
 
-\begin{frame}{Presheaves on $\mathcal{C}$}
+\begin{frame}{Presheaves on $\mathcal{C}$}{Hofstra, 2014}
  
  Maps (contravariant functors) $\mathcal{C} \rightarrow \mathbf{Set}$ denoted by $\hat{\mathcal{C}}$
  
@@ -443,7 +549,7 @@ Dimension variables $i,j,k : \mathbb{I}$ as primitives:
  
 \end{frame}
 
-\begin{frame}{Presheaf model on $\mathcal{C}$}
+\begin{frame}{Presheaf model on $\mathcal{C}$}{Dybjer, 1994}
  
  Gives interpretations for stuff in type theory:
  \begin{itemize}
@@ -555,7 +661,7 @@ Dimension variables $i,j,k : \mathbb{I}$ as primitives:
 
 In the presheaf model on $\square$:
 \begin{itemize}
-    \item 
+    \item types more complicated
     \item types no longer simply nested graphs
 \end{itemize}
 
@@ -571,12 +677,11 @@ $$\text{Ty}(\Gamma) \cong \left\{ (\Delta, \sigma) \mid \Delta \in \widehat{\mat
 
 Interpreting types in presheaf model $\square$ hard but possible! 
 
-See long work on semantics by Coquand, Bezem, Huber, ... (2013-2017) 
 
 
 \end{frame}
 
-\begin{frame}{Path type}
+\begin{frame}{Path type}{Bezem, Coquand, 2013}
  
  Syntactical definition of \texttt{Path} type with typing rules:
 
@@ -599,7 +704,7 @@ See long work on semantics by Coquand, Bezem, Huber, ... (2013-2017)
 % \end{prooftree}
 
 \begin{itemize}
- \item almost models identity type
+ \item almost models equality type
  \item not necessarily transitive $\Rightarrow$ composition operation
 \end{itemize}
 
@@ -736,7 +841,6 @@ See long work on semantics by Coquand, Bezem, Huber, ... (2013-2017)
 setoid encoding uses operator ``\texttt{∙}'' and equivalence ``\texttt{≈}'':
 
 \begin{figure}
-\footnotesize
 \begin{BVerbatim}
 notZero n = Σ ℕ (λ m → (n ≡ (suc m)))
 ℕ₀ = Σ ℕ (λ n → notZero n) 
@@ -750,10 +854,7 @@ M₂ = record {
   Carrier = ℕ₀ ;
   _≈_ = (_≡_) ;
   _∙_ = op₂ ;
-  isMagma = record {
-    isEquivalence = ≡equiv ;
-     ∙-cong = doubleCong op₂
-     }
+  isMagma = ... ,
   }
 \end{BVerbatim}
 \end{figure}
@@ -787,31 +888,6 @@ fEq i = ua fEquiv i
 \end{frame}
 
 
-\begin{frame}[fragile]
-\frametitle{Transports}
- 
- 
- \begin{columns}%[c]
-    \column{.5\textwidth}
-        Defined with a filling operation in CTT:
-        \begin{figure}
-            \begin{BVerbatim}
-transport : A ≡ B → A → B
-            \end{BVerbatim}
-            \end{figure}
-        Intuitively: special case of (heterogenous) topological transport in covering space:
-    \column{.5\textwidth}
-        \begin{figure}
- \includegraphics[height=0.8\textheight]{figures/cover}
- \end{figure}
-
-\end{columns}
-
- 
- 
-
- 
-\end{frame}
 
 
 
@@ -835,7 +911,7 @@ mPath = λ i → record {
 \end{BVerbatim}
 \end{figure}
 
-\texttt{transOp'} defined by transporting along \texttt{ℕ ≡ ℕ₀}
+\texttt{transOp'} defined by transporting along \texttt{ℕ ≡ ℕ₀}, proofs can be transported over \texttt{s₁ ≡ s₂}.
 
 \end{frame}
 
@@ -867,7 +943,7 @@ mPath = λ i → record {
 \section*{Summary}
 
 
-\begin{frame}{Other research}
+\begin{frame}{Other research}{Licata, Harper, Cavallo, Orton et al., 2018}
     \begin{itemize}
         \item computational type theory is an alternative implementation 
         \item composition operation may not be necessary
