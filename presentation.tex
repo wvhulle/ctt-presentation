@@ -1,11 +1,11 @@
+% !TEX program = xelatex
+
 %%% Local Variables: 
 %%% coding: utf-8
 %%% mode: latex
 %%% TeX-engine: xetex
 %%% End:
 
-%%LyX 2.3.2 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
 \documentclass[english]{beamer}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
@@ -28,14 +28,9 @@
 \global\long\def\ty#1{\text{Ty}\left(#1\right)}%
 \global\long\def\tm#1#2{\text{Tm}\left(#1,#2\right)}%
 
-\newcommand{\Psh}[1]{\text{Psh}\left(#1\right)}
-\newcommand{\singleton}[0]{\left\{ \star\right\}}
 \newcommand{\coe}[2]{\int_{#1}{#2}}
 \newcommand{\homo}[3]{\text{Hom}_{#1}\left(#2,#3\right)}
-%\newcommand{\op}[1]{\textfrak{#1}}
 \newcommand{\op}[1]{\mathtt{#1}}
-
-%\newcommand{\type}{\text{\textbf{T}}}
 \newcommand{\type}{\mathcal{U}}
 \newcommand{\pa}[3]{\op{Path}_{#1}\left(#2, #3\right)}
 \newcommand{\compt}[5]{\op{comp}^{#1} \ {#2} \ \left[{#3} \mapsto{#4} \right] \ {#5}}
@@ -112,7 +107,7 @@ LabelStyle/.style = { %rectangle, %draw,
 \usepackage{babel}
 \begin{document}
 \title[Cubical models for Univalence]{The Constructive Model of \\ Univalence in  Cubical Sets}
-\subtitle{}
+\subtitle{Literature review}
 \author[W. Vanhulle]{W. Vanhulle\inst{1} \and A. Nuyts\inst{2}\and D. Devriese\inst{3}}
 \institute[KUL]{\inst{1}Student \and \inst{2}Supervisor \and \inst{3}Promoter}
 \date[30/05/19]{45 min. public seminar}
@@ -137,6 +132,51 @@ LabelStyle/.style = { %rectangle, %draw,
 \end{frame}
 
 \section{Introduction}
+
+\begin{frame}{Equality in mathematics}
+    \setbeamercovered{invisible}
+    A mathematician is asked by a friend who is a devout Christian: "Do you believe in one God?" 
+    \begin{quotation}
+    What does he reply?
+    \end{quotation}
+    \pause
+    
+    
+    He answers: "Yes - up to isomorphism." (© Michael Benjamin Stepp)
+
+
+[Two isomorphic but not equal things]
+
+[Two other isomorphic things]
+\end{frame}
+
+
+\begin{frame}{Algebraic Topology}
+
+Isomorphism in algebraic topology is ``homotopy equivalence''
+
+[to homotopy equivalent spaces]
+
+spaces with the same ``number of $n$-dimensional holes''
+
+\end{frame}
+
+
+\begin{frame}{Holes}
+
+computed by looking at $n$-dimensional homotopies 
+
+2-dimensional:
+[picture of deformation loops]
+
+3-dimensional:
+[deformation of surfaces]
+\end{frame}
+
+
+\begin{frame}{Type theory}
+
+\end{frame}
 
 \begin{frame}{Homotopy type theory (HoTT)}
 
@@ -170,8 +210,8 @@ foundations based on type theory and topology
 
 \begin{frame}{Role of univalence}
 
-\begin{axiom}[Univalence axiom]
- Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map $\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)$ is an equivalence of types. 
+\begin{axiom}[Univalence axiom] 
+ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map \(\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)\) is an equivalence of types. 
 \end{axiom}
 
 \begin{itemize}
@@ -179,7 +219,7 @@ foundations based on type theory and topology
  \item mathematics ``up to homotopy''
  \item forces equalities to be paths
 \end{itemize}
-
+ 
 
 
 \begin{figure}[h!]
@@ -780,19 +820,22 @@ mPath = λ i → record {
 \section*{Summary}
 
 
+\begin{frame}{Other research}
+    \begin{itemize}
+        \item computational type theory is an alternative implementation 
+        \item composition operation may not be necessary
+        \item alternatives to complicated glue types: fundamental axioms and language of topoi
+    \end{itemize}
+\end{frame}
+
+
 \begin{frame}{Summary}
 
-Final thoughts:
-\begin{itemize}
- \item computational type theory is an alternative implementation 
- \item composition operation may not be necessary
- \item alternatives to complicated glue types: fundamental axioms and language of topoi
-\end{itemize}
-
-
-
-
-
+    \begin{itemize}
+        \item HoTT redefines equality
+        \item CTT implements HoTT
+        \item HoTT can be verified in computers 
+    \end{itemize}
 
 Thanks for watching!
 
