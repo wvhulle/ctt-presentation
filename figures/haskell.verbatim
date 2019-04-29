@@ -1,0 +1,8 @@
+
+\begin{BVerbatim}
+filter :: (a -> Bool) -> [a] -> [a]
+filter _pred []    = []
+filter pred (x:xs)
+  | pred x         = x : filter pred xs
+  | otherwise      = filter pred xs 
+\end{BVerbatim}

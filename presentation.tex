@@ -6,7 +6,7 @@
 %%% TeX-engine: xetex
 %%% End:
 
-\documentclass[english]{beamer}
+\documentclass[english,draft]{beamer}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -16,7 +16,7 @@
 \usepackage{soul}
 
 \usepackage{fontspec}
-\setmonofont[Scale=0.9]{FreeMono}
+\setmonofont[Scale=0.7]{FreeMono}
 
 \newtheorem{property}[theorem]{Property}
 \newtheorem{axiom}[theorem]{Axiom}
@@ -175,10 +175,57 @@ computed by looking at $n$-dimensional homotopies
 
 
 \begin{frame}{Type theory}
+    
+    Two meanings/subfields:
+    \begin{itemize}
+        \item verifying computation in programming languages
+        \begin{figure}
+            \input{figures/haskell.verbatim}
+            \caption{A typed recursive function in Haskell}
+        \end{figure}
+    
+        \pause
+        \item alternative constructive foundation of mathematics
+        \begin{figure}
+            \input{figures/agda_comp.verbatim}
+            \caption{Definition of the topological space $S^1$ in Agda}
+        \end{figure}
+    
+    \end{itemize}
+
+    
+\end{frame}
+
+\begin{frame}{Type theory as foundation of mathematics}
+
+Invented to prevent paradox:
+
+
+    $$ R = \{x \mid x \not \in x \}, R\in R \Leftrightarrow \not \in R $$
+    
+
+Solution was:
+\begin{itemize}
+\item replace sets (and propositions) by types and elements by terms, $$x \in R \Rightarrow x : R$$
+\item types belong to universe hierarchy 
+        \[\exists i, R : \mathcal{U}_i, \quad \mathcal{U}_0 : \mathcal{U}_1 : \ldots \]
+\item constructive logic and formation rules
+\end{itemize}
+
+\begin{quotation}
+$x \not \in x$ is not a valid proposition anymore
+\end{quotation}
 
 \end{frame}
 
+\begin{frame}{}
+
+\end{frame}
+
+
 \begin{frame}{Homotopy type theory (HoTT)}
+
+Gives \emph{homotopy} interpretation to identity type:
 
 %\includegraphics[width=0.8\textwidth]{figures/}
 \centering
@@ -191,22 +238,22 @@ foundations based on type theory and topology
 
 \end{frame}
 
-\begin{frame}{Short history of HoTT }
+% \begin{frame}{Short history of HoTT }
 
-\begin{itemize}
- \item groupoid model, Hofmann  (1996)
- \item univalence axiom, Voevodsky (2009)
- \item univalent foundations, Voevodsky, Grayson, Coquand (2013)
-\end{itemize}
+% \begin{itemize}
+%  \item groupoid model, Hofmann  (1996)
+%  \item univalence axiom, Voevodsky (2009)
+%  \item univalent foundations, Voevodsky, Grayson, Coquand (2013)
+% \end{itemize}
 
-\begin{figure}[h!]
-\centering    
-\includegraphics[width=0.7\textwidth]{figures/HoTT-pic.png}
-  \caption{Univalent foundations 2013--2014}
- \end{figure} 
+% \begin{figure}[h!]
+% \centering    
+% \includegraphics[width=0.7\textwidth]{figures/HoTT-pic.png}
+%   \caption{Univalent foundations 2013--2014}
+%  \end{figure} 
 
 
-\end{frame}
+% \end{frame}
 
 \begin{frame}{Role of univalence}
 

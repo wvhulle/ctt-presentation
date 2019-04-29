@@ -1,0 +1,5 @@
+\begin{BVerbatim}
+_∘_ :   (∀ {x} (y : B x) → C y) → (g : (x : A) → B x) →
+        ((x : A) → C (g x))
+f ∘ g = λ x → f (g x)
+\end{BVerbatim}
