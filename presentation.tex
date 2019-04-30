@@ -6,7 +6,7 @@
 %%% TeX-engine: xetex
 %%% End:
 
-\documentclass[english]{beamer}
+\documentclass[english, draft]{beamer}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -14,6 +14,7 @@
 \usepackage{prftree, bussproofs}
 \usepackage{fancyvrb}
 \usepackage{soul}
+\usepackage{booktabs}
 
 \usepackage{fontspec}
 \setmonofont[Scale=0.7]{FreeMono}
@@ -123,7 +124,7 @@ LabelStyle/.style = { %rectangle, %draw,
 \subtitle{Literature review}
 \author[W. Vanhulle]{W. Vanhulle\inst{1} \and A. Nuyts\inst{2}\and D. Devriese\inst{3}}
 \institute[KUL]{\inst{1}Student \and \inst{2}Supervisor \and \inst{3}Promoter}
-\date[30/05/19]{45 min. public seminar}
+\date[30/05/19]{45 min.~public seminar}
 
 \makebeamertitle
 
@@ -179,7 +180,7 @@ homotopy equivalent spaces have the same ``number of \(n\)-dimensional holes''
 
 \begin{frame}{Holes are homotopy groups}
 
-computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
+computed by looking at homotopy classes of \emph{continous} embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
 
 \tcol{
                 \fig{loops}{A donut has two 1-dimensional homotopy classes.}
@@ -187,6 +188,32 @@ computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad
     {
                 \fig{basketball_hollow}{A ball without center has two 2-dimensional homotopy classes.}
 }
+
+\end{frame}
+
+
+
+
+\begin{frame}{Type theory's origin}{Russel, 1907}
+
+Invented to prevent paradox:
+
+
+    \[ R = \{x \mid x \not \in x \}, R\in R \Leftrightarrow \not \in R \]
+    
+
+Solution was:
+\begin{itemize}
+\item replace sets (and propositions) by types and elements by terms, $$x \in R \Rightarrow x : R$$
+\item types belong to universe hierarchy 
+        \[\exists i, R : \mathcal{U}_i, \quad \mathcal{U}_0 : \mathcal{U}_1 : \ldots \]
+\item constructive logic and formation rules
+\end{itemize}
+
+\begin{quotation}
+$x \not \in x$ is not a valid proposition anymore
+\end{quotation}
+
 \end{frame}
 
 
@@ -212,46 +239,53 @@ computed by looking at homotopy classes of embeddings \[S^n \rightarrow X, \quad
     
 \end{frame}
 
-\begin{frame}{Type theory as foundation of mathematics}{Russel, 1907}
+\begin{frame}{Type theory as foundation for mathematics}
 
-Invented to prevent paradox:
+    Deductive system of judgements with typing rules:
 
 
-    $$ R = \{x \mid x \not \in x \}, R\in R \Leftrightarrow \not \in R $$
-    
-
-Solution was:
-\begin{itemize}
-\item replace sets (and propositions) by types and elements by terms, $$x \in R \Rightarrow x : R$$
-\item types belong to universe hierarchy 
-        \[\exists i, R : \mathcal{U}_i, \quad \mathcal{U}_0 : \mathcal{U}_1 : \ldots \]
-\item constructive logic and formation rules
-\end{itemize}
-
-\begin{quotation}
-$x \not \in x$ is not a valid proposition anymore
-\end{quotation}
-
-\end{frame}
-
-\begin{frame}{equality type}{Martin-L\"of, 1984}
-    
-    Leibniz's principle (axiom):
-         \[f = g \Leftrightarrow f(x) = g(x), \forall x\]
-    
-    Not an axiom in type theory for decidability reasons.
-    
-    \pause
-    Equality ``\(=\)'' added as a type called \emph{propositional equality}:
+    \begin{prooftree}
+        \AxiomC{$\Gamma \vdash f : A \rightarrow B$}
+        \AxiomC{$\Gamma \vdash a : A$}
+        \BinaryInfC{$\Gamma \vdash b : B$}
+    \end{prooftree}
 
     \begin{itemize}
-        \item weaker than equality ``by definition''.
-        \item stronger than equivalence.
+    \item judgments express wether a type is inhabited
+    \item all judgements have contexts
+    \item typing rules tell how to form and combine types and terms
     \end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}{Equality in type theory}{Martin-L\"of, 1984}
+    
+    Definitional equality in type theory is for type checking, ``denoted \texttt{=}'' in code:
+
+    \begin{figure}
+    \input{figures/definitional.verbatim}
+    \caption{An example of definitional equality.}
+    \end{figure}
+    
+    Mathematics needs a ``softer'' equality as in:
+    
+    \begin{example}[Leibniz's extensionality principle]
+     \[f = g \Leftrightarrow f(x) = g(x), \forall x \]
+    \end{example}
+
 
 \end{frame}
 
-\begin{frame}{Identity eliminator}{Martin-L\"of, 1984}
+\begin{frame}{Identity type}{Martin-L\"of, 1984}
+
+    \begin{quotation}
+        ... introduction of propositional equality in form of ``identity type''
+    \end{quotation}
+
+    \begin{definition}[Introduction rule]
+        Given a $a : X$, $\texttt{refl}(a): a = a$.
+    \end{definition}
 
        Elimination rule of equality type:
 
@@ -265,9 +299,10 @@ $x \not \in x$ is not a valid proposition anymore
         
     \end{definition}
 
-    \pause
-
-    (describes how to compute with the equality type)
+       \begin{itemize}
+        \item weaker than equality ``by definition''.
+        \item stronger than equivalence.
+    \end{itemize}
     
 \end{frame}
 
@@ -397,7 +432,23 @@ $\Rightarrow$ terms of equality are like paths
 \end{columns}
 \end{frame}
 
+\begin{frame}{Personal remark}
+The univalence axiom adds:
+\begin{itemize}
+    \item intuitive explanation of equaity
+    \item alternative foundations with types
+    \item field of mathematics: HoTT
+\end{itemize}
 
+But does not:
+\begin{itemize}
+    \item make all proofs easier or shorter
+    \item eliminate proofs of equivalence
+\end{itemize}
+
+
+
+\end{frame}
 
 \begin{frame}{Computing with univalence}{Huber, 2015}
 
@@ -456,20 +507,24 @@ A constructive extension of HoTT with dimension variables $i,j,k : \mathbb{I}$ (
 
 \begin{frame}{Cubes model homotopy}{Altenkirch, Brunerie, Licata, et. al 2013}
  
-Homotopy groups are defined as equivalence classes:
+Homotopy groups are defined as equivalence classes of \emph{continous} embeddings:
 $$[0,1]^n \rightarrow X$$
 
-In homotopy type theory:
 \begin{quotation}
- higher-dimensional paths $\cong$ higher-dimensional eqalities.
+In HoTT, higher-dimensional eqalities behave like these embeddings
 \end{quotation}
 \pause
 
-Cubes give discrete description of higher-dimensional paths:
-\begin{itemize}
- \item equalities $\Rightarrow$ edges of cubes
- \item equalities between equalities (homotopies) $\Rightarrow$ faces of cubes, ...
-\end{itemize}
+    \begin{table}[]
+        \begin{tabular}{@{}llll@{}}
+        \toprule
+        Level                & Types                & Cubes                 & Topology               \\ \midrule
+        1                    & $p,q : (a = b)$        & edge                  & line                   \\
+        2                    & $r,s : (p = q)$        & face                  & path homotopy          \\
+        ... & ... & ... & \textbackslash{}dots   \\
+        n                    & ... & n-hypercube           & n-dimensional homotopy \\ \bottomrule
+        \end{tabular}
+    \end{table}
 
 % \begin{figure}
 %  \input{figures/squarification.tikz}
@@ -507,126 +562,149 @@ Cubes give discrete description of higher-dimensional paths:
 
 
 
-\begin{frame}{Presheaves on $\mathcal{C}$}{Hofstra, 2014}
- 
- Maps (contravariant functors) $\mathcal{C} \rightarrow \mathbf{Set}$ denoted by $\hat{\mathcal{C}}$
- 
- \begin{itemize}
- \item generalize sheaves (see sheafication)
- \item model type theories, Dybjer (1994)
- \end{itemize}
- 
- \begin{example}[Reflexive directed graphs]    
- Take $\mathcal{C} = \{0,1\}$ and $\text{Hom}_{\mathcal{C}}= \{B,E,R\}$
- 
- \input{figures/reflexive.tikz}    
- 
- 
- 
-\end{example} 
-
- 
-\end{frame}
 
 \begin{frame}{Presheaf model on $\mathcal{C}$}{Dybjer, 1994}
  
- Gives interpretations for stuff in type theory:
- \begin{itemize}
-  \item contexts $\Gamma$ are the category $\widehat{\mathcal{C}}$
-  \item types are a presheaf $$\widehat{\int_{\mathcal{C}} \Gamma}$$
-  \item terms are elements of $$\prod _{I \in \mathcal{C}, \rho \in \Gamma (I)} A(I,\rho)$$
- \end{itemize}
-
- \pause
+ Give interpretation for stuff in type theory by modelling every context $\Gamma$ as as presheaf.
  
- Bonuses:
+ 
+%  are the category $\widehat{\mathcal{C}}$
+%   \item types are a presheaf \[\widehat{\int_{\mathcal{C}} \Gamma}\]
+%   \item terms are elements of $$\prod _{I \in \mathcal{C}, \rho \in \Gamma (I)} A(I,\rho)$$
+%  \end{itemize}
+
+%  \pause
  
  \begin{itemize}
   \item verify consistency of type theory in sets
-  \item find primitives for implementations
+  \item justify primitives for implementations
  \end{itemize}
+ 
+
+
  
 \end{frame}
 
-\begin{frame}{Types with presheaves}
+\begin{frame}{Presheaves on $\mathcal{C}$}{Hofstra, 2014}
+ 
+    Maps (contravariant functors) $\mathcal{C} \rightarrow \mathbf{Set}$ denoted by $\hat{\mathcal{C}}$
+    
+    \begin{itemize}
+    \item generalize sheaves (see sheafication)
+    \item model type theories, Dybjer (1994)
+    \end{itemize}
+    
+    \begin{example}[Reflexive directed graph]    
+    Take $\mathcal{C} = \{0,1\}$ and $\text{Hom}_{\mathcal{C}}= \{B,E,R\}$
+    
+    \input{figures/reflexive.tikz}    
+    
+    
+    
+   \end{example} 
+   
+    
+   \end{frame}
+   
 
-  \begin{example}
-  A type $A$  over $\mathcal{C} = \{0,1\}$ is a refined graphs,   
-  terms $a,b:A$ are edges in refined graph:
-  \begin{figure}\label{depgraphdiag}
-\begin{center} 
-\input{figures/nested.tikz}  
-\end{center}    
-  \end{figure}
+
+\begin{frame}{Types in presheaves}
+    
+
+    \begin{lemma}[Types in a presheaf model]
+        If $\Gamma \in \widehat{\mathcal{C}}$ a context, then the types are $ \left\{ (\Delta, \sigma) \mid \Delta \in \widehat{\mathcal{C}}, \sigma \in \text{Hom}_{\text{Ctx}}(\Delta , \Gamma) \right\}$.
+     \end{lemma}
+
+     Helps to characterize types without using presheaves explicitly.
+\end{frame}
+
+
+\begin{frame}{Types in a simple presheaf model}
+  \begin{example}[Dependent directed reflexive graph]
+  A type $A$ in $\widehat{\{0, 1 \}}$:
+    \begin{figure}\label{depgraphdiag}
+            \begin{center} 
+            \input{figures/nested.tikz}  
+            \end{center}    
+    \end{figure}
  \end{example}
+
+
+\end{frame}
+
+\begin{frame}{CTT as presheaf model}
+    dimension variables and cubes can also be modelled with a presheaf model:
+    \begin{itemize}
+        \item proves consistency of CTT and HoTT
+        \item justifies primitives used in implementations
+    \end{itemize}
+
+
 \end{frame}
 
 \begin{frame}{Distributive lattice}
- 
+
 %  In cubical type theory, $\mathcal{C} \not = \{0, 1\}$ but $\mathcal{C} = \square$.
 %  
 %  \pause 
 %  
 
- 
- 
+
   \begin{columns}[c]
     \column{.5\textwidth}
-          Let $i, j , k, ... \in \mathbb{A}$ countable = ``dimension variables'' 
- 
- \begin{definition}[Free De Morgan algebra]
- Distributive lattice containing:
- 
- \begin{itemize}
-  \item $i \wedge j$ (min of $i$, $j$)
-  \item $i \vee 0$ (computes to $i$)
-  \item $\neg k$ (negation)
-  \item de Morgan rules.
- 
- \end{itemize}
+        $\mathbb{A}$: countable set of ``dimension variables'' 
 
- ... denoted by $dM(i,j,k,...)$
-\end{definition}
- 
+        CTT built with presheaves on ``cube'' category $\square$: 
+        \begin{itemize}
+            \item objects: $\{ I \mid |I| < \infty , I \subset \mathbb{A} \}$
+            \item morphisms $J\rightarrow I$: maps $I \mapsto dM(J)$
+            \begin{itemize}
+                \item distributive lattice
+                \item  $x \wedge 0 = 0, x\vee 1 = 1$
+                \item $\neg 0 = 1$ and $ \neg 1 =0$
+            \end{itemize}
+        \end{itemize}
 
     \column{.5\textwidth}
-        \begin{figure}
-       \includegraphics[width=0.8\textwidth]{figures/lattice}
-       \caption{A distributive lattice}
-       \end{figure}
+        \fig{lattice}{A simple lattice}
 \end{columns}
  
  
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Cubical contexts}
  
+    % Base category:
+    %     \[\square \equiv \{ I \mid |I| < \infty , I \subset \mathbb{A} \}\]
+    % (with special morphisms)
 
+    \begin{example}[presheaf model on $\square$]
+        A presheaf $\Gamma \in \widehat{\square}$ is a functor $\square \rightarrow \mathbf{Set}$
 
- 
- \begin{definition}[cube category $\square$]
- 
-  objects are $\{ I \mid |I| < \infty , I \subset \mathbb{A} \}$
-  morphisms $J\rightarrow I$ are maps $I \mapsto dM(J)$ 
-%\item types float above contexts
- 
- \end{definition}
- 
-  \begin{example}[presheaf model on $\square$]
- contexts $\Gamma$ are presheaves $\square \rightarrow \mathbf{Set}$
- shaped by lattice structure $\Rightarrow$ complicated!
- 
- \begin{figure}
- 
- \includegraphics[width=0.6\textwidth]{figures/context}
- 
-  \caption{a context $\Gamma$ applied to $\{i,j\}$}
-  \end{figure}
- \end{example}
+        \begin{itemize}
+            \item $u \in \Gamma (i,j)$ is a square
+
+            \item morphisms in lattice $dM(i,j)$ give corners of a square
+
+        \end{itemize}
+        \begin{figure}
+            
+            \includegraphics[width=0.6\textwidth]{figures/context}
+            
+            \caption{a context $\Gamma \in \widehat{\square}$ applied to $\{i,j\}$}
+        \end{figure}
+    \end{example}
  
 \end{frame}
 
 \begin{frame}{Types in $\widehat{\square}$}
+    Type $A$ is presheaf $\widehat{\int_{\mathcal{C}} \Gamma}$, a functor $\int_{\mathcal{C}} \Gamma \rightarrow \mathbf{Set}$:
+
+    \begin{itemize}
+        \item $\rho \in \Gamma (i)$ is a line
+        \item endpoints $\rho (0), \rho (1)$ lifted to $u(0),u(1) \in A(i,\rho)$
+    \end{itemize}
+
  \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{figures/types}
@@ -634,6 +712,7 @@ Cubes give discrete description of higher-dimensional paths:
  \end{figure}
  
 \end{frame}
+
 
 
 \begin{frame}{Types in presheaf models}
@@ -645,18 +724,8 @@ In the presheaf model on $\square$:
 \end{itemize}
 
 
-\begin{lemma}[Characterization of types]
-
-If $\Gamma \in \widehat{\mathcal{C}}$, then 
-$$\text{Ty}(\Gamma) \cong \left\{ (\Delta, \sigma) \mid \Delta \in \widehat{\mathcal{C}}, \sigma \in \text{Hom}_{\text{Ctx}}(\Delta , \Gamma) \right\}$$
-\end{lemma}
-
-\pause
-
 
 Interpreting types in presheaf model $\square$ hard but possible! 
-
-
 
 \end{frame}
 
@@ -724,40 +793,37 @@ Interpreting types in presheaf model $\square$ hard but possible!
  
 \end{frame}
 
-\begin{frame}{Partial types} 
- Partial types are only defined on subpolyhedra of cubes:
+\begin{frame}{Partial types}{Bezem, Coquand, Huber 2013}
+ Partial types only defined on subpolyhedra of cubes.
  
- 
- \begin{figure}
-    \centering
-  \includegraphics[width=0.7\textwidth]{figures/types_side}
-  \caption{The partial type $A(i/0)$ in type $A$, syntactically: $A\ [(i = 0) \mapsto A(i/0)]$.}
- \end{figure}
+\begin{itemize}
+    \item $u$ 1-dimensional cube, line and type $A$:
+    \item partial type $A(i/0)$ in type $A$:
+            \fig{types_side}{Huber, 2015}
+    \item red = $A\ [(i = 0) \mapsto A(i/0)]$ (syntax)
+\end{itemize}
 
  
  
 \end{frame}
 
 \begin{frame}{Glueing equivalences}
+    {Kapulkin, 2012}
   
-  Equivalences are a crucial ingredient for the univalence axiom:
+  Equivalences $f : T \rightarrow A$ are crucial ingredient for the univalence axiom:
   \begin{itemize}
-   \item maps $f : T \rightarrow A$ that correspond to homotopy equivalences
+   \item correspond to homotopy equivalences
    \item have inverse up-to some paths
   \end{itemize}
 
   
-   The \texttt{Glue} type was introduced to prove univalence:
+   \texttt{Glue} type was introduced to prove univalence:
    \begin{itemize}
-    \item very complicated typing rules
-    \item glue equivalences  over partial types together:
+    \item let \(T\) be a partial type, defined on $i\in \{0,1\}$ 
+    \item glues partial equivalence $f$ and partial type $T$ together:
    \end{itemize}
 
- 
-\begin{figure}
- \includegraphics[width=0.5\textwidth]{figures/glue}
-% \caption{Glueing the equivalence over the partial type $T$.}
-\end{figure}
+ \fig{glue}{Cohen, 2015}
 
   
  
@@ -796,6 +862,7 @@ Interpreting types in presheaf model $\square$ hard but possible!
 
 \begin{frame}{Applying \texttt{ua} from univalence }
  
+
  \begin{example}[Monoids]
  
  $$M_1  \equiv (\mathbb{N}, (m,n)\mapsto m+n, 0)$$ and $$M_2 \equiv (\mathbb{N}_0, (m,n)\mapsto m+n -1, 1)$$
@@ -894,9 +961,9 @@ mPath = λ i → record {
 \begin{frame}{Higher homotopies of spheres}{}
 
     Types in HoTT and CTT are topological spaces.
-    Homotopy groups compute number of higher-dimensional holes:
+    Higher homotopy groups compute number of higher-dimensional holes in $S^n$:
 
-    \fig{groups}{Higher homotopy groups of $S^n$}
+    \fig{groups}{HoTT Book, 2013}
     Homotopy groups can be defined in CTT as datatypes
 
 \end{frame}
