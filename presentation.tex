@@ -6,7 +6,7 @@
 %%% TeX-engine: xetex
 %%% End:
 
-\documentclass[english,draft]{beamer}
+\documentclass[english]{beamer}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -159,7 +159,7 @@ LabelStyle/.style = { %rectangle, %draw,
 
 \section{Introduction}
 
-\begin{frame}{}
+\begin{frame}{Introduction}
     \setbeamercovered{invisible}
     A mathematician is asked by a friend who is a devout Christian: ``Do you believe in one God?'' 
     \begin{quotation}
@@ -170,7 +170,7 @@ LabelStyle/.style = { %rectangle, %draw,
     
     He answers: ``Yes -- up to isomorphism.'' (© Michael Benjamin Stepp)
 
-\fig{isomorphism}{Monkeys looking at isomorphic monkeys.}
+\fig{isomorphism}{Isomorphisms in nature.}
 \end{frame}
 
 
@@ -371,7 +371,7 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
 
 % \end{frame}
 
-\begin{frame}{Role of univalence}{Voevodsky, 2009}
+\begin{frame}{Consequences of univalence axiom}{Voevodsky, 2009}
 
 \begin{axiom}[Univalence axiom] 
  Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map \(\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)\) is an equivalence of types. 
@@ -386,7 +386,7 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
 
 \pause
 \begin{quotation}
-$\Rightarrow$ terms of equality are like paths
+$\Rightarrow$ terms of equality are paths
 \end{quotation}
 
 % \begin{figure}[h!]
@@ -394,6 +394,7 @@ $\Rightarrow$ terms of equality are like paths
 % \includegraphics[width=0.5\textwidth]{figures/seifert.png}
 %   \caption{Seifert-Van Kampen theorem in HoTT. Hou, Shulman (2016)}
 %  \end{figure} 
+
 
 
 \end{frame}
@@ -703,8 +704,8 @@ Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
   \begin{columns}[c]
     \column{.5\textwidth}
         
-
-        ``cube'' category $\square$: 
+    \begin{definition}[``Cube'' $\square$]
+    Category with:
         \begin{itemize}
             \item objects: $\{ I \mid |I| < \infty , I \subset \mathbb{A} \}$
             \item morphisms $J\rightarrow I$: maps $I \mapsto dM(J)$
@@ -714,6 +715,7 @@ Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
                 \item $\neg 0 = 1$ and $ \neg 1 =0$
             \end{itemize}
         \end{itemize}
+        \end{definition}
 $\mathbb{A}$: countable set of ``dimension variables'' 
     \column{.5\textwidth}
         \fig{lattice}{A simple lattice}
@@ -821,29 +823,27 @@ Interpreting types in presheaf model $\square$ hard but possible.
 
 \end{frame}
 
-\begin{frame}{Constructive model of type theory}{}
+\begin{frame}{CTT as extension for HoTT}{}
  
 
 
  \begin{columns}[c]
     \column{.5\textwidth}
-         Other types can be interpreted in the presheaf model  $\widehat{\square}$
-          for constructive model for type theory:
+         Other HoTT types interpreted in CTT:
  \begin{itemize}
-  \item product, sum types3
+  \item product, sum types
   \item natural numbers
  \end{itemize}
  
-        Univalence proven with:
-        
-       \begin{itemize}
-        \item concepts from simplicial set model (Streicher, Voevodsky, Kapulkin et al. 2006 -- 2012)
-        \item partial types and glueing construction 
+        Univalence proven with concepts from (Streicher, Voevodsky, Kapulkin et al. 2006 -- 2012):
+        \begin{itemize}
+        \item simplicial sets replaced by cubical sets
+        \item partial types and glueing construction conserved
        \end{itemize}
     \column{.5\textwidth}
         \begin{figure}
        \includegraphics[width=0.7\textwidth]{figures/simplex}
-       \caption{Related concept of a simplicial complex}
+       \caption{Every simplicial complex is a simplicial set}
        \end{figure}
 \end{columns}
  
@@ -1089,13 +1089,16 @@ mPath = λ i → record {
 \section*{Summary}
 
 
-\begin{frame}{Other research}{Licata, Harper, Cavallo, Orton et al., 2018}
+\begin{frame}{Recent papers}{Licata, Harper, Cavallo, Orton et al.}
     \begin{itemize}
-        \item computational type theory is an alternative implementation 
-        \item composition operation may not be necessary
-        \item alternatives to complicated glue types: fundamental axioms and language of topoi
+        \item computational type theory is an alternative implementation \cite{Angiuli2018}
+        \item composition operation CTT may not be too strong \cite{Cavallo2019}
+        \item modelling $\widehat{\square}$ and \texttt{Glue} with language of topoi to simplify CTT and composition operations \cite{Orton2019} 
     \end{itemize}
-\end{frame}
+    
+    
+    \end{frame}
+
 
 
 \begin{frame}{Summary}
@@ -1106,7 +1109,7 @@ mPath = λ i → record {
         \item HoTT can be verified in computers 
     \end{itemize}
 
-Thanks for watching!
+
 
 \end{frame}
 
@@ -1116,6 +1119,8 @@ Thanks for watching!
 
 \subsection*{For Further Reading}
 \begin{frame}[allowframebreaks]{For Further Reading}
+
+Thanks for watching!
 
 \bibliographystyle{amsalpha}
 \bibliography{../../../../Referenties/library}
