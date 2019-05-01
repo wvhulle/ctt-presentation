@@ -533,7 +533,7 @@ In HoTT, higher-dimensional eqalities behave like these embeddings
         Level                & Types                & Cubes                 & Topology               \\ \midrule
         1                    & $p,q : (a = b)$        & edge                  & line                   \\
         2                    & $r,s : (p = q)$        & face                  & path homotopy          \\
-        ... & ... & ... & \textbackslash{}dots   \\
+        ... & ... & ... & ...   \\
         n                    & ... & n-hypercube           & n-dimensional homotopy \\ \bottomrule
         \end{tabular}
     \end{table}
@@ -692,19 +692,19 @@ Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
     
 \end{frame}
 
-\begin{frame}{Distributive lattice}
+\begin{frame}{Cube category}
 
 %  In cubical type theory, $\mathcal{C} \not = \{0, 1\}$ but $\mathcal{C} = \square$.
 %  
 %  \pause 
 %  
- Necessary to make cubical model CTT
+
 
   \begin{columns}[c]
     \column{.5\textwidth}
-        $\mathbb{A}$: countable set of ``dimension variables'' 
+        
 
-        CTT built with presheaves on ``cube'' category $\square$: 
+        ``cube'' category $\square$: 
         \begin{itemize}
             \item objects: $\{ I \mid |I| < \infty , I \subset \mathbb{A} \}$
             \item morphisms $J\rightarrow I$: maps $I \mapsto dM(J)$
@@ -714,7 +714,7 @@ Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
                 \item $\neg 0 = 1$ and $ \neg 1 =0$
             \end{itemize}
         \end{itemize}
-
+$\mathbb{A}$: countable set of ``dimension variables'' 
     \column{.5\textwidth}
         \fig{lattice}{A simple lattice}
 \end{columns}
