@@ -750,11 +750,10 @@ $\mathbb{A}$: countable set of ``dimension variables''
 \end{frame}
 
 \begin{frame}{Types in presheaf model $\widehat{\square}$}
-    Type $A$ is presheaf $\widehat{\int_{\mathcal{C}} \Gamma}$, a functor $\int_{\mathcal{C}} \Gamma \rightarrow \mathbf{Set}$:
-
+    Type $A$ can be represented by a context and a morphism on top of $\Gamma$:
     \begin{itemize}
-        \item $\rho \in \Gamma (i)$ is a line
-        \item endpoints $\rho (0), \rho (1)$ lifted to $u(0),u(1) \in A(i,\rho)$
+        \item the $\rho \in \Gamma (i)$ is an edge of a square
+        \item endpoints $\rho (0), \rho (1)$ can be lifted to points in the type $u(0),u(1) \in A(i,\rho)$
     \end{itemize}
 
  \begin{figure}
@@ -765,16 +764,26 @@ $\mathbb{A}$: countable set of ``dimension variables''
  
 \end{frame}
 
+\begin{frame}{Partial types in $\widehat{\square}$}{Bezem, Coquand, Huber 2013}
+ Partial type $A\ [(i = 0) \mapsto A(i/0)]$ is a subtype of $A$ on top of sub-subpolyhedron of cubes:
+ 
+\begin{itemize}
+    \item $u$ 1-dimensional cube, line and type $A$:
+    \item partial type $A(i/0)$ in type $A$:
+            \fig{types_side}{Huber, 2015}
+\end{itemize}
 
+ 
+ 
+\end{frame}
 
-\begin{frame}{Types in general presheaf models}
+\begin{frame}{Other types in presheaf model $\widehat{\square}$}
 
 In the presheaf model on $\square$:
 \begin{itemize}
     \item types more complicated
     \item types no longer simply nested graphs
 \end{itemize}
-
 
 
 Interpreting types in presheaf model $\square$ hard but possible.
@@ -849,19 +858,7 @@ Interpreting types in presheaf model $\square$ hard but possible.
  
 \end{frame}
 
-\begin{frame}{Partial types}{Bezem, Coquand, Huber 2013}
- Partial types only defined on subpolyhedra of cubes.
- 
-\begin{itemize}
-    \item $u$ 1-dimensional cube, line and type $A$:
-    \item partial type $A(i/0)$ in type $A$:
-            \fig{types_side}{Huber, 2015}
-    \item red = $A\ [(i = 0) \mapsto A(i/0)]$ (syntax)
-\end{itemize}
 
- 
- 
-\end{frame}
 
 % \begin{frame}{Equivalences}
 %     {Kapulkin, 2012}
@@ -1016,7 +1013,7 @@ fEquiv : ℕ ≃ ℕ₀
 fEquiv = (f ,  isoToIsEquiv (iso f g l' r'))
 
 fEq : ℕ ≡ ℕ₀ 
-fEq i = ua fEquiv i
+fEq = ua fEquiv
  \end{BVerbatim}
 \end{figure}
 
@@ -1038,9 +1035,7 @@ mPath = λ i → record {
    Carrier = (fEq i) ;
    _≈_ =  _≡_;
    _∙_ = transOp' i ;
-   isMagma = record {
-    isEquivalence = ≡equiv  ;
-     ∙-cong   = ?
+   isMagma = ...
      }
    }
 \end{BVerbatim}
