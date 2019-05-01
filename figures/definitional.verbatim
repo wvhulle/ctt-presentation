@@ -1,0 +1,9 @@
+\begin{BVerbatim}
+data Nat : Set where
+  zero : Nat
+  suc  : (n : Nat) → Nat
+
+_+_ : Nat → Nat → Nat
+zero  + m = m
+suc n + m = suc (n + m) 
+\end{BVerbatim}

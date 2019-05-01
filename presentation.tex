@@ -6,7 +6,7 @@
 %%% TeX-engine: xetex
 %%% End:
 
-\documentclass[english, draft]{beamer}
+\documentclass[english,draft]{beamer}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -16,8 +16,20 @@
 \usepackage{soul}
 \usepackage{booktabs}
 
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+
 \usepackage{fontspec}
-\setmonofont[Scale=0.7]{FreeMono}
+\setmonofont[Scale=0.9]{FreeMono}
 
 \newtheorem{property}[theorem]{Property}
 \newtheorem{axiom}[theorem]{Axiom}
@@ -565,81 +577,119 @@ In HoTT, higher-dimensional eqalities behave like these embeddings
 
 \begin{frame}{Presheaf model on $\mathcal{C}$}{Dybjer, 1994}
  
- Give interpretation for stuff in type theory by modelling every context $\Gamma$ as as presheaf.
  
  
-%  are the category $\widehat{\mathcal{C}}$
+ Give interpretation for stuff in type theory:
+ \begin{itemize}
+ \item base category $\mathcal{C}$ contains ``extra tools'' for model
+ \item every context $\Gamma$ is modelled as presheaf on $\mathcal{C}$, denoted $\widehat{\mathcal{C}}$.
+ \item types and terms also interpreted in $\widehat{\mathcal{C}}$
+\end{itemize}
+%  
+%  
+%  \begin{itemize}
 %   \item types are a presheaf \[\widehat{\int_{\mathcal{C}} \Gamma}\]
 %   \item terms are elements of $$\prod _{I \in \mathcal{C}, \rho \in \Gamma (I)} A(I,\rho)$$
 %  \end{itemize}
 
-%  \pause
+ \pause
+ Goals:
  
  \begin{itemize}
   \item verify consistency of type theory in sets
   \item justify primitives for implementations
  \end{itemize}
  
-
+Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
 
  
 \end{frame}
 
-\begin{frame}{Presheaves on $\mathcal{C}$}{Hofstra, 2014}
+\begin{frame}{Contexts in  presheaf model $\widehat{\mathcal{C}}$}
  
-    Maps (contravariant functors) $\mathcal{C} \rightarrow \mathbf{Set}$ denoted by $\hat{\mathcal{C}}$
+ \begin{definition}[Presheaves $\widehat{\mathcal{C}}$]
+     Contravariant functors $\mathcal{C} \rightarrow \mathbf{Set}$
+\end{definition}
+     
     
     \begin{itemize}
     \item generalize sheaves (see sheafication)
-    \item model type theories, Dybjer (1994)
+    \item model contexts
     \end{itemize}
     
+
+    \fig{presheaf.png}{A representation of a preseheaf}
+
+\end{frame}
+%    
+    
+   \begin{frame}[fragile]
+   \frametitle{Contexts in presheaf model $\widehat{\{0,1\}}$}
+\framesubtitle{Hofstra, 2014}
     \begin{example}[Reflexive directed graph]    
-    Take $\mathcal{C} = \{0,1\}$ and $\text{Hom}_{\mathcal{C}}= \{B,E,R\}$
+    Take $\mathcal{C} = \{0,1\}$ and $\text{Hom}_{\mathcal{C}}= \{B,E,R\}$, $\Gamma \in \widehat{\{0,1\}}$, then 
     
+   
+%    \tcol{
+%       \[ \begin{tikzcd}
+% 1
+% \arrow[r, bend left, "B"] 
+% \arrow[r, bend right, "E"] 
+% & 0
+% \arrow[l, "R"{above}]
+% \end{tikzcd} \]
+%     }
+%    {
+%    \[ \begin{tikzcd}
+% \Gamma (1)
+% \arrow[r, bend left, "\Gamma (B)"] 
+% \arrow[r, bend right, "\Gamma (E)"] 
+% & \Gamma(0) 
+% \arrow[l, "\Gamma (R)"{above}]
+% \end{tikzcd} \]
+%     }
+    
+    Applying functorial identities:
+    \begin{figure}
+    \begin{centering}
     \input{figures/reflexive.tikz}    
-    
-    
-    
+    \end{centering}
+    \caption{Reflexive graph}
+    \end{figure}
    \end{example} 
-   
+\end{frame}
+
+\begin{frame}{Types in  presheaf model $\widehat{\mathcal{C}}$}
     
-   \end{frame}
-   
-
-
-\begin{frame}{Types in presheaves}
     
-
     \begin{lemma}[Types in a presheaf model]
         If $\Gamma \in \widehat{\mathcal{C}}$ a context, then the types are $ \left\{ (\Delta, \sigma) \mid \Delta \in \widehat{\mathcal{C}}, \sigma \in \text{Hom}_{\text{Ctx}}(\Delta , \Gamma) \right\}$.
      \end{lemma}
 
+     
      Helps to characterize types without using presheaves explicitly.
 \end{frame}
 
 
-\begin{frame}{Types in a simple presheaf model}
+\begin{frame}{Types in a presheaf model $\widehat{\{0, 1 \}}$}
   \begin{example}[Dependent directed reflexive graph]
-  A type $A$ in $\widehat{\{0, 1 \}}$:
-    \begin{figure}\label{depgraphdiag}
-            \begin{center} 
-            \input{figures/nested.tikz}  
-            \end{center}    
-    \end{figure}
+  Applying previous lemma to the type $A$ in $\widehat{\{0, 1 \}}$:
+\fig{type_lemma}{Modelled by two contexts and a surjective morphism}
  \end{example}
 
 
 \end{frame}
 
-\begin{frame}{CTT as presheaf model}
-    dimension variables and cubes can also be modelled with a presheaf model:
+\begin{frame}{CTT as a presheaf model}
+    Dimension variables and cubes have an abstract representation as ``hypercubes'' in a base category:
+    
+    \fig{cube_presheaf}{Presheaf acting on cubes}
+
     \begin{itemize}
         \item proves consistency of CTT and HoTT
         \item justifies primitives used in implementations
     \end{itemize}
-
-
+    
 \end{frame}
 
 \begin{frame}{Distributive lattice}
@@ -648,7 +698,7 @@ In HoTT, higher-dimensional eqalities behave like these embeddings
 %  
 %  \pause 
 %  
-
+ Necessary to make cubical model CTT
 
   \begin{columns}[c]
     \column{.5\textwidth}
@@ -672,32 +722,32 @@ In HoTT, higher-dimensional eqalities behave like these embeddings
  
 \end{frame}
 
-\begin{frame}{Cubical contexts}
+\begin{frame}{Contexts in presheaf model $\widehat{\square}$}
  
     % Base category:
     %     \[\square \equiv \{ I \mid |I| < \infty , I \subset \mathbb{A} \}\]
     % (with special morphisms)
 
-    \begin{example}[presheaf model on $\square$]
+    \begin{example}[Cubical contexts (``cubical sets'')]
         A presheaf $\Gamma \in \widehat{\square}$ is a functor $\square \rightarrow \mathbf{Set}$
 
         \begin{itemize}
-            \item $u \in \Gamma (i,j)$ is a square
-
-            \item morphisms in lattice $dM(i,j)$ give corners of a square
+            \item $\Gamma \in \widehat{\square}$ applied to $\{i,j\}$ gives square $\rho \in \Gamma (i,j)$
+            \item morphisms in lattice $dM(i,j)$ give corners of $\rho$
 
         \end{itemize}
         \begin{figure}
+            %\incfig{cubical_set}
+            \input{figures/cubes_ink.tikz}
+            %\includegraphics[width=0.6\textwidth]{figures/context}
             
-            \includegraphics[width=0.6\textwidth]{figures/context}
-            
-            \caption{a context $\Gamma \in \widehat{\square}$ applied to $\{i,j\}$}
+            %\caption{a context }
         \end{figure}
     \end{example}
  
 \end{frame}
 
-\begin{frame}{Types in $\widehat{\square}$}
+\begin{frame}{Types in presheaf model $\widehat{\square}$}
     Type $A$ is presheaf $\widehat{\int_{\mathcal{C}} \Gamma}$, a functor $\int_{\mathcal{C}} \Gamma \rightarrow \mathbf{Set}$:
 
     \begin{itemize}
@@ -715,7 +765,7 @@ In HoTT, higher-dimensional eqalities behave like these embeddings
 
 
 
-\begin{frame}{Types in presheaf models}
+\begin{frame}{Types in general presheaf models}
 
 In the presheaf model on $\square$:
 \begin{itemize}
@@ -725,7 +775,13 @@ In the presheaf model on $\square$:
 
 
 
-Interpreting types in presheaf model $\square$ hard but possible! 
+Interpreting types in presheaf model $\square$ hard but possible.
+
+
+\begin{quotation}
+ ... transition from interpretation in model to syntax of types
+\end{quotation}
+
 
 \end{frame}
 
@@ -774,7 +830,7 @@ Interpreting types in presheaf model $\square$ hard but possible!
          Other types can be interpreted in the presheaf model  $\widehat{\square}$
           for constructive model for type theory:
  \begin{itemize}
-  \item product, sum types
+  \item product, sum types3
   \item natural numbers
  \end{itemize}
  
@@ -807,27 +863,30 @@ Interpreting types in presheaf model $\square$ hard but possible!
  
 \end{frame}
 
-\begin{frame}{Glueing equivalences}
-    {Kapulkin, 2012}
+% \begin{frame}{Equivalences}
+%     {Kapulkin, 2012}
   
-  Equivalences $f : T \rightarrow A$ are crucial ingredient for the univalence axiom:
-  \begin{itemize}
-   \item correspond to homotopy equivalences
-   \item have inverse up-to some paths
-  \end{itemize}
+%   Equivalences $f : T \rightarrow A$ are crucial ingredient for the univalence axiom:
+%   \begin{itemize}
+%    \item correspond to homotopy equivalences
+%    \item have inverse up-to some paths
+%   \end{itemize}
 
   
-   \texttt{Glue} type was introduced to prove univalence:
-   \begin{itemize}
-    \item let \(T\) be a partial type, defined on $i\in \{0,1\}$ 
-    \item glues partial equivalence $f$ and partial type $T$ together:
-   \end{itemize}
+%    \texttt{Glue} type was introduced to prove univalence:
+%    \begin{itemize}
+%     \item let \(T\) be a partial type, defined on $i\in \{0,1\}$ 
+%     \item glues partial equivalence $f$ and partial type $T$ together:
+%    \end{itemize}
 
- \fig{glue}{Cohen, 2015}
+%  \fig{glue}{Cohen, 2015}
 
   
  
-\end{frame}
+% \end{frame}
+
+
+
 
 \begin{frame}{Proving univalence}{Cohen, Coquand, Huber, Moertberg (2015)}
 
@@ -840,22 +899,55 @@ Interpreting types in presheaf model $\square$ hard but possible!
 
 \begin{proof}
 
-\begin{itemize}
+\begin{enumerate}
 
-\item The existence of a map $\texttt{ua} : (X\simeq Y) \rightarrow (X = Y)$ proven with \texttt{Glue} construction:
+\item existence $\texttt{ua} : (X\simeq Y) \rightarrow (X = Y)$ with \texttt{Glue} construction.
+
+\item for any partial $f : X \rightarrow Y$, $\texttt{Glue} \ [\varphi \mapsto (X, f)] \ Y \simeq Y$
+
+\item for any type $Y$, $\sum_{X} X \simeq Y$ contractible
+
+\item existence of an equivalence ``eliminator''.
+
+\item the trivial map $p : X = Y \rightarrow X \simeq Y$ is an inverse ``up-to-path'' of \texttt{ua}
+%  
+%  $$i : \mathbb{I} \vdash E= \texttt{Glue} \left[ (i=0) \mapsto (X, f),(i=1) \mapsto\left(Y, \texttt{id}_{Y}\right) \right] Y$$
+%  
+%  $E$ is a path (equality) from $X$ to $Y$.
  
+ \end{enumerate}
  
- $$i : \mathbb{I} \vdash E= \texttt{Glue} \left[ (i=0) \mapsto (X, f),(i=1) \mapsto\left(Y, \texttt{id}_{Y}\right) \right] Y$$
- 
- $E$ is a path (equality) from $X$ to $Y$.
- 
- \item Remainder proven with ``contractibility of singletons''.
- 
- \end{itemize}
+    $\Rightarrow$ map \texttt{ua} is equivalence
 \end{proof} 
 
 \end{frame}
 
+
+\begin{frame}[fragile]
+\frametitle{Constructing \texttt{ua}}
+    \begin{definition}
+        $\texttt{ua} : \forall \ X\ Y:\type, X \simeq Y \rightarrow X = Y$
+        
+        \[ \begin{tikzcd}
+        X \arrow[r, dash, dashed, "\texttt{ua}\ f" ] \arrow[d, "f"] & Y  \arrow[d, "\texttt{idEquiv} \ Y"]  \\
+        Y\arrow[r, dash, ""] & Y  
+        \end{tikzcd}
+        \]
+        
+        
+        \end{definition}
+
+    Input: 
+    \begin{itemize}
+        \item partial equivalence $f$, type $X$
+        \item a dimension variable or parameter $i$
+    \end{itemize}
+    Output: 
+    \begin{itemize}
+\item $\texttt{ua}\ f \equiv \texttt{Glue} \ [(i = 0) \mapsto (X,f), (i=1) \mapsto (X, \texttt{idEquiv} \ Y)] \ Y$
+\item $\texttt{ua}\ f$ is path with endpoints $X$ and $Y$. 
+\end{itemize}
+\end{frame}
 
 \section{Applications}
 

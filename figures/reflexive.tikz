@@ -5,10 +5,10 @@
   \Vertex[ x=2,y=0]{B}
   \Edge[](A)(B)
   
-  \Vertex[x = 3, y = -2]{C}
+  \Vertex[x = 3, y = -1]{C}
   \Vertex[x = 4, y = 1]{D}  
   \Edge[](C)(D)
-  \Vertex[x = 5, y = -2]{E}
+  \Vertex[x = 5, y = -1]{E}
   \Edge [](C)(E)
   
   \Loop[dist = 1cm, dir = NO](B)

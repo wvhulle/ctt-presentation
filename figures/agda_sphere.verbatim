@@ -1,0 +1,5 @@
+\begin{BVerbatim}
+data S¹ : Set where
+  base : S¹
+  loop : base ≡ base 
+\end{BVerbatim}

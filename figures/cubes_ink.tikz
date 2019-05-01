@@ -1,0 +1,62 @@
+
+%\documentclass{article}
+%\usepackage[utf8]{inputenc}
+%\usepackage{tikz}
+
+%\usepackage[active,tightpage]{preview}
+%\PreviewEnvironment{tikzpicture}
+
+%\begin{document}
+
+
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1.000000, xscale=1.000000, inner sep=0pt, outer sep=0pt]
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (69.7924,206.3770) -- (69.7924,151.5309) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (69.7924,206.3770) -- (124.6385,206.3770) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (58.8232,162.5001) -- (69.7924,151.5309) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (69.7924,151.5309) -- (80.7617,162.5001) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (124.6385,206.3770) -- (113.6693,195.4077) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (124.6385,206.3770) -- (113.6693,217.3462) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (174.0000,140.5616) .. controls (206.9077,146.0463) and (234.3307,200.8923) ..
+    (234.3307,200.8923) .. controls (234.3307,200.8923) and (259.9737,157.0155) ..
+    (294.6614,157.0155) .. controls (300.1460,157.0155) and (239.8153,91.2002) ..
+    (239.8153,96.6848) .. controls (239.8153,112.1026) and (215.0456,126.5974) ..
+    (174.0000,140.5616) -- cycle;
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,line
+    width=1.741pt] (108.1847,184.4385) .. controls (141.0924,162.5001) and
+    (179.4846,162.5001) .. (179.4846,162.5001) -- (179.4846,162.5001) --
+    (179.4846,162.5001) -- (179.4846,162.5001) -- (168.5154,151.5309) --
+    (179.4846,162.5001) -- (168.5154,173.4693) -- (179.4846,162.5001);
+  \path[fill=black,line width=0.580pt] (53.3386,233.8000) node[above right]
+    (text1402) {$I = {i, j}$};
+  \path[fill=black] (143.6221,188.9764) node[above right] (text1406) {};
+  \path[fill=black,line width=0.580pt] (228.8461,151.5309) node[above right]
+    (text1410) {$\rho$};
+  \path[fill=black,line width=0.580pt] (234.3307,91.2002) node[above right]
+    (text1414) {$\rho(i/0)(j/0)$};
+  \path[fill=black,line width=0.580pt] (300.1460,162.5001) node[above right]
+    (text1418) {$\rho(i/0)(j/1)$};
+  \path[fill=black,line width=0.580pt] (228.8461,211.8616) node[above right]
+    (text1422) {$\rho(i/1)(j/1)$};
+  \path[fill=black,line width=0.580pt] (144.4860,129.5924) node[above right]
+    (text1426) {$\rho(i/1)(j/0)$};
+  \path[fill=black,line width=0.580pt] (115.1573,163.1877) node[above right]
+    (text1430) {$\Gamma$};
+  \path[draw=black,line join=miter,line cap=butt,line width=0.580pt]
+    (108.9960,89.7490) .. controls (134.6687,80.9556) and (164.9312,75.1435) ..
+    (169.3267,52.5291);
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,line
+    width=1.741pt] (195.9384,102.1694) .. controls (184.9692,85.7156) and
+    (168.5154,74.7463) .. (168.5154,74.7463) -- (168.5154,85.7156) --
+    (168.5154,74.7463) -- (179.4846,74.7463) -- (168.5154,74.7463);
+  \path[fill=black,line width=0.580pt] (190.4538,80.2309) node[above right]
+    (text1438) {$(j/0)$};
+
+\end{tikzpicture}
+ 
