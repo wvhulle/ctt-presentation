@@ -170,8 +170,37 @@ LabelStyle/.style = { %rectangle, %draw,
     
     He answers: ``Yes -- up to isomorphism.'' (© Michael Benjamin Stepp)
 
-\fig{isomorphism}{Isomorphisms in nature.}
+\fig{isomorphism}{Hubert-Brierre, 2013}
 \end{frame}
+
+\begin{frame}{Isomorphisms in mathematics}
+\begin{definition}
+ An isomorphism is a map that identifies \emph{spaces and their structure}.
+\end{definition}
+
+\begin{figure}
+\begin{centering}
+\begin{table}[]
+\begin{tabular}{lll}
+\hline
+Notation       & Space type         & Isomorphisms                          \\ \hline
+$\mathbb{E}^3$ & Euclidean     & rotation, translation, mirroring      \\
+$\text{Fin}_n$ & Finite        & permutations                          \\
+$G$            & Groups             & homomorphisms                         \\ 
+$X$            & Topological & homotopy equivalences
+\end{tabular}
+\end{table}
+\caption{Examples of isomorphisms}
+\end{centering}
+\end{figure}
+
+A large class of maps that identifies many objects: a \emph{weak} identification.
+
+
+(Equality by definition is \emph{strong})
+
+\end{frame}
+
 
 
 \begin{frame}{Algebraic Topology}
@@ -185,14 +214,17 @@ Isomorphism in algebraic topology is ``homotopy equivalence''
     \fig{donut.jpg}{A donut}
 \end{columns}
 
-homotopy equivalent spaces have the same ``number of \(n\)-dimensional holes''
+\begin{definition}
+ Two spaces are homotopy equivalent if they can be smoothly deformed into eachother.
+\end{definition}
+
 
 \end{frame}
 
 
-\begin{frame}{Holes are homotopy groups}
-
-computed by looking at homotopy classes of \emph{continous} embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
+\begin{frame}{Homotopy groups}
+homotopy equivalent spaces have the same ``number of \(n\)-dimensional holes'': 
+computed by looking at homotopy classes of smooth embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
 
 \tcol{
                 \fig{loops}{A donut has two 1-dimensional homotopy classes.}
@@ -263,40 +295,65 @@ $x \not \in x$ is not a valid proposition anymore
     \end{prooftree}
 
     \begin{itemize}
-    \item judgments express wether a type is inhabited
+    \item judgments express that a type is inhabited
     \item all judgements have contexts
     \item typing rules tell how to form and combine types and terms
     \end{itemize}
     
+    \begin{definition}[Type-checking]
+    Checking if the typing rules are respected.
+    \end{definition}
+    
 \end{frame}
 
 
-\begin{frame}{Equality in type theory}{Martin-L\"of, 1984}
+\begin{frame}{Definitional equality}
     
-    Definitional equality in type theory is for type checking, ``denoted \texttt{=}'' in code:
+    Definitional equality in type theory (``denoted \texttt{=}'' in code):
 
     \begin{figure}
     \input{figures/definitional.verbatim}
     \caption{An example of definitional equality.}
     \end{figure}
-    
-    Mathematics needs a ``softer'' equality as in:
-    
-    \begin{example}[Leibniz's extensionality principle]
-     \[f = g \Leftrightarrow f(x) = g(x), \forall x \]
-    \end{example}
 
-
+    \begin{itemize}
+     \item used for stating terms, terms and typing rules
+     \item defined such that type-checking decidable
+    \end{itemize}
+    
+    
+    
 \end{frame}
+
+\begin{frame}{Problems definitional equality}
+
+Definitional equality distinguishes  \texttt{0 + m} and \texttt{m + 0}: too \emph{strong} for mathematics.
+
+\begin{quotation}
+A weaker alternative?
+\end{quotation}
+
+\begin{example}[Leibniz's extensionality axiom]
+
+Functions are identified with values:
+     \[f = g \Leftrightarrow f(x) = g(x), \forall x \]
+    
+    Breaks decidability of type-checking $\Rightarrow$ not possible with definitional equality.
+    \end{example}
+    
+
+    
+    
+\end{frame}
+
+
 
 \begin{frame}{Identity type}{Martin-L\"of, 1984}
 
-    \begin{quotation}
-        ... introduction of propositional equality in form of ``identity type''
-    \end{quotation}
+    A type of equality between terms $a,b : X$, denoted $a = b$. Terms $p : (a =b)$ are called ``equalities''.
 
     \begin{definition}[Introduction rule]
-        Given a $a : X$, $\texttt{refl}(a): a = a$.
+        Given a term $a : X$, there is an equality $\texttt{refl}(a): a = a$.
     \end{definition}
 
        Elimination rule of equality type:
@@ -311,48 +368,25 @@ $x \not \in x$ is not a valid proposition anymore
         
     \end{definition}
 
-       \begin{itemize}
-        \item weaker than equality ``by definition''.
-        \item stronger than equivalence.
-    \end{itemize}
     
 \end{frame}
 
-\begin{frame}{Intuition identity eliminator}
+\begin{frame}{Role identity eliminator}
 
-    Role of eliminator:
-    \begin{quotation}
-        To prove a property \(C\) that depends on terms $x,y$ and equalities $p:x=y$  it suffices to consider all the cases where
-        
+    To prove a property \(C\) that depends on terms $x,y$ and equalities $p:x=y$  it suffices to consider all the cases where
         \begin{itemize}
             \item $x$ is definitionally equal to $y$
             \item the term of the intensional equality type under consideration is $\texttt{refl}_x : x = x$.
         \end{itemize}
-        \end{quotation}
 
         Implications:
         \begin{itemize}
             \item proves transitivity, symmetry
-            \item equality type can have multiple terms
+            \item less things equal $\Rightarrow$ weaker than equality ``by definition''.
         \end{itemize}
-
+        
 \end{frame}
 
-
-\begin{frame}{Homotopy type theory (HoTT)}{Awodey, 2006}
-
-Gives \emph{homotopy} interpretation to equality type:
-
-%\includegraphics[width=0.8\textwidth]{figures/}
-\centering
-$$ p,q : a =_X b \quad r,s : p =_{\texttt{Id}_X(a,b)} q$$ 
-
-\input{figures/homotopy.tikz}
-
-
-$\Rightarrow$ alternative foundations for mathematics based on type theory and topology
-
-\end{frame}
 
 % \begin{frame}{Short history of HoTT }
 
@@ -371,20 +405,42 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
 
 % \end{frame}
 
-\begin{frame}{Consequences of univalence axiom}{Voevodsky, 2009}
+\begin{frame}{Univalence axiom}{Voevodsky, 2009}
+
+
+\begin{definition}[Type equivalence ]
+ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, an equivalence $f: X \simeq Y $ of types is a map $f : X \rightarrow Y$ that is a bijection up to paths.
+\end{definition}
+
+\begin{quotation}
+Equivalences are isomorphisms between topological spaces.
+\end{quotation}
 
 \begin{axiom}[Univalence axiom] 
  Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map \(\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)\) is an equivalence of types. 
 \end{axiom}
 
-\begin{itemize}
-    \item equivalence of types is a bijection for set-like types \[\mathbb{N} \simeq \mathbb{N}_0 \]
-    \item univalence implies \[\mathbb{N} \simeq \mathbb{N}_0 \Rightarrow \mathbb{N} = \mathbb{N}\]
+\begin{quotation}
+  Equivalences are (up to homotopy equivalence) the same as equalities.
+\end{quotation}
 
-    \item forces multiple terms of equality
+Type theory up to isomorphism (homotopy type equivalence)
+\end{frame}
+
+\begin{frame}{Consequences of univalence}
+
+\begin{example}[Natural numbers]
+$\mathbb{N}$ is a type that behaves like a set.
+\begin{itemize}
+    \item equivalences \[\mathbb{N} \simeq \mathbb{N}_0 \] are bijections \[\mathbb{N} \leftrightarrow \mathbb{N}_0 \]
+    \item univalence implies \[ p : (\mathbb{N} \leftrightarrow \mathbb{N}_0 ) \Rightarrow p : (\mathbb{N} = \mathbb{N})\]
+
+    \item forces multiple equalities $\mathbb{N} = \mathbb{N}_0$
 \end{itemize}
+\end{example}
 
 \pause
+
 \begin{quotation}
 $\Rightarrow$ terms of equality are paths
 \end{quotation}
@@ -399,24 +455,58 @@ $\Rightarrow$ terms of equality are paths
 
 \end{frame}
 
+
+
 \begin{frame}[fragile]
     \frametitle{Consequences of path interpretation}
      
      
+     
+     
      \tcol{
+        A way to construct paths in topology:
+        \begin{definition}[Covering]
+         A surjective smooth map $\pi : E \rightarrow B$ that is locally homeomorphic.
+        \end{definition}
 
-        in general:
+        
+        Defining transport:
         \begin{itemize}
-          \item equivalence behaves like homotopy equivalence
-            \item mathematics ``up to homotopy''
-            \item lifting of path $p$ as in  algebraic topology: \emph{transport} gives the other ending point of $p_\star$
+            \item take path $p$ in base space $B$ and point $b$ in $\pi^{-1}(p(1))$
+            \item path $p$ is lifted to path $p_\star$ ending in $b$
+            \item \emph{transport} gives start $p_\star(0)$
         \end{itemize}
+        
+        More paths means more equalities
+        $\Rightarrow$ identty type indeed \emph{weak}.
+        
      }
      {
-        \fig{cover}{Jeff Erickson, 2009}
+        \begin{figure}
+        \incfig{figures/cover}
+        \caption{Based on Jeff Erickson, 2009}
+        \end{figure}
+        %\fig{cover}{Jeff Erickson, 2009}
      }     
 \end{frame}
     
+
+\begin{frame}{Homotopy type theory (HoTT)}{Awodey, 2006}
+
+Gives \emph{homotopy} interpretation to equality type:
+
+%\includegraphics[width=0.8\textwidth]{figures/}
+\centering
+$$ p,q : a =_X b \quad r,s : p =_{\texttt{Id}_X(a,b)} q$$ 
+
+\input{figures/homotopy.tikz}
+
+
+$\Rightarrow$ alternative foundations for mathematics based on type theory and topology
+
+\end{frame}
+
+
 
 
 \begin{frame}{Origin univalence}{Grayson, 2018}
@@ -445,7 +535,7 @@ $\Rightarrow$ terms of equality are paths
 \end{columns}
 \end{frame}
 
-\begin{frame}{Personal remark}
+\begin{frame}{Practical limitations of univalence}
 The univalence axiom adds:
 \begin{itemize}
     \item intuitive explanation of equaity
@@ -520,7 +610,7 @@ A constructive extension of HoTT with dimension variables $i,j,k : \mathbb{I}$ (
 
 \begin{frame}{Cubes model homotopy}{Altenkirch, Brunerie, Licata, et. al 2013}
  
-Homotopy groups are defined as equivalence classes of \emph{continous} embeddings:
+Homotopy groups are defined as equivalence classes of smooth embeddings:
 $$[0,1]^n \rightarrow X$$
 
 \begin{quotation}
@@ -974,12 +1064,12 @@ setoid encoding uses operator ``\texttt{∙}'' and equivalence ``\texttt{≈}'':
 
 \begin{figure}
 \begin{BVerbatim}
-notZero n = Σ ℕ (λ m → (n ≡ (suc m)))
+notZero n = Σ ℕ (λ m → (n ≡ (m + 1)))
 ℕ₀ = Σ ℕ (λ n → notZero n) 
 
 op₂ : Op₂ ℕ₀
 op₂ (x , p)  (y , q) = 
-    (predℕ (x + y) , (predℕ (predℕ (x + y)) , sumLem x y p q) )
+    ((x + y) - 1 , (x + y) - 2 , sumLem x y p q)
 
 M₂ : Algebra.Magma _ _
 M₂ = record { 
@@ -1060,18 +1150,19 @@ mPath = λ i → record {
 
  \begin{columns}%[c]
     \column{.6\textwidth}
-        
+        proven in HoTT with the  univalence axiom:
         \begin{theorem}
             $\pi _ 4 (S^3) \cong \mathbb{Z}_n$ for $n=2$ 
 
             \end{theorem}
             \begin{itemize}
-            \item proven in HoTT with univalence
-            \item $n$ implemented in CTT as a function
-            \item canonicity predicts termination
+            \item the value $n$ in theorem is implemented in a CTT numeral
+            \item canonicity of numerals predicts normalization 
+            \item normalization fails however
             \end{itemize}
-        (bug in Agda or CTT prevents evaluation)
-
+        
+        Ongoing optimizations ...
+        
         \column{.4\textwidth}
             \begin{figure}
                 \includegraphics[height=0.4\textheight]{figures/loops}
@@ -1084,11 +1175,22 @@ mPath = λ i → record {
 \section*{Summary}
 
 
-\begin{frame}{Recent papers}{Licata, Harper, Cavallo, Orton et al.}
+\begin{frame}{Conclusion}{Licata, Harper, Cavallo, Orton et al.}
+    
+    
+    \begin{itemize}
+        \item HoTT redefines equality
+        \item CTT implements HoTT
+        \item HoTT can be verified in computers 
+    \end{itemize}
+    
+    Other introductions to cubical type theory: \cite{Huber2016} and \cite{Orton2019}
+    
+    Recent interesting publications:
     \begin{itemize}
         \item computational type theory is an alternative implementation \cite{Angiuli2018}
         \item composition operation CTT may not be too strong \cite{Cavallo2019}
-        \item modelling $\widehat{\square}$ and \texttt{Glue} with language of topoi to simplify CTT and composition operations \cite{Orton2019} 
+        \item modelling $\widehat{\square}$ and \texttt{Glue} with language of topoi or other axioms to simplify CTT and composition operations \cite{Orton2017}, \cite{Orton2019} 
     \end{itemize}
     
     
@@ -1096,17 +1198,7 @@ mPath = λ i → record {
 
 
 
-\begin{frame}{Summary}
 
-    \begin{itemize}
-        \item HoTT redefines equality
-        \item CTT implements HoTT
-        \item HoTT can be verified in computers 
-    \end{itemize}
-
-
-
-\end{frame}
 
 \appendix
 
