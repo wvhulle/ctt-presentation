@@ -53,7 +53,7 @@
 \usepackage{graphicx}
 
 \newcommand{\fig}[2]{
-    \begin{figure}\begin{center}\includegraphics[width=0.6\textwidth,height=0.6\textheight,keepaspectratio=true]{figures/#1}\caption{#2\label{#1}}\end{center}
+    \begin{figure}\begin{center}\includegraphics[width=0.7\textwidth,height=0.7\textheight,keepaspectratio=true]{figures/#1}\caption{#2\label{#1}}\end{center}
     \end{figure}}
 
 \newcommand{\tcol}[2]{
@@ -98,7 +98,7 @@ LabelStyle/.style = { %rectangle, %draw,
 \usepackage{multimedia}
 
 \makeatletter
-
+\setbeamercovered{invisible}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
@@ -113,11 +113,22 @@ LabelStyle/.style = { %rectangle, %draw,
   \def\gobbletableofcontents#1{\origtableofcontents}
 }
 
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usetheme{default}
 % or ...dff
 
-\setbeamercovered{transparent}
+%\setbeamercovered{transparent}
 % or whatever (possibly just delete it)
 
 
@@ -157,26 +168,50 @@ LabelStyle/.style = { %rectangle, %draw,
 
 \end{frame}
 
-\section{Introduction}
+\section{Topology}
 
-\begin{frame}{Introduction}
-    \setbeamercovered{invisible}
-    A mathematician is asked by a friend who is a devout Christian: ``Do you believe in one God?'' 
-    \begin{quotation}
-    What does he reply?
-    \end{quotation}
-    \pause{}
-    
-    
-    He answers: ``Yes -- up to isomorphism.'' (© Michael Benjamin Stepp)
+\begin{frame}
 
-\fig{isomorphism}{Hubert-Brierre, 2013}
+
+
+ \fig{isomorphism}{Hubert-Brierre, 2013}
+ 
+ \begin{itemize}
+  \item is the mirror monkey really another monkey?
+  \item which properties does he (not) satisfy?
+ \end{itemize}
+
 \end{frame}
 
-\begin{frame}{Isomorphisms in mathematics}
+
+\begin{frame}
+ \fig{isomorphism}{Hubert-Brierre, 2013}
+ \begin{quotation}
+  They are the same.
+ \end{quotation}
+
+\end{frame}
+
+
+
+\begin{frame}{Mathematicians are monkeys}
+
+Take two similar objects $A$ and $B$:
+
+\begin{itemize}
+ \item Which properties does object $B$ satisfy as well?
+ \item Are objects $A$ and $B$ really different?
+\end{itemize}
+
+
+\begin{quotation}
+ What is the sameness?
+\end{quotation}
+
 \begin{definition}
  An isomorphism is a map that identifies \emph{spaces and their structure}.
 \end{definition}
+
 
 \begin{figure}
 \begin{centering}
@@ -193,19 +228,39 @@ $X$            & Topological & homotopy equivalences
 \caption{Examples of isomorphisms}
 \end{centering}
 \end{figure}
+ 
 
-A large class of maps that identifies many objects: a \emph{weak} identification.
+\end{frame}
+
+\begin{frame}{Isomorphisms in mathematics}
+
+Used for classification of different but similar objects.
+%a \emph{weak} identification.
+
+\begin{quotation}
+   
+    A mathematician is asked by a friend who is a devout Christian: ``Do you believe in one God?'' 
+\end{quotation}
+
+    \pause{}
+    
+    \begin{quotation}
+    He answers: ``Yes -- up to isomorphism.'' (© Michael Benjamin Stepp)
+\end{quotation}
+    
+    
+%(Equality by definition is \emph{strong})
 
 
-(Equality by definition is \emph{strong})
+
+
 
 \end{frame}
 
 
 
-\begin{frame}{Algebraic Topology}
+\begin{frame}{Homotopy equivalence}
 
-Isomorphism in algebraic topology is ``homotopy equivalence''
 
 \begin{columns}
     \column{.5\textwidth}
@@ -214,17 +269,39 @@ Isomorphism in algebraic topology is ``homotopy equivalence''
     \fig{donut.jpg}{A donut}
 \end{columns}
 
-\begin{definition}
- Two spaces are homotopy equivalent if they can be smoothly deformed into eachother.
+\begin{definition}[\emph{homotopy equivalent}]
+ Can be smoothly deformed into eachother.
 \end{definition}
+\end{frame}
+
+\begin{frame}{}
+ 
+ \begin{quotation}
+ What does a donut think when he sees a mug?
+\end{quotation}
+
+\pause
+
+\begin{quotation}
+He has the same number of holes.
+\end{quotation}
 
 
+
+\begin{definition}[homotopy groups]
+ Number of \(n\)-dimensional holes 
+ 
+\end{definition}
+ 
+ 
+ 
 \end{frame}
 
 
-\begin{frame}{Homotopy groups}
-homotopy equivalent spaces have the same ``number of \(n\)-dimensional holes'': 
-computed by looking at homotopy classes of smooth embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
+
+\begin{frame}{Computing holes}
+
+homotopy classes of smooth embeddings \[S^n \rightarrow X, \quad \text{or } {[0,1]}^n \rightarrow X\]
 
 \tcol{
                 \fig{loops}{A donut has two 1-dimensional homotopy classes.}
@@ -236,52 +313,72 @@ computed by looking at homotopy classes of smooth embeddings \[S^n \rightarrow X
 \end{frame}
 
 
+\section{Type Theory}
+
+\begin{frame}{Paradox in set theory}{Zermelo, 1899}
+
+The set that contains all sets that do not contain itself:
 
 
-\begin{frame}{Type theory's origin}{Russel, 1907}
-
-Invented to prevent paradox:
-
-
-    \[ R = \{x \mid x \not \in x \}, R\in R \Leftrightarrow \not \in R \]
+    \[ R = \{x \mid x \not \in x \}, R\in R \Leftrightarrow R \not \in R \]
     
+Weird set
+    
+    \pause
+    
+    Paradox eliminated with:
+    \begin{itemize}
+    \item Universe hierarchy:
+        \[\mathcal{U}_0 \in \mathcal{U}_1 \in \ldots \mathcal{U}_{\omega} \in \ldots \]
+        
+    \item Rejection of ``set comprehension principle'':
+    
+    \[ S = \{ x \mid P (x ) \} \]
+    \end{itemize}
+    
+    
+\end{frame}
 
-Solution was:
-\begin{itemize}
-\item replace sets (and propositions) by types and elements by terms, $$x \in R \Rightarrow x : R$$
-\item types belong to universe hierarchy 
-        \[\exists i, R : \mathcal{U}_i, \quad \mathcal{U}_0 : \mathcal{U}_1 : \ldots \]
-\item constructive logic and formation rules
-\end{itemize}
+\begin{frame}{Constructivism}{Brouwer, 1905}
 
 \begin{quotation}
-$x \not \in x$ is not a valid proposition anymore
+Mathematics is in essence the result of pure thought.
 \end{quotation}
 
+Evolved into constructive logic (Heyting, 1930)
+
+\pause
+
+Type theory (Russel, 1907 -- \ldots):
+
+\begin{itemize}
+\item replace sets (and propositions) by types and elements by terms, $$x \in R \Rightarrow x : R$$
+\item set universes become type universes
+\item constructive logic replaced by formation rules of terms
+\end{itemize}
+
 \end{frame}
 
 
-\begin{frame}{Type theory}
-    
-    Two meanings/subfields:
-    \begin{itemize}
-        \item verifying computation in programming languages
-        \begin{figure}
-            \input{figures/haskell.verbatim}
-            \caption{A typed recursive function in Haskell}
-        \end{figure}
-    
-        \pause{}
-        \item alternative constructive foundation of mathematics
-        \begin{figure}
-            \input{figures/agda_comp.verbatim}
-            \caption{Definition of the topological space \(S^1\) in Agda}
-        \end{figure}
-    
-    \end{itemize}
-
-    
-\end{frame}
+% \begin{frame}{Present type theory}
+%     
+%     Two meanings/subfields:
+%     \begin{itemize}
+%         \item verifying computation in programming languages
+%         \begin{figure}
+%             \input{figures/haskell.verbatim}
+%             \caption{A typed recursive function in Haskell}
+%         \end{figure}
+%     
+%         \pause{}
+%         \item alternative constructive foundation of mathematics
+%         \begin{figure}
+%             \input{figures/agda_comp.verbatim}
+%             \caption{Definition of the topological space \(S^1\) in Agda}
+%         \end{figure}
+%     
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}{Type theory as foundation for mathematics}
 
@@ -358,7 +455,7 @@ Functions are identified with values:
 
        Elimination rule of equality type:
 
-    \begin{definition}[path induction]
+    \begin{definition}[Induction rule]
             Given the following terms:
         \begin{itemize}
             \item a predicate \(C : \prod_{x,y:A} (x =_A y) \rightarrow \mathcal{U}\)
@@ -409,7 +506,7 @@ Functions are identified with values:
 
 
 \begin{definition}[Type equivalence ]
- Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, an equivalence $f: X \simeq Y $ of types is a map $f : X \rightarrow Y$ that is a bijection up to paths.
+ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, an equivalence $f: X \simeq Y $ of types is a map $f : X \rightarrow Y$ that is a bijection up to equality.
 \end{definition}
 
 \begin{quotation}
@@ -478,7 +575,7 @@ $\Rightarrow$ terms of equality are paths
         \end{itemize}
         
         More paths means more equalities
-        $\Rightarrow$ identty type indeed \emph{weak}.
+        $\Rightarrow$ identity type is indeed \emph{weak}.
         
      }
      {
@@ -493,6 +590,8 @@ $\Rightarrow$ terms of equality are paths
 
 \begin{frame}{Homotopy type theory (HoTT)}{Awodey, 2006}
 
+
+
 Gives \emph{homotopy} interpretation to equality type:
 
 %\includegraphics[width=0.8\textwidth]{figures/}
@@ -502,7 +601,7 @@ $$ p,q : a =_X b \quad r,s : p =_{\texttt{Id}_X(a,b)} q$$
 \input{figures/homotopy.tikz}
 
 
-$\Rightarrow$ alternative foundations for mathematics based on type theory and topology
+$\Rightarrow$ alternative foundation for mathematics based on type theory and topology
 
 \end{frame}
 
@@ -516,12 +615,14 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
         \begin{center}
             \begin{figure}[h!]
                 \includegraphics[height=.7\textheight]{figures/voevodsky.jpg}
-                \caption{Vladimir Voevodsky (1966 - 2017)}
+                \caption{Voevodsky (1966 - 2017)}
             \end{figure} 
         \end{center}
     \column{.5\textwidth}
 
-            Why is it called ``univalent''?
+    \begin{definition}[Univalent type theory]
+     Type theory + univalence axiom (also \emph{homotopy type theory})
+    \end{definition}
 
 
         \pause
@@ -530,7 +631,7 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
         ... these foundations seem to be faithful to the way in which I think about mathematical objects in my head ...
         \end{quotation}
 
-        faithful = univalent in a Russion translation of Boardman (2006)
+        faithful = univalent in a Russian translation of Boardman (2006)
 
 \end{columns}
 \end{frame}
@@ -538,16 +639,17 @@ $\Rightarrow$ alternative foundations for mathematics based on type theory and t
 \begin{frame}{Practical limitations of univalence}
 The univalence axiom adds:
 \begin{itemize}
-    \item intuitive explanation of equaity
-    \item alternative foundations with types
+    \item intuitive explanation of equality
+    \item a definition of equivalence and connection with equality
     \item field of mathematics: HoTT
 \end{itemize}
 
 But does not:
 \begin{itemize}
-    \item make all proofs easier or shorter
-    \item eliminate proofs of equivalence
+    \item make all proofs in mathematics easier or shorter
+    \item eliminate need for proofs of equivalence
 \end{itemize}
+
 
 
 
@@ -555,21 +657,25 @@ But does not:
 
 \begin{frame}{Computing with univalence}{Huber, 2015}
 
-What about:
-\begin{itemize}
-\item implementing HoTT?
-\item calculations with very simple types as $\mathbb{N}$?
-\end{itemize}
+Question posed in 2013:
 
 \begin{quotation}
-Can we, given a term $t: \mathbb{N}$ constructed using the univalence axiom, construct two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ such that $u$ does not involve the univalence axiom?
+Can the univalence axiom be implemented in computers such that
+\begin{itemize} 
+ \item equalities are really paths 
+ \item calculations with very simple types as $\mathbb{N}$ still work?
+ \end{itemize}
 \end{quotation}
 
-\pause
-
- $\Rightarrow$ canonicity of $\mathbb{N}$ in cubical type theory (CTT)
-
+Canonicity of $\mathbb{N}$ in cubical type theory:
 $$ t \equiv ua ( ... )  \rightsquigarrow u \equiv S ( \dots ( 0 ) \ldots ) : \mathbb{N}  $$
+
+
+
+% 
+% \begin{quotation}
+% Can we, given a term $t: \mathbb{N}$ constructed using the univalence axiom, construct two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ such that $u$ does not involve the univalence axiom?
+% \end{quotation}
 
 
 \end{frame}
@@ -602,8 +708,6 @@ A constructive extension of HoTT with dimension variables $i,j,k : \mathbb{I}$ (
 \fig{cube-joke.jpg}{}
 
 \pause
-
-(yes, they model n-dimensional homotopies)
 
 \end{frame}
 
@@ -765,7 +869,12 @@ Denoted as ``presheaf model $\widehat{\mathcal{C}}$''.
 \begin{frame}{Types in a presheaf model $\widehat{\{0, 1 \}}$}
   \begin{example}[Dependent directed reflexive graph]
   Applying previous lemma to the type $A$ in $\widehat{\{0, 1 \}}$:
-\fig{type_lemma}{Modelled by two contexts and a surjective morphism}
+\begin{figure}
+\centering
+  \input{figures/nested.tikz}
+  \caption{The context $\Delta$ above $\Gamma$ representing $A$.}
+  \end{figure}
+  %\fig{type_lemma}{Modelled by two contexts and a surjective morphism}
  \end{example}
 
 
@@ -855,11 +964,11 @@ $\mathbb{A}$: countable set of ``dimension variables''
 \end{frame}
 
 \begin{frame}{Partial types in $\widehat{\square}$}{Bezem, Coquand, Huber 2013}
- Partial type $A\ [(i = 0) \mapsto A(i/0)]$ is a subtype of $A$ on top of sub-subpolyhedron of cubes:
+ Partial type $A(i/0)$ is a subtype of $A\ [(i = 0) \mapsto A(i/0)]$ on top of sub-subpolyhedron of cubes $(i=0)\vee (i=1)$:
  
 \begin{itemize}
-    \item $u$ 1-dimensional cube, line and type $A$:
-    \item partial type $A(i/0)$ in type $A$:
+    \item $A$ behaves like a new context $\Delta$ by lemma
+    \item partial type $A(i/0)$ is the left side of $A$:
             \fig{types_side}{Huber, 2015}
 \end{itemize}
 
@@ -988,13 +1097,13 @@ Interpreting types in presheaf model $\square$ hard but possible.
 
 \begin{enumerate}
 
-\item existence $\texttt{ua} : (X\simeq Y) \rightarrow (X = Y)$ with \texttt{Glue} construction.
+\item construction inverse map $\texttt{ua} : (X\simeq Y) \rightarrow (X = Y)$ with \texttt{Glue} construction.
 
 \item for any partial $f : X \rightarrow Y$, $\texttt{Glue} \ [\varphi \mapsto (X, f)] \ Y \simeq Y$
 
 \item for any type $Y$, $\sum_{X} X \simeq Y$ contractible
 
-\item existence of an equivalence ``eliminator''.
+\item existence of induction principle for $X\simeq Y$.
 
 \item the trivial map $p : X = Y \rightarrow X \simeq Y$ is an inverse ``up-to-path'' of \texttt{ua}
 %  
@@ -1004,7 +1113,7 @@ Interpreting types in presheaf model $\square$ hard but possible.
  
  \end{enumerate}
  
-    $\Rightarrow$ the map \texttt{ua}$\equiv \Phi_{X,Y}$ is equivalence
+    $\Rightarrow$ the map \texttt{ua}$\equiv \Phi_{X,Y}^{-1}$ is proper inverse and $\Phi_{X,Y}$ equivalence
 \end{proof} 
 
 \end{frame}
@@ -1057,20 +1166,23 @@ Interpreting types in presheaf model $\square$ hard but possible.
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Definition of a \st{monoid} magma}
+\frametitle{Encoding the structures in Agda}
 %{Building a path}
 
-setoid encoding uses operator ``\texttt{∙}'' and equivalence ``\texttt{≈}'':
+
+
 
 \begin{figure}
 \begin{BVerbatim}
 notZero n = Σ ℕ (λ m → (n ≡ (m + 1)))
 ℕ₀ = Σ ℕ (λ n → notZero n) 
+\end{BVerbatim}
+\caption{Definition of $\mathbb{N}_0$ with sum type.}
+\end{figure}
 
-op₂ : Op₂ ℕ₀
-op₂ (x , p)  (y , q) = 
-    ((x + y) - 1 , (x + y) - 2 , sumLem x y p q)
 
+\begin{figure}
+\begin{BVerbatim}
 M₂ : Algebra.Magma _ _
 M₂ = record { 
   Carrier = ℕ₀ ;
@@ -1078,99 +1190,114 @@ M₂ = record {
   _∙_ = op₂ ;
   isMagma = ... ,
   }
-\end{BVerbatim}
+ \end{BVerbatim}
+ \caption{Problem reduced to magmas.}
 \end{figure}
- 
+
+
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Equality of carrier sets}
+\frametitle{Equality of sets $\mathbb{N} = \mathbb{N}_0$}
 
- $\mathbb{N} \rightarrow \mathbb{N}_0: n\mapsto n + 1 $ is bijection
- 
- \begin{itemize}
-  \item is equivalence of (set-like) types
-  \item univalence/\texttt{ua} returns equality \texttt{ℕ ≡ ℕ₀}
- \end{itemize}
+
+\begin{figure}
+\begin{BVerbatim}
+f : ℕ → ℕ₀ 
+f n = (suc n , ( n , refl ) )
+\end{BVerbatim}
+\caption{Bijections are equivalences for (set-like) types}
+\end{figure}
+
+ univalence/\texttt{ua} returns equality \texttt{ℕ ≡ ℕ₀}
  
  
  \begin{figure}
  \begin{BVerbatim}
-f : ℕ → ℕ₀ 
-f n = (suc n , ( n , refl ) )
-...
 fEquiv : ℕ ≃ ℕ₀ 
 fEquiv = (f ,  isoToIsEquiv (iso f g l' r'))
 
 fEq : ℕ ≡ ℕ₀ 
 fEq = ua fEquiv
  \end{BVerbatim}
+ \caption{The equality}
 \end{figure}
 
 \end{frame}
-
-
-
-
 
 \begin{frame}[fragile]
-\frametitle{Equality of \st{monoids} magmas}
+\frametitle{Equality of structures $M_1=M_2$}
 
-Defined for every component of record type:
+If $M : M_1 = M_2$, then $\forall i \in [0, 1]$, $M (i)$ magma $\Rightarrow$ point-wise definition:
+
+\begin{itemize}
+ \item carrier set $M(i)$ given by $\texttt{fEq i}$
+ \item operator $op_i: (m,n) \mapsto m +_i n$ on $M(i)$ is defined with transport of arguments $m,n$ from $\texttt{fEq i}$ to $\mathbb{N}$
+\end{itemize}
+
+
+proofs of magma properties can be transported over $M$: commutativity, etc.
+
+
+
+
+\begin{quotation}
+HoTT/univalence/\texttt{ua} gives topological interpretation to invariance of algebraic properties ...
+\end{quotation}
+
+
+\end{frame}
+
+\begin{frame}{Topological transport of arguments}
+
+
 
 \begin{figure}
-\begin{BVerbatim}
-mPath : s₁ ≡ s₂
-mPath = λ i → record {
-   Carrier = (fEq i) ;
-   _≈_ =  _≡_;
-   _∙_ = transOp' i ;
-   isMagma = ...
-     }
-   }
-\end{BVerbatim}
+\begin{centering}
+ \incfig{transport_arguments}
+ \caption{Transport of the arguments}
+ \end{centering}
 \end{figure}
 
-\texttt{transOp'} defined by transporting along \texttt{ℕ ≡ ℕ₀}, proofs can be transported over \texttt{s₁ ≡ s₂}.
+
 
 \end{frame}
-
-\begin{frame}{Higher homotopies of spheres}{}
-
-    Types in HoTT and CTT are topological spaces.
-    Higher homotopy groups compute number of higher-dimensional holes in $S^n$:
-
-    \fig{groups}{HoTT Book, 2013}
-    Homotopy groups can be defined in CTT as datatypes
-
-\end{frame}
-
-
-\begin{frame}{Implementation in CTT}{Brunerie, 2016}
-
- \begin{columns}%[c]
-    \column{.6\textwidth}
-        proven in HoTT with the  univalence axiom:
-        \begin{theorem}
-            $\pi _ 4 (S^3) \cong \mathbb{Z}_n$ for $n=2$ 
-
-            \end{theorem}
-            \begin{itemize}
-            \item the value $n$ in theorem is implemented in a CTT numeral
-            \item canonicity of numerals predicts normalization 
-            \item normalization fails however
-            \end{itemize}
-        
-        Ongoing optimizations ...
-        
-        \column{.4\textwidth}
-            \begin{figure}
-                \includegraphics[height=0.4\textheight]{figures/loops}
-                \caption{The case $S^1$ is simply $\mathbb{Z}$  (drawing from science4all)}
-            \end{figure}
-    \end{columns}
-
-\end{frame}
+% \begin{frame}{Higher homotopies of spheres}{}
+% 
+%     Types in HoTT and CTT are topological spaces.
+%     Higher homotopy groups compute number of higher-dimensional holes in $S^n$:
+% 
+%     \fig{groups}{HoTT Book, 2013}
+%     Homotopy groups can be defined in CTT as datatypes
+% 
+% \end{frame}
+% 
+% 
+% \begin{frame}{Implementation in CTT}{Brunerie, 2016}
+% 
+%  \begin{columns}%[c]
+%     \column{.6\textwidth}
+%         proven in HoTT with the  univalence axiom:
+%         \begin{theorem}
+%             $\pi _ 4 (S^3) \cong \mathbb{Z}_n$ for $n=2$ 
+% 
+%             \end{theorem}
+%             \begin{itemize}
+%             \item the value $n$ in theorem is implemented in a CTT numeral
+%             \item canonicity of numerals predicts normalization 
+%             \item normalization fails however
+%             \end{itemize}
+%         
+%         Ongoing optimizations ...
+%         
+%         \column{.4\textwidth}
+%             \begin{figure}
+%                 \includegraphics[height=0.4\textheight]{figures/loops}
+%                 \caption{The case $S^1$ is simply $\mathbb{Z}$  (drawing from science4all)}
+%             \end{figure}
+%     \end{columns}
+% 
+% \end{frame}
 
 \section*{Summary}
 
@@ -1180,8 +1307,8 @@ mPath = λ i → record {
     
     \begin{itemize}
         \item HoTT redefines equality
-        \item CTT implements HoTT
-        \item HoTT can be verified in computers 
+        \item CTT implements HoTT 
+        \item HoTT gives formulism for equivalent structures.
     \end{itemize}
     
     Other introductions to cubical type theory: \cite{Huber2016} and \cite{Orton2019}
