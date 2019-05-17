@@ -6,7 +6,12 @@
 %%% TeX-engine: xetex
 %%% End:
 
-\documentclass[english]{beamer}
+\documentclass[english,handout]{beamer}
+\usepackage{pdfpages}
+%\pgfpagesuselayout{4 on 1}[a4paper,border shrink=5mm]
+
+
+
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
@@ -142,12 +147,32 @@ LabelStyle/.style = { %rectangle, %draw,
 \makeatother
 
 \usepackage{babel}
+
+
+
+
+
+
+\mode<handout>{%
+    \pgfpagesuselayout{4 on 1}[a4paper] 
+    \setbeameroption{show notes}
+}
+
+
+
+
+
+
+
+
+
+
 \begin{document}
 \title[Cubical models for Univalence]{The Constructive Model of \\ Univalence in  Cubical Sets}
 \subtitle{Literature review}
 \author[W. Vanhulle]{W. Vanhulle\inst{1} \and A. Nuyts\inst{2}\and D. Devriese\inst{3}}
 \institute[KUL]{\inst{1}Student \and \inst{2}Supervisor \and \inst{3}Promoter}
-\date[30/05/19]{45 min.~public seminar}
+\date[30/05/19]{$2^{\text{nd}}$ master thesis presentation (45 min.)}
 
 \makebeamertitle
 
@@ -1253,10 +1278,10 @@ HoTT/univalence/\texttt{ua} gives topological interpretation to invariance of al
 
 
 \begin{figure}
-\begin{centering}
+\begin{center}
  \incfig{transport_arguments}
  \caption{Transport of the arguments}
- \end{centering}
+ \end{center}
 \end{figure}
 
 
@@ -1334,8 +1359,17 @@ HoTT/univalence/\texttt{ua} gives topological interpretation to invariance of al
 \subsection*{For Further Reading}
 \begin{frame}[allowframebreaks]{For Further Reading}
 
-Thanks for watching!
+  Thanks for watching!
 
+  
+  This presentation and full text:
+  \url{https://github.com/wvhulle/ctt-presentation}
+
+  
+  Source code application:
+  \url{https://github.com/wvhulle/transport-magmas}
+
+  
 \bibliographystyle{amsalpha}
 \bibliography{../../../../Referenties/library}
 \end{frame}
