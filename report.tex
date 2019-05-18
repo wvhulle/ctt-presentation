@@ -8,7 +8,7 @@
 % -------------------------------------------------------------------
 \RequirePackage{fix-cm}
 %\documentclass[ebook, oneside, openany,xetex]{memoir}
-\documentclass[12pt,a4paper,twoside,xetex,draft]{book}
+\documentclass[12pt,a4paper,twoside,xetex]{book}
 \usepackage{fancyvrb}
 
 
@@ -116,7 +116,8 @@ LabelStyle/.style = { %rectangle, draw,
 
 \setmainfont{CMU Serif} 
 \setmathfont{Latin Modern Math}
-\setmonofont[Scale=0.9]{FreeMono} %FreeMono
+%\setmonofont[Scale=0.9]{FreeMono} %FreeMono
+\setmonofont[Scale=0.9]{Unifont}
 \setsansfont{CMU Sans Serif}
 %\setsansfont{Helvetica} %Closed source font but should be used in the final version on front and back
 %\setsansfont{TeX Gyre Schola Math}
@@ -308,15 +309,15 @@ This text was written with the help of many people. First of all, I would like t
 \chapter*{Summary}
 
 
-The univalence axiom is an axiom stating that certain equalities can be mapped into each other. This axiom has many interesting consequences such as the ability to do mathematics up to isomorphism as explored in \cite{Voevodsky2013}. If an axiom is consistent and simple enough, its addition to the theory is a compromise mathematicians are willing to make in exchange for beautiful results that depend on it. The  consistency of the univalence axiom relative to ZFC was proven by giving a model in simplicial sets \cite{Kapulkin2012}. This was a first step in the recognition of the univalence axiom among mathematicians. However, this model in simplicial sets made use of the axiom of choice which made it unconstructive and unsuitable for a constructive implementation.
+The univalence axiom of states that equivalent spaces can be identified and has many interesting consequences such as the ability to do mathematics up to isomorphism as claimed by \cite{Voevodsky2013}. If an axiom is consistent and simple enough, its addition to the theory is a compromise mathematicians are willing to make in exchange for beautiful results that depend on it. The  consistency of the univalence axiom relative to ZFC was proven by giving a model in simplicial sets \cite{Kapulkin2012}. This was a first step in the recognition of the univalence axiom among mathematicians. However, this model in simplicial sets made use of the axiom of choice which made it unconstructive and unsuitable for a constructive implementation, see \cref{simpmod}.
 
-Cubical type theory is an intuitionistic type theory that can model the univalence axiom, not as an axiom, but as a valid and provable theorem. Its proof in cubical theory has only recently been completed in \cite{Cohen2016}. Meanhwile, several updated proofs have been constructed in \cite{Sterling2018b, Moertberg2018}. By the constructiveness of cubical type theory, a proof gives an explicit map between given equalities. The map can be used to rewrite proofs of theorems in homotopy theory in the more basic constructive language of cubical sets. Understanding constructive proofs of univalence may also help to study or understand applications or consequences of the univalence axiom.
+Cubical type theory is an intuitionistic type theory that can model the univalence axiom, not as an axiom, but as a valid and provable theorem. This type theory will be explained in detail in \cref{cubical}. Its proof in cubical theory has only recently been completed in \cite{Cohen2016}. Meanhwile, several updated proofs have been constructed in \cite{Sterling2018b, Moertberg2018} which will be discussed in \cref{univalenceproof}. By the constructiveness of cubical type theory, a proof gives an explicit map between given equalities. The map can be used to rewrite proofs of theorems in homotopy theory in the more basic constructive language of cubical sets. Understanding constructive proofs of univalence may also help to study or understand applications or consequences of the univalence axiom which will be surveyed (including one new application) in \cref{applications}. Throughout this text, as much recent literature will be covered and in \cref{futapp} and \cref{normalizing} possible future work is discussed.
 
 \chapter*{Glossary}
 
 
 \begin{description}
-\item[$\Gamma, \Delta$] Contexts
+\item[$\Gamma \vdash \ldots, \Delta \vdash \dots$] Contexts
 \item[$\op{Glue}$] Font for types
 \item[$A = B$] Equality of types
 \item[$X \equiv Y$] Equality by definition
@@ -325,6 +326,8 @@ Cubical type theory is an intuitionistic type theory that can model the univalen
 \item[$\set$] Category of sets
 \item[$\mathcal{C}, \mathcal{D}$] Categories
 \item[$\mathcal{F}, \mathcal{G}$] Functors
+\item[$(i/r)$] A substitution of $i$ by $r$
+%\item[\(a : A [\varphi \mapsto u]\)] A total term $a$ extending $u$
 \end{description}
 
 \listoftodos[Notes]
@@ -360,7 +363,7 @@ An example of the problems  that intuitionistic logic deals with, is giving proo
   There are irrational numbers $a$ and $b$ such that $a^b$ is a rational number.
 \end{theorem} 
 
-Throughout the course of the last century, using induction, types, intuitionistic logic and other developments in the foundations of mathematics and the theory of computation, intuitionistic type theory \cite{Loef1975} was established. Recently, the field of type theory became very popular among mathematicians with the arrival of more computing power. For example, many proof assistants are based on (intuitionistic) type theory: Coq, NuPRL, Agda. These are programming languages that can be used to write down proofs.
+Throughout the course of the last century, using induction, types, intuitionistic logic and other developments in the foundations of mathematics and the theory of computation, intuitionistic type theory \cite{Martin-Loef1975} was established. Recently, the field of type theory became very popular among mathematicians with the arrival of more computing power. For example, many proof assistants are based on (intuitionistic) type theory: Coq, NuPRL, Agda. These are programming languages that can be used to write down proofs.
 
 On top of expressions and definitions, a user of a proof assistant can formulate complex theorems and proofs. These formalized proofs can be used to investigate proofs of real-life theorems from mathematical domains such as algebra or topology that are hard to write down by hand such as the Odd Order Theorem:
 
@@ -388,7 +391,7 @@ Designers of formal systems and proof assistants based on type theory are confro
 
 \section{Intuitionistic type theory}
 
-Now that some useful applications of type theory have been given, this section will explain in more detail what intuitionistic type theory \cite{Loef1975} is about.
+Now that some useful applications of type theory have been given, this section will explain in more detail what intuitionistic type theory \cite{Martin-Loef1975} is about.
 
 \subsection{Judgments and contexts}
 A \keyword{judgment} is a statement in (intuitionistic) type theory about types and terms. Judgments can be philosophically seen as a constructive act of knowledge but formally, they come in different forms:
@@ -475,7 +478,7 @@ Function types were historically the first types to have an interpretation in in
 Types that can be constructed with the function type are called \keyword{simple types} but other types also have parallels with logic:
 
 \begin{example}
-The \keyword{sum type} of two types $A$ and $B$, denoted by $A+B$, corresponds to the ``or" operation, formally denoted by $\vee$, of intuitionistic logic. In proofs that make use of the the logical proposition $A \vee B$, there are two branches: one branch that proves the case were we assume $A$ and the other branch proves the case were $B$ is assumed. The terms of a sum $A+B$ are also constructed in two ways: either such a term is $\text{left}\,a:A+B$ for $a:A$ or $\text{right}\,b:A+B$ for $b:B$. A function $A+B\rightarrow C$ for $C$ some type is defined by case analysis, stating a result for values of both injections.
+The \keyword{sum type} of two types $A$ and $B$, denoted by $A+B$, corresponds to the ``or" operation, formally denoted by the symbol $\vee$ from intuitionistic logic. In proofs that make use of the the logical proposition $A \vee B$, there are two branches: one branch that proves the case were we assume $A$ and the other branch proves the case were $B$ is assumed. The terms of a sum $A+B$ are also constructed in two ways: either such a term is $\texttt{left}\ a:A+B$ for $a:A$ or $\texttt{right}\ b:A+B$ for $b:B$. A function $A+B\rightarrow C$ for $C$ some type is defined by case analysis, stating a result for values of both injections.
 \end{example}
 
 This interpretation can be generalized somewhat to interpreting constructive propositions as types and their proofs to terms of types. But it remains just an approximate interpretation between two completely foundational theories, not an isomorphism or bijection. This interpretation can however be helpful to formalize constructive mathematics and was applied in the first proof assistant Automath \cite{DeBruijn1970} (see \cref{fig:Nicolaas-Govert-de}). Multiple people worked (independently) on making this interpretation precise and it is often named after (some of) these people. Besides being called an interpretation, it is also called the propositions-as-types relation or \keyword{Curry-Howard correspondence}. There are several long introductions available to the history of this correspondence such as \cite{BibEntry2019Apr}.
@@ -1176,7 +1179,7 @@ Because axom K is related to the uniqueness of identity proofs principle (a rela
 
 \chapter{Cubical type theory}\label{cubical}
 
-At this point we have discussed a general framework for making models of type theory in category theory, see \cref{catsem}. However, remember from \cref{simpmod} that we were actually looking for a very specific model. We would like a constructive model in category theory that allows us to prove the univalence axiom by generating terms of instances of it and using these terms in further computations. The model in cubical sets \cite{Bezem2014} (and the slightly different one in \cite{Cohen2016}) was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible to generate terms of it. Actually, there are even more constructive models of the univalence axiom but in this text the focus will be on \cite{Cohen2016} and its recent extensions in \cite{Coquand2018} and \cite{Moertberg2018}, see \cref{cartmod} for other options. 
+At this point we have discussed a general framework for making models of type theory in category theory, see \cref{catsem}. However, remember from \cref{simpmod} that we were actually looking for a very specific model. We would like a constructive model in category theory that allows us to prove the univalence axiom by generating terms of instances of it and using these terms in further computations. The model in cubical sets \cite{Bezem2014} (and the slightly different one in \cite{Cohen2016}) was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible to generate terms of it. Actually, there are even more constructive models of the univalence axiom but in this text the focus will be on \cite{Cohen2016} and its recent extensions in \cite{Coquand2018} and \cite{Moertberg2018}, see \cref{nominalmod} for other options. 
 
 The model with cubical sets can help us with computing with terms of the univalence axiom because it is easier to implement than other models and completely constructive. This means that all the evaluation the generated terms in this model does not get stuck and can always be simplified or computed into the primitives of the model. Proof of concept are the recent implementations of this model in the proof assistant Agda \cite{Moertberg2018}. 
 
@@ -1425,7 +1428,7 @@ However, we would first of all like to say something about univalent type theory
 \begin{centering}
 \includegraphics[width=0.3\textwidth]{figures/Daniel_Kan.jpg}
 \par\end{centering}
-\caption{\label{fig:Kan}Daniel Kan (1927-2013), here seen in his home in Massachusetts, was a Jewish category and homotopy theorist. He defined  a kind of Kan extension property for the first time in the context of algebraic topology for cubical sets, see his book \cite{Kan1955} saying how boxes can be filled. This Kan extension property later involved into different flavors such as a version for simplicial sets stating that every ``horn'' can be filled.}
+\caption{\label{fig:Kan}Daniel Kan (1927-2013), here seen in his home in Massachusetts, was a Jewish category and homotopy theorist. He defined  a kind of Kan extension property for the first time in the context of algebraic topology for cubical sets, see his book \cite{Kan1955} saying how boxes can be filled. Although \cite{Coquand2019} mentions a predecessor to this property in \cite{Eilenberg1939}. This Kan extension property later involved into different flavors such as a version for simplicial sets stating that every ``horn'' can be filled.}
 \end{figure}
 
 Adding \keyword{operations} to the the model is done by adding axioms stating the existence of certain structures, sets, functors or elements, satisfying properties that are related to the properties of the type system that is modelled. Operations will be denoted with another font type. To arrive at a complete model of univalent type theory, including the univalence axiom, also a glue operation has to be added (see \cref{glueOp}). 
@@ -1435,7 +1438,7 @@ Adding \keyword{operations} to the the model is done by adding axioms stating th
 The first and most important operation is the composition operation \cite{Orton2019}. 
 
 \begin{definition}\label{compdef}
-A \keyword{composition structure} for $\Gamma \vdash A$ is an operation, $\op{comp}$, as follows. Assume we have the following given:
+A \keyword{composition structure} for $\Gamma \vdash A$ is an operation, $\op{comp}$, that depends on the following elements:
 
 \begin{itemize}
 \item $I \in \mathcal{C}, i \not \in I, \rho \in \Gamma(I \cup \{i\}), \varphi \in \mathbb{F}(I)$, where $\rho$ can be seen as an ($I$+1)-dimensional hypercube.
@@ -1725,16 +1728,15 @@ The  \keyword{cubical type theory} (as defined in \cite{Huber2016}) is an extens
 \end{itemize} 
 \end{definition}
 
-The theory in \cref{ctt} (in which the univalence axiom is provable) satisfies \keyword{canonicity of numerals} (see \cref{canonicity} which was proven in \cite{Huber2016}, published in \cite{Huber2017} and further refined in \cite{Coquand2019}. This property means that expressions involving terms of the type of natural numbers should always normalize to a fundamental expression in a finite amount of steps. It is defined formally on \cite{Huber2016}, p. 125:
+The theory in \cref{ctt} (in which the univalence axiom is provable) satisfies \keyword{canonicity of numerals} (see \cref{canonicity} which was proven in \cite{Huber2016}, published in \cite{Huber2017} and further refined in \cite{Coquand2019}. This property means that expressions involving terms of the type of natural numbers should be (path) equal to an expression that uses only a finite amount of constructors. It is defined formally for the special case of natural numbers on \cite{Huber2016}, p. 125:
 
 \begin{definition}\label{canonicity}
 given a context $I$ of the form $i_1, ..., i_k : \mathbb{I}$ and a derivation of $i \vdash u : \mathbb{N}$ (where $\mathbb{N}$ is an inductive type), there is a unique $n \in \mathbb{N}$ (in a metatheory) with $I \vdash u = \op{suc}^n \op{zero} : \mathbb{N}$ for some $n \in \mathbb{N}$. This $n$ can more-over be effectively calculated. 
 \end{definition}
 
-When this property holds, at least every basic type has some standard form.  This property may fail to hold when axioms such as function extensionality or univalence are added the theory. Cubical type theory is an example of a theory in which both canonicity and univalence holds. There is also another kind of canonicity in literature: ``canonicity of booleans'' \cite{Angiuli2018}. But because numeral values give rise to boolean expressions and the other way around, canonicity of booleans is equivalent.
+When this property holds, at least every basic type (the numerals and similar types) has some standard form that can be computed but in practice computing this standard form does not always work, see \cref{higherhomotopy}. This property may fail to hold when axioms such as function extensionality or univalence are added the theory. Cubical type theory is an example of a theory in which both canonicity and univalence holds. There is also another kind of canonicity in literature: ``canonicity of booleans'' \cite{Angiuli2018}. But because numeral values give rise to boolean expressions and the other way around, canonicity of booleans is equivalent with canonicity of numerals.
 
 According to \cite{Brunerie2018} the proof of canonicity solved a conjecture by Voevodsky, originally formulated for homotopy type theory:
-
 
 \begin{quotation}
 Given a term $t: \mathbb{N}$ constructed using the univalence axiom, we can construct two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ such that $u$ does not involve the univalence axiom.
@@ -1747,18 +1749,17 @@ Cubical type theory was invented to give a ``computational interpretation of the
 
 \subsection{Statement of theorem}
 
-Remember from \cref{uniaxiom} that the \keyword{univalence} theorem (or axiom) states:
+Remember from \cref{uniaxiom} that the \keyword{univalence} theorem in cubical type theory (which is an axiom in univalent type theory) states:
 
 \begin{theorem}
  Given two types $A, B : \mathcal{U}$ of the same universe, there is an equivalence between the types $A = B$ and $A \simeq B$.
  \end{theorem}
 
-This axiom, when added to traditional type theory gives univalent or homotopy type theory. Because it can be proven in certain models such as \cref{ctt}, the axiom becomes a theorem. In this section, the proof of the theorem in \cite{Moertberg2018} will be discussed.
+Because it can be proven in certain models such as \cite{Kapulkin2012} and cubical type theory as in \cref{ctt}, the axiom can also be called a theorem within a particular model. In this section, the proof of the theorem in \cite{Moertberg2018} will be discussed.
 
 \subsection{History of the proof}
 
-
-The first model in which this theorem became provable was simplicial sets \cite{Kapulkin2012}. Later proofs are based on this proof. The first published proof of this theorem using cubical sets can be found in \cite{Huber2016}, p. 103-104. Alternative proofs are on \cite{Huber2016}, p. 122-123 or in \cite{Bezem2018}. 
+The first model in which this theorem became provable was simplicial sets \cite{Kapulkin2012}. The proof in simplicial sets used the ideas such as the \text{Glue} type that were reintroduced in later proofs in cubical sets, see \cite{Huber2016}, p. 103-104 and p. 122-123 or \cite{Bezem2018} for an approach without lattice structure (mentioned in \cref{nominalmod}). 
 
 The proof in \cite{Huber2016} was the first one that was formally verified in a type theory, more specifically cubical type theory. It has since been rewritten in \cite{Weinberger2016}. The formalization has been continuously worked on since \cite{Moertberg2015} and \cite{Cohen2016}. The most recent version can be found in the Agda library Agda-Cubical  \cite{Moertberg2018}, \texttt{Cubical.Foundations.Univalence}. Recently, this library code was surveyed in \cite{Moertberg2018a} but revisions of the code may have made this explanation less useful. In this section the most recent revision of the proof will be discussed.
 
@@ -1827,7 +1828,7 @@ According to \cite{Huber2016}, \cite{Voevodsky2013}, Theorem 5.8.4, it should fo
 The path type in cubical type theory can be slightly modified (see \cref{pathtypes}) such that it satisfies the J-eliminator, see \cref{pathindprop}. Equivalences also satisfy an eliminator, called \keyword{equivalence induction}. 
 
 \begin{theorem}[\texttt{EquivJ}]
-Given a property $P: (A \ B : \set) \rightarrow (e : B \simeq A) \rightarrow Set$, a proof of the base step $r : (A : \set) \rightarrow P \ A\ A \ (\texttt{idEquiv} \ A)$, then we can produce a proof of the property for any $A \ B: \set$: $$ P\  A \ B\ e$$.
+Given a property $P: (A \ B : \mathcal{U}) \rightarrow (e : B \simeq A) \rightarrow \mathcal{U}$, a proof of the base step $r : (A : \mathcal{U}) \rightarrow P \ A\ A \ (\texttt{idEquiv} \ A)$, then we can produce a proof of the property for any $A \ B: \mathcal{U}$: $$ P\  A \ B\ e$$.
 \end{theorem}
 
 \begin{proof}
@@ -1886,32 +1887,37 @@ Let $A = \op{Bool}$ and $B = \op{Fin}\ 2$. We can prove that $A = B$. This is do
 
 \subsection{Conclusion of the proof}
 
-Using the previous lemmas and results the statement and proof of the univalence theorem is now much easier, see the end of \texttt{Cubical.Foundations.Univalence}.
+Using the previous lemmas and results, the statement and proof of the univalence theorem is now much easier. %, see the end of \texttt{Cubical.Foundations.Univalence}.
 
-\begin{theorem}
-Given a function  $\op{au} : A = B \rightarrow A \simeq B$ and a proof that $\op{au}$ maps the $\op{refl}$ constructor onto the constant equivalence, the theorem $\op{Univalence.thm}$ states that $\op{au}$ is an equivalence.
+\begin{theorem}[\texttt{Univalence.thm}]
+Given a function  $$\op{au} : A = B \rightarrow A \simeq B$$ and a proof that $\op{au}$ maps the $\op{refl} : A = A$ identity type constructor onto the constant equivalence $A \rightarrow A$, the theorem $\op{Univalence.thm}$ states that $\op{au}$ is an equivalence.
 \end{theorem}
 
 \begin{proof}
-First it is shown that the given map $\op{au}$ has to be an isomorphism with as inverse the previously constructed map $\op{ua}$. For this, we need to prove the left-inverse and right-inverse properties (up to a path). Both proofs use that $\op{compPath}$ is just the transitivity property of ``$=$" and congruence. The left-inverse is proven with equivalence induction. The right-inverse is proven with equality induction J. The definition of an isomorphism used in this code corresponds to the definition of a bi-invertable map as in chapter 4 of \cite{Voevodsky2013}. This kind of map is equivalent to an equivalence. So we can recover equivalences from isomorphisms. Applying $\op{isoToIsEquiv}$ gives that $\op{ua} : A = B \rightarrow A \simeq B$ is an equivalence or $\op{isEquiv}\ \op{ua}$. 
+First it is shown that the given map $\op{au}$ has to be an isomorphism with as inverse the previously constructed map $\op{ua}$. An isomorphism is the homotopy type theoretic variant of a homotopy equivalence or more precisely, a bi-invertable map as in chapter 4 of \cite{Voevodsky2013}. To prove that \texttt{au} is a isomorphism, we need to prove the left-inverse and right-inverse properties (up to a path). Both proofs use that $\op{compPath}$ is just the transitivity property of ``$=$" and congruence. 
+\begin{itemize}
+\item The left-inverse is proven with equivalence induction \texttt{EquivJ} on the property that \texttt{au} is a left-inverse for equivalences \texttt{e}: \texttt{au (ua e) ≡ e)}. 
+\item The right-inverse is proven with equality induction \texttt{J} on the property that \texttt{ua} is a right-inverse for paths \texttt{p}: \texttt{ua (au p) ≡ p}. 
+\end{itemize}
+Although an isomorphism is not well-behaved (it is for example not a proposition), it contains more information than equivalence and from an isomorphism, an equivalences can be extracted. Applying $\op{isoToIsEquiv}$ gives that $\op{ua} : A = B \rightarrow A \simeq B$ is an equivalence or $\op{isEquiv}\ \op{ua}$. 
 \end{proof}
 
+The theorem of univalence is then a simple consequence of an application of \texttt{Univalence.thm}
 
-
-\begin{theorem}
-Given any $A,B : \mathcal{U}$, $\left( A \equiv B \right) \simeq \left( A \simeq B \right).$
+\begin{theorem}[\texttt{univalence}]
+Given any $A,B : \mathcal{U}$, there is an equivalence $\left( A \equiv B \right) \simeq \left( A \simeq B \right).$
 \end{theorem}
 
 
 \begin{proof}
-Using the function $\op{lineToEquiv}$ we obtain a function $\op{pathToEquiv}$ that satisfies the same type as $\op{au}$. The necessary proof to apply the previous theorem is $\op{pathToEquivRefl}$. Applying $\op{Univalence.thm}$, gives us a proof that $\op{pathToEquiv}$ is an equivalence.
+The function $\op{lineToEquiv} : A = B \rightarrow A \equiv B$ that maps paths directly on an equivalence serves as a candidate for the inverse \texttt{au} in \texttt{Univalence.thm}. The necessary condition that is still needed to apply \texttt{Univalence.thm} is the fact that \texttt{lineToEquiv} maps the reflexive equality onto the trivial equivalence. This follows by proving that the underlying maps of the image under \texttt{lineToEquiv}, \texttt{pathToEquiv refl} and \texttt{idEquiv A} are equal with transport and using the fact that the property of being an equivalence is a proposition, which means there can only be one such proof, such that the the equivalences also have to be equal and \texttt{pathToEquiv refl ≡ idEquiv A}. The proof is formalized in \texttt{pathToEquivRefl}. Applying \texttt{Univalence.thm} to the map and this fact, gives us a proof that \texttt{pathToEquiv} is an equivalence. Assembling this into an equivalence gives a term of the equivalence type \texttt{(A ≡ B) ≃ (A ≃ B)}, which is a proof of univalence.
 \end{proof}
 
 \subsection{Univalence with topoi}
 
 The \keyword{language of toposes} can be used to discover more fundamental models of cubical type theory and univalence \cite{Orton2019}. A topos is a category that behaves like the category of sets. Examples of topoi are the category of sets and presheaves. 
 
-First, the cubical type theory as presented in \cite{Huber2016} and this text is translated in the  language of toposes \cite{Orton2019}, section 5.3. Some definitions become much simpler such as the De Morgan algebra used for the base category and the face lattice \cite{Orton2019}, figure 5.4. This results in an alternative proof of univalence that may be more insightful \cite{Orton2019}, section 5.5. An overview of related foundational work can be found in \cite{Pitts2018} and \cite{Licata2018}.
+First, the cubical type theory as presented in \cite{Huber2016} and this text is translated in the  language of toposes \cite{Orton2019}, section 5.3. Some definitions become much simpler such as the De Morgan algebra used for the base category and the face lattice that were presented in \cref{facelattice} become \cite{Orton2019}, figure 5.4. This results in an alternative proof of univalence that may be more insightful \cite{Orton2019}, section 5.5. An overview of related foundational work can be found in \cite{Pitts2018} and \cite{Licata2018}.
 
 
 \section{Applications of the proof of univalence} \label{applications}
@@ -1928,7 +1934,7 @@ This can be shown in the context of monoids for the following two concrete examp
 
 The goal of this example is to create a term of the path type between  $s_1$ and $s_2$ in $\op{Mon}$ and transport proven properties of $s_1$ from the the type of properties on $s_1$ to the one on $s_2$ without repeating the proof for $s_2$. For example, if we have a proof of the fact that $s_1$ is commutative, we also have a proof of the fact that $s_2$ is commutative. This shows one application for the proof of univalence: the possibility of doing proofs up to isomorphism. 
 
-The file \texttt{Algebra.Structures} in the standard library  \cite{Danielsson2019} contains definitions for monoids and other algebraic structures as record types. Because of the number of  laws that need to be supplied to define a monoid, the example was reduced to magmas, see \cref{m2def}. 
+The file \texttt{Algebra.Structures} in the standard library  \cite{Danielsson2019} contains definitions for monoids and other algebraic structures as record types. Because of the number of  laws that need to be supplied to define a monoid, the example was reduced to a custom definition of magmas together with a proof that the carrier type is a set, see \cref{m2def}. 
 
 \begin{figure}\label{m2def}
  \centering
@@ -1985,21 +1991,30 @@ endLemma : op₂' ≡ op₂
 endLemma i x y =
   (op₂' x y
        ≡⟨ refl ⟩
-   transport fEq (op₁ (transport (sym fEq) x) (transport (sym fEq) y))
-       ≡⟨ transpR (op₁  (transport (sym fEq) x) (transport (sym fEq) y)) ⟩
-   f (op₁  (transport (sym fEq) x) (transport (sym fEq) y))
-       ≡⟨ doubleCong (λ x y → f (op₁ x y)) (transpL x) (transpL y) ⟩
-   f (op₁  (g x) (g  y))
-       ≡⟨  cong f (l₂' x y) ⟩
+   transport fEq (op₁ (transport (sym fEq) x) 
+                      (transport (sym fEq) y))
+       ≡⟨ transpR 
+            (op₁ (transport (sym fEq) x) 
+                 (transport (sym fEq) y)) ⟩
+   f (op₁ (transport (sym fEq) x) 
+           (transport (sym fEq) y))
+       ≡⟨ doubleCong (λ x y → f (op₁ x y)) 
+            (transpL x) (transpL y) ⟩
+   f (op₁ (g x) (g  y))
+       ≡⟨ cong f (l₂' x y) ⟩
    f (predℕ ( predℕ ((fst x) + (fst y))))
        ≡⟨ refl ⟩
-   (suc (predℕ ( predℕ ((fst x) + (fst y)))) , (predℕ ( predℕ ((fst x) + (fst y)))) , refl )
+   (suc (predℕ ( predℕ ((fst x) + (fst y)))) , 
+       (predℕ ( predℕ ((fst x) + (fst y)))) , refl )
        ≡⟨ lₑ x y ⟩
-   (predℕ ( fst x + fst y ) , (predℕ (predℕ (fst x + fst y)) , sumLem (fst x)  (fst y) (snd x) (snd y)))
+   (predℕ (fst x + fst y) , 
+      (predℕ (predℕ (fst x + fst y)) , 
+       sumLem (fst x) (fst y) (snd x) (snd y)))
        ≡⟨ refl ⟩
    op₂ x y ∎) i
 
-pathLemma : (PathP (λ i → Op₂ (fEq i)) op₁' op₂')  ≡  PathP ((λ i → Op₂ (fEq i))) op₁ op₂
+pathLemma : (PathP (λ i → Op₂ (fEq i)) op₁' op₂')  ≡  
+             PathP ((λ i → Op₂ (fEq i))) op₁ op₂
 pathLemma = cong₂ (PathP (λ i → Op₂ (fEq i))) startLemma endLemma
 
 opᵢ : PathP (λ i → Op₂ (fEq i)) op₁ op₂
@@ -2009,15 +2024,51 @@ opᵢ = transport pathLemma opᵢ'
 \caption{This code shows two lemmas that prove that the endpoints of the original intermediate operator \texttt{opᵢ'} are equal to \texttt{op₁} and \texttt{op₂} in terms of the path identity type. Using these proofs and transport, a new intermediate operator \texttt{opᵢ} is defined that does satisfy the requirements for the intermediate operator of the intermediate magma.}   
 \end{figure}
 
-The rest of the definition of the intermediate point-wise defined algebraic structure is straightforward. Once a term of the equality \texttt{s₁ ≡ s₂} between both magmas is obtained by assembling all point-wise constructs in a record type, algebraic properties of magmas can be transported. 
+The rest of the definition of the intermediate point-wise defined algebraic structure is straightforward. Once a term \texttt{algPath} of the equality \texttt{s₁ ≡ s₂} (see \cref{algpath}) between both magmas is obtained by assembling all point-wise constructs in a record type, algebraic properties of magmas can be transported.  
+
+\begin{figure}\label{algpath}
+ \begin{BVerbatim}
+isSetᵢ : (i : I) → isSet (fEq i)
+isSetᵢ i = {!transport  (λ j → isSet (fEq (i ∧ j))) isSetℕ!} 
+
+algPath : s₁ ≡ s₂
+algPath = λ i → record {
+   Carrier = (fEq i) ;
+   _✧_ = opᵢ i ;
+   s = isSetᵢ i
+   }
+ \end{BVerbatim}
+
+ \caption{A term of the intensional identity type between the two algebraic structures is a structure depending on a parameter \texttt{i} that has components depending on the parameter \texttt{i}. Each component was point-wise defined before and can be assembled into a point-wise structure.}
+\end{figure}
 
 
-We could conclude at this point that if there is a homotopy type equivalences (bijection) between the carrier types of two terms of an algebraic type that have ``compatible operations'', there is an equality between the terms. In this case, the equality is \texttt{s₁ ≡ s₂}. The compatibility of the operations means that the algebraic operations can be connected by a path but actually corresponds to the homotopy type equivalence being a morphism in category theory.
+
+For example, such a transport of properties could consist of mapping a term of the property that \texttt{s₁} is commutative to a term of the property that \texttt{s₂} is commutative, see \cref{comtrans}.
+
+\begin{figure}\label{comtrans}
+\begin{BVerbatim}
+isCommutative : myMagma → Set _
+isCommutative m = 
+    (x y : (Carrier m)) → (x m._✧_ y) ≡ y m._✧_ x
+
+com₁ : isCommutative s₁
+com₁ = +-comm
+
+com₂ : isCommutative s₂
+com₂ = transport (λ i → isCommutative (algPath i)) com₁
+\end{BVerbatim}
+\caption{A transport of proofs using the term of equality \texttt{s₁ ≡ s₂}}
+\end{figure}
+
+
+We could conclude at this point that if there is a homotopy type equivalences, (which is simply a bijection for discrete set-like types) between the carrier types of two terms of an algebraic type that have ``compatible operations'', there is an equality between the terms. In this case, the equality is \texttt{s₁ ≡ s₂}. The compatibility of the operations means that the algebraic operations can be connected by a path but actually corresponds to the homotopy type equivalence being a morphism in category theory.
 
 
 An application of the path \texttt{s₁ ≡ s₂} between the two magmas, is that the proof of commutativity of the first magma \texttt{s₁} can be transported to a proof of the commutativity of the second magma \texttt{s₂}, defined as \texttt{com₂ = transport (λ i → isCommutative (algPath i)) com₁}. Although the property of being commutative is very simple, it can be generalized to more complicated properties and algebraic structures. This shows that it may be possible to do a kind of ``isomorphism-invariant'' algebra in practice.  The complete code of this implementation can be found on \cite{Van19} and verified with the installation instructions.
 
-However, due to the numerous trivial lemmas that have to be implemented and the unusual homotopic approach, it is not the easiest approach for proving algebraic properties. This is partially due to the chosen encoding of algebraic structures as setoids, which requires an explicit equivalence relation and proofs of congruence. There may be other encodings that are less cumbersome however. At least in this case of traditional algebra, it seems easier to use specialized software such as \cite{TheGAPGroup2018} to carry out algebraic computations and proofs. But the implementation in type theory is more general and can more flexibly encode arbitrary user-defined properties.
+However, due to the numerous trivial lemmas that have to be implemented and the unusual homotopy theory inspired approach, it is not the easiest approach for proving algebraic properties. Definitional identities that in traditional mathematics simply hold by simple computation do not only hold up to some path in univalent type theory and cubical type theory. This means that simple facts about natural numbers are not simple anymore. However, not all structures in mathematics are as well-known as natural numbers and the structural and overly rigorous approach that such type theories require may be more beneficial in a general setting At least in this case of simple traditional algebra, it seems easier to use specialized software such as \cite{TheGAPGroup2018} to carry out algebraic computations and proofs.
+
 
 \subsection{Generic datatypes}
 
@@ -2069,7 +2120,7 @@ This simple example shows that the implementation of univalence in cubical type 
 
 Higher inductive types are a concept coming from \cite{Voevodsky2013}. A \keyword{higher inductive type} is a type that has formation and construction rules  as other types but these rules are accompanied by additional typing rules stating how to produce terms of the path types between its terms. In other words, the type is generated by constructors and equalities. Higher inductive types are useful in synthetic homotopy type theory.
 
-The first attempts at using higher inductive types in the cubical presheaf model date from \cite{Licata2015}, \cite{Huber2016} and \cite{Cohen2016} but it was only until recently that the semantics were worked out in \cite{Coquand2018}.
+The first attempts at using higher inductive types in the cubical presheaf model date from \cite{Licata2015}, \cite{Huber2016} and \cite{Cohen2016} but it was only until recently that the semantics were worked out in \cite {Lumsdaine2017} and  \cite{Coquand2018}.
 
 
 \unsure{add information of implementations of higher inductive types}
@@ -2108,25 +2159,26 @@ A summary of the concepts used in this constructive proof compared to the proof 
 
 Nevertheless, there have been attempts at implementing the proof in cubical type theory based on the sketch in \cite{Brunerie2016}, Appendix B. The first implementation was in the module \texttt{Examples.Brunerie} of the library \cite{Moertberg2015} but is very long. The latest version is implemented in Agda and can be found in the file  \texttt{Cubical.Experiments.Brunerie} of \cite{Moertberg2018}. 
 
-In these implementations, the definition of  $n$ in the expression $\Omega_4(S^3) \simeq \mathbb{Z}/n\mathbb{Z}$ is formalized as an Agda expression called \texttt{brunerie} or the ``Brunerie number'' that makes use of the univalence axiom. The expression is the application of a composition of several complicated functions to a representation of $S^3$ as a higher inductive type. Some of these functions use the concepts necessary for the proof of univalence but do not reference it explicitly. According to the proof of canonicity for natural numbers (see \cite{Huber2017} and \cite{Coquand2019}), the expression \texttt{brunerie} should be equal to a numeral (that uses only a finite number of applications of \texttt{suc}),  more specifically there should exist a term of type $\texttt{Id}_{\mathbb{N}}(\texttt{brunerie},2) \equiv \texttt{suc (suc 0)}$ . Unfortunately the expression \texttt{brunerie} does not normalize to the number $2$ in a finite amount of time. This also does not need to be the case because cubical type theory has not been proven to be strongly normalizing yet, see \cref{normalizing}. The length of shortest reduced form of  \texttt{brunerie} was  only reduced from a length in characters of order $10^6$ to $10^5$ according to \cite{Brunerie2018}. There have been many attempts to solve this problem during the last years but there remain two problems:
+In these implementations, the definition of  $n$ in the expression $\Omega_4(S^3) \simeq \mathbb{Z}/n\mathbb{Z}$ is formalized as an Agda expression called \texttt{brunerie} or the ``Brunerie number'' that makes use of the univalence axiom. The expression is the application of a composition of several complicated functions to a representation of $S^3$ as a higher inductive type. Some of these functions use the concepts necessary for the proof of univalence but do not reference it explicitly. According to the proof of canonicity for natural numbers (see \cite{Huber2017} and \cite{Coquand2019}), the expression \texttt{brunerie} should be equal to a numeral (that uses only a finite number of applications of \texttt{suc}),  more specifically there should exist a term of the identity type $$\texttt{Id}_{\mathbb{N}}(\texttt{brunerie}, \texttt{suc (suc zero))}$$. Unfortunately the expression \texttt{brunerie} does not normalize to the number $2$ in a finite amount of time. The length of shortest reduced form of  \texttt{brunerie} was  only reduced from a length in characters of order $10^6$ to $10^5$ according to \cite{Brunerie2018}. There have been many attempts to solve this problem during the last years but there remain two problems:
 \begin{itemize}
-\item Although the original proof in \cite{Moertberg2015} has been rewritten in \cite{Moertberg2018}, it is still very complex and may contain errors.
-\item The library Agda Cubical or Agda itself may contain bugs that prevent the proof from generating valid terms and reducing them correctly.
+\item Although the original expression of $n$ in \cite{Moertberg2015} has been rewritten in \cite{Moertberg2018}, it may contain errors. Besides, canonicity only implies that the result of reducing \texttt{brunerie} is possible in theory. The effective procedure for computing the number $2$ is not given in \cite{Coquand2019}.
+\item The library Agda Cubical or Agda itself may contain bugs that prevent the proof from generating terms that are valid in the cubical set model.
+%\item There is a mistake in the proof of canonicity given in \cite{Coquand2019} and the number $n$ cannot be effectively calculated for all expressions of natural numbers.
 \end{itemize}
 
 Recently there has been a lot of ongoing activity in the development of the Agda Cubical library and bufixes may have eliminated some reasons for the lack of normalization of the expression. Although this example still has problems, it shows how univalence could be used to formalize proofs of algebraic topology and verify their correctness, at least for relatively lower order homotopy groups.
 
-\subsection{Future applications}
+\subsection{Future applications}\label{futapp}
 
 Until now, most applications of cubical type theory are related to implementing simple inductive types and higher inductive types. Most mathematical concepts from univalent type theory \cite{Voevodsky2013}, part 2 are built with higher inductive types. So it should be possible to formalize more advanced concepts in cubical type theory. Concepts from univalent type theory that may be useful and have not been implemented with the help of cubical type theory and \cite{Moertberg2018} include:
 
 \begin{itemize}
 \item The \keyword{structure identity principle} defined in \cite{Voevodsky2013}, theorem 9.8.2 and \cite{Aczel2012} states that isomorphic structures are equal. As a consequence proofs can be transferred or recycled between isomorphic structures. This principle could also be seen as a generalization of the simple example in \cref{magmas} to any category. The principle has not been formalized in all generality yet in cubical type theory but if this was done, it would be much easier for a practicing mathematician to identify isomorphic structures, one of the ``main benefits'' of homotopy type theory. Right now, software such as \cite{TheGAPGroup2018} has to be used to reason about isomorphic algebraic structures.
 
-\item The application in \cref{higherhomotopy} needs the use of the univalence axiom. The theory of algebraic topology has some other theorems that can be formulated in homotopy type theory and have proofs using univalence such as Freudenthal, Blakers-Massey and Seifert-Van Kampen. These theorems can be used to compute homotopy groups in algebraic topology by putting information about smaller parts of a space together. The proofs have been formulated in the programming language Agda as a library \cite{HoBr17} based on the theorems that were more informally presented in \cite{Voevodsky2013}, chapter 8. For now, \cref{higherhomotopy} shows that computations do not succeed for the fourth fundamental group of $S^3$, but it may be possible that computations of other homotopy groups of topological spaces are more efficient when \cite{HoBru17} is combined with an interface to cubical type theory, for example through \cite{Moertberg2018}.
+\item The application in \cref{higherhomotopy} needs the use of the univalence axiom. The theory of algebraic topology has some other theorems that can be formulated in homotopy type theory and have proofs using univalence such as Freudenthal, Blakers-Massey and Seifert-Van Kampen. These theorems can be used to compute homotopy groups in algebraic topology by putting information about smaller parts of a space together. The proofs have been formulated in the programming language Agda as a library \cite{HoBr17} based on the theorems that were more informally presented in \cite{Voevodsky2013}, chapter 8. For now, \cref{higherhomotopy} shows that computations do not succeed for the fourth fundamental group of $S^3$, but it may be possible that computations of other homotopy groups of topological spaces are more efficient when \cite{HoBr17} is combined with an interface to cubical type theory, for example through \cite{Moertberg2018}.
 
 
-\item Next to homotopy groups, there are also homology groups of topological spaces. These do not necessarily have to be the same as homotopy group. Recently, synthetic homology groups have  been studied in homotopy theory with filling operations of cubical type theory in \cite{Graham2018} and based on the first approach to synthetic homotopy theory in \cite{Licata2015}. The results in \cite{Graham2018} have not been completely formalized in cubical type theory because the reasoning with higher-dimensional paths in cubical type theory posed some challenges. There exist computational systems for computing homology  (and homotopy) groups that do not make use of type theory such as \cite{GaSeSi99} and it might be interesting to check how \cite{Graham2018} improves on this. Type theory may be better suited at solving complex new problems in computational topology than just trying to do this with the algorithms in \cite{GaSeSi99}.
+\item Next to homotopy groups, there are also homology groups of topological spaces. For a fixed topological space, these do not necessarily have to be the same as the homotopy groups. Recently, synthetic homology groups have  been studied in homotopy theory with filling operations of cubical type theory in \cite{Graham2018}, based on the initial approach to synthetic homotopy theory in \cite{Licata2015}. The results in \cite{Graham2018} have not been completely formalized in cubical type theory because the reasoning with higher-dimensional paths in cubical type theory posed some challenges. There exist computational systems for computing homology  (and homotopy) groups that do not make use of type theory such as \cite{GaSeSi99} and it might be interesting to check how \cite{Graham2018} improves on this. Type theory may be better suited at solving complex new problems in computational topology than just trying to do this with the algorithms in \cite{GaSeSi99}.
 %and the original implementation in Coq \cite{Voevodskyb}. 
 
 %\unsure{https://arxiv.org/abs/1509.07584}
@@ -2144,18 +2196,18 @@ A list of open problems for univalent type theory is on \cite{Awodey2019} and co
 
 There are several variations of $\cref{ctt}$.
 
-\subsection{Nominal models}\label{cartmod}
+\subsection{Nominal models}\label{nominalmod}
 
-The first models of cubical type theory in category theory did not use any kind of lattice structure on the dimension variables in the base category such as for example the model defined in \cite{Bezem2014} but required complicated Kan extension properties that resulted in complicated proofs of univalence such as the one in \cite{Bezem2018}. They are called \keyword{monoidal} or sub-structural because their structure can be represented using only products of an interval object. The elements of the base category are independent objects representing dimensions, an approach used in \cite{Huber2016} that is inspired by the theory of nominal sets. 
+The first models of cubical type theory in category theory such as for example the model defined in \cite{Bezem2014} did not use the lattice structure as in \cref{lattice} but required complicated Kan extension properties that also resulted in more complicated proofs of univalence such as the one in \cite{Bezem2018}. They are called \keyword{monoidal} or sub-structural because their structure can be represented using only products of an interval object. The elements of the base category are independent objects representing dimensions, an approach used in \cite{Huber2016} that is inspired by the theory of nominal sets which is introduced in \cite{Pitts:2013:NSN:2512979} as explained in \cite{Pit14}. 
 
-The lattice structure that is introduced in \cref{facelattice} was historically later introduced in the base category by \cite{Cohen2016} and \cite{Huber2016} for simplifying composition and using higher inductive types. The unfinished text \cite{Awodey2016June} gives an overview of different variations of cubical categories that can be used to model cubical type theory.
+The lattice structure that is introduced in \cref{lattice} was historically later introduced by \cite{Huber2016} for simplifying composition and using higher inductive types. The unfinished text \cite{Awodey2016June} gives an overview of different variations of cubical categories that can be used to model cubical type theory.
 
 
 \subsection{Cartesian computational type theory}\label{comptt}
 
 \subsubsection{Computational type theory}
 
-The American approach is called ``cartesian cubical computational type theory" and discussed in  \cite{Angiuli2017_2}, \cite{Angiuli2018}. This version of cubical type theory is based on an extensional variant of intuitionistic type theory. This means that the identity type is not the intensional identity type of \cref{equalitytype}. This identity type, denoted by ``$\doteq$'', is more like ``equality by definition'' and called the extensional identity type. It also satisfies the uniqueness of identity proof principle. Another identity type is introduced on top of the theory around the intensional identity type. This is also the approach taken by NuPRL and computational type theory on which cartesian cubical computational type theory is based. Using the extensional identity type, these theories extend type theory with quotients of types, set comprehension types, partial recursive function types, intersection types and other special types \cite{Constable2011}, p. 6.  Computational type theory has been implemented in the proof assistant NuPRL and the underlying formal theory was described using partial equivalence relations (PERs) in \cite{Allen1987} according to \cite{Angiuli2018} which was later generalized in \cite{Harper1991}. A historical overview of the relation between this kind of type theory and \cref{typetheory} is given in \cite{Constable2003} and recently \cite{Constable2015July}. A computational type theory is usually built as follows:
+The American approach is called ``cartesian cubical computational type theory" and discussed in  \cite{Angiuli2017}, \cite{Angiuli2018}. This version of cubical type theory is based on an extensional variant of intuitionistic type theory. This means that the identity type is not the intensional identity type of \cref{equalitytype}. This identity type, denoted by ``$\doteq$'', is more like ``equality by definition'' and called the extensional identity type. It also satisfies the uniqueness of identity proof principle. Another identity type is introduced on top of the theory around the intensional identity type. This is also the approach taken by NuPRL and computational type theory on which cartesian cubical computational type theory is based. Using the extensional identity type, these theories extend type theory with quotients of types, set comprehension types, partial recursive function types, intersection types and other special types \cite{Constable2011}, p. 6.  Computational type theory has been implemented in the proof assistant NuPRL and the underlying formal theory was described using partial equivalence relations (PERs) in \cite{Allen1987} according to \cite{Angiuli2018} which was later generalized in \cite{Harper1991}. A historical overview of the relation between this kind of type theory and \cref{typetheory} is given in \cite{Constable2003} and recently \cite{Constable2015July}. A computational type theory is usually built as follows:
 
 \begin{itemize}
  \item First, there is a definition of a set of ``closed terms'' which are like the terms of the intensional type theories but they are untyped, in the sense that the introduction of types comes later. If $M$ and $N$ are closed terms, then new closed terms are formed by constructors such as $$\lambda x . M, M (N), \texttt{fst}(M), \texttt{snd}(M), 0, \texttt{M}, ...$$ 
@@ -2175,7 +2227,7 @@ Cartesian cubical computational type theory is based on results in the technical
 
 Operations from cubical type theory that are crucial for applications use the lattice structure such as the filling operation given in \cref{filldef}. According to \cite{Moertberg2018Bonn}, the solution is to give a different composition operation, a stronger one. This operation is defined in \cite{Angiuli2018}, section 4 or \cite{Moertberg2018Bonn}, p.18. This new composition operation generalizes the filling and composition operation. It is however split up into two operations: homogeneous composition \texttt{hcomp} and coercion \texttt{coe}. According to \cite{Moertberg2018Bonn}, this splitting, makes certain implementations shorter.
 
-\subsubsection{Univalence}
+\subsubsection{Univalence}\label{compuniv}
 
 There is also an intensional path equality type defined in \cite{Angiuli2018} as is done in \cite{Huber2016}. To turn equivalences between types of some universe into paths between those types and prove the univalence axiom, there are two possibilities in cartesian cubical computational type theory:
 
@@ -2197,9 +2249,11 @@ It was implemented in Haskell \cite{MorAng18} and in the language RedPRL \cite{S
 
 \subsection{Open challenges}\label{normalizing}
 
-Find a model in which the two identity types coincide.
 
-The type theory in \cref{typetheory}, which was described in \cite{Loef1975} has the following is \keyword{strongly normalizing}:t here is no infinite sequence of reductions. This implies decidability of type checking but has not been proven at all for cubical type theory. It is noted in \cite{Cohen2016} that this could be done with resizing rules. The \keyword{confluency} of terms means that two sequences of reductions starting from the same term can be made to converge again. It is mentioned in the context of homotopy type theory in \cite{HuCo11}. Confluency always holds in a strongly normalizing type theory but has also not been proven yet. An even weaker property is the property of canonicity. It says that every term can be written (uniquely) as a finite amount of applications of the constructors of it's type. Canonicity does not imply strongly normalizing and has also not been proven for cubical type theory. Canonicity  of numerals fails in homotopy type theory but is proven for (large parts of) cubical type theory in \cite{Huber2017,Coquand2019,Hub19}. This kind of canonicity is equivalent with the canonicity of booleans that was proven in \cite{Angiuli2018}. Canonicity for general types has not been proven for cubical type theory but is usually in other type theory not proven as well.
+The type theory in \cref{typetheory}, which was described in \cite{Martin-Loef1975} has the following is \keyword{strongly normalizing}: there is no infinite sequence of reductions. This implies \keyword{decidability of type checking}, the procedure of checking whether a term does inhabit a certain type, but has not been proven at all for cubical type theory. It is noted in \cite{Cohen2016} that this could be done with resizing rules. The method described in \cite{Abe13} may be useful.
+
+
+The \keyword{confluency} of terms means that two sequences of reductions starting from the same term can be made to converge again. It is mentioned in the context of homotopy type theory in \cite{HuCo11}. Confluency always holds in a strongly normalizing type theory but has also not been proven yet. An even weaker property is the property of \keyword{canonicity}. It says that every term can be written (uniquely) as a reduced form, containing only a finite amount of applications of the constructors of it's type. Canonicity does not imply strongly normalizing and canonicity  of numerals fails in homotopy type theory but is proven for (large parts of) cubical type theory in \cite{Huber2017,Coquand2019,Hub19}. This kind of canonicity is equivalent with the canonicity of booleans that was proven in \cite{Angiuli2018}. However, important benchmarks such as \cref{higherhomotopy} do not seem to benefit from the proof of canonicity due to the lack of an effective procedure for computing the reduced form. Canonicity for general types has not been proven for cubical type theory but is usually in other type theory not proven as well because it usually does not even hold for function types. There seem to be problems with the current implementations of \texttt{Glue} types and there is ongoing work on trying to replace them with more efficient alternatives such as \texttt{V}-types, see \cref{compuniv} but cubes may not be a perfect solution according to \cite{Cubicalv92:online}.
 
 % \subsection{Equivalence extension property}
 % 
@@ -2212,7 +2266,10 @@ The type theory in \cref{typetheory}, which was described in \cite{Loef1975} has
 
 \chapter*{Conclusion}
 
-The application of homotopy type theory in traditional mathematics usually does not give advantages in terms of shorter or more beautiful proofs. Studying the results of homotopy type theory does however give another kind of intuition to the mathematician for the interplay between proof methods and algebraic topology. Having this intuition becomes very useful with the implementation of cubical type theory because it allows to try out the theorems from homotopy type theory. Homotopy type theorists can also improve upon the general content and structure of their proofs with the help of proof assistants such as Agda. \unsure{Which parts of  \cite{Shiue2018} are interesting? This remark was also made by other learners of homotopy type theory such as \cite{Booij2018}}
+This text gave an overview of the motivations and concepts behind the cubical set model of an extension univalent type theory in \cref{catsem} and the type theory called cubical type theory that is modelled by with cubical sets in \cref{cubical}. Using the properties of the model, more precisely the \texttt{Glue} construction, it is possible to encode a proof of the univalence axiom in cubical type theory, see \cref{univalenceproof}. The application of the proof of univalence in cubical type theory to isomorphic algebraic structures in \cref{magmas} was not immediate but allowed to study transport of properties of structures. In standard univalent type theory it would not be possible to compute the transports of such properties but with the help of cubical type theory this became possible. Studying these formalized proofs in cubical type theory may give a (better) topological intuition about using the structure identity principle (see \cite{Aczel2012}) in computer assisted proofs. Having this intuition becomes very useful with the implementation of cubical type theory because it allows to improve and understand the theorems from homotopy type theory using the primitives of the cubical set model which are mainly cubes. However, there remain big challenges such as proving normalizability and using canonicity for in formalizing fundamental theorems in homotopy theory, see \cref{normalizing}. There is ongoing research whether the primitives of cubical type theory can be replaced by more general or efficient alternatives.
+
+
+\unsure{Which parts of  \cite{Shiue2018} are interesting? This remark was also made by other learners of homotopy type theory such as \cite{Booij2018}}
 
 
 % -------------- Index and bibliography -----------------
