@@ -588,7 +588,7 @@ types} but other types also have parallels with logic:
 The \keyword{sum type} of two types $A$ and $B$, denoted by $A+B$, corresponds 
 to the ``or" operation, formally denoted by the symbol $\vee$ from 
 intuitionistic logic. In proofs that make use of the the logical proposition $A 
-\vee B$, there are two branches: one branch that proves the case were it  
+\vee B$, there are two branches: one branch that proves the case were 
 $A$ is assumed and the other branch proves the case were $B$ is assumed. The terms of a sum 
 $A+B$ are also constructed in two ways: either such a term is $\texttt{left}\ 
 a:A+B$ for $a:A$ or $\texttt{right}\ b:A+B$ for $b:B$. A function 
@@ -870,23 +870,6 @@ $p:x=y$ between them, it suffices to consider all the cases where $x$ is
 definitionally equal to $y$ and where the term of the intensional identity type 
 under consideration is $\op{refl}_x : x = x$.
 
-%Representing $=$ by $==$ and packaging up the previous definition, we obtain a 
-formal implementation in  Agda:  
-%\begin{algorithm}
-%\ExecuteMetaData[latex/Code.tex]{J}
-
-%\begin{lstlisting}
-%  data _==_ {A : Set} : A → A → Set where
-%  refl : ∀ {a} → a == a
-%infix 4 _==_
-
-%pathInd : ∀ {A : Set} → (C : {x y : A} → x == y → Set) → 
-%      (c : (x : A) → C {x} refl) → ({x y : A} (p : x == y) → C %p)
-%%pathInd C c {x} refl = c x
-% \end{lstlisting}
-
-%\end{algorithm}
-
 
 The intensional identity type is reflexive by construction. Using the 
 definition of the eliminator, it is possible to prove the remaining properties 
@@ -959,10 +942,7 @@ sum. Take $G$ to be the base type, $e$ the neutral element, $i$ the inversion
 and $m$ the multiplication map. A first try at a definition of a group would 
 then be $\sum_{G,e,i}m:(G\times G \rightarrow G)$, but this definition is not 
 yet complete. The maps $i$ and $m$  have to satisfy associativity and other 
-properties. These properties have to be encoded as types or terms. Let's say we 
-have a proof that these properties hold, called $\alpha$, then we just extend 
-the first definition with this proof. However, we might ask ourselves the 
-following question: if two groups $G$ and $G'$ have different multiplication 
+properties. These properties have to be encoded as types or terms. Let's say there is a proof that these properties hold, called $\alpha$, then the first definition of a group can be extended to contain this proof. However, the following quesions turns up: if two groups $G$ and $G'$ have different multiplication 
 maps, they are definitely not equal. But what if they have different proofs of 
 associativity, $\alpha$ and $\alpha'$? This may happen because the identity 
 between terms of  $G$ may have more than one term. Are they still equal? They 
@@ -972,7 +952,7 @@ different terms of the intensional identity type and accordingly different
 proofs of associativity $\alpha$ and $\alpha'$.
 
 Of course this an undesirable consequence of the generality of the definition 
-of the intensional identity type. In practice, we may not want to have more 
+of the intensional identity type. In practice, it is undesirable to have more 
 than one term or proof of equality between certain terms representing group 
 elements. The difference in proofs is irrelevant to the structure and properties 
 of the group. This motivates the following definitions:
@@ -1000,7 +980,7 @@ In the previous example, the type $G$ can be chosen to be an h-set, that is $G:
 \op{Set}$. Then the possibility of having multiple proofs of associativity is 
 eliminated because the intensional identity type is always an h-prop. The 
 definition of groups can be changed such that it only allows for $G$ to be an 
-h-set and we obtain an intuitive type-theoretical alternative to the 
+h-set. This gives an intuitive type-theoretical alternative to the 
 traditional mathematical definition of groups. This means that all existing 
 constructive proofs can be studied again in type theory. Although this may seem 
 like a stupid idea to do everything again, it has proven to be useful in the 
@@ -1112,12 +1092,12 @@ multiple bijections possible between these h-sets. Bijections between h-sets
 are the equivalences between h-sets. Simplifying the finer aspects of 
 equivalences, the univalence axiom roughly gives a bDependencies between 
 typesijection between those equivalences and terms of the intensional identity 
-type between h-sets. However, in case there are multiple bijections, we obtain 
-multiple equalities and this unsatisfactory. An h-set should only be equal to 
+type between h-sets. However, in case there are multiple bijections, 
+multiple equalities may be possible and this unsatisfactory. An h-set should only be equal to 
 itself in one way. Furthermore, the universe in which those h-sets are contained 
 cannot be an h-set. This demonstrates two facts that hold in univalent type 
 theory, the type theory with the univalence axiom: not all types are h-sets and 
-we may have multiple proofs identity, the \keyword{uniqueness of identity proofs 
+there may be multiple proofs identity, the \keyword{uniqueness of identity proofs 
 principle} (UIP) does not hold. So univalent type theory has some slightly 
 counter-intuitive consequences for the classical mathematician that is used to 
 working with (h-)sets and never really bothers too much with alternative 
@@ -1360,7 +1340,7 @@ sets, Kan complexes with fibrations. See \cite{Streicher2006} and
 simplicial set model was completed in \cite{Kapulkin2012} and proved to be very 
 useful for later models of univalent type theory such as the one in 
 \cite{Cohen2016}. The model in simplicial sets does however have the same 
-homotopic properties, the homotopy of spaces stays the same whether we view them 
+homotopic properties, the homotopy of spaces stays the same whether they are viewed 
 as topological spaces or Kan complexes, so it is a simplification that can be 
 made. This is also called the \keyword{homotopy hypothesis} 
 \cite{Schreiber2018a}. Because the model in simplicial sets was proven to be 
@@ -1400,8 +1380,7 @@ terms and typing rules from type theory to a model in category theory.
 \begin{definition}\label{cwf} A \keyword{category with families} model is a 
 category and a functor denoted by 
 $\left(\mathcal{\text{Ctx}},\mathcal{F}\right)$ that satisfies 
-\cref{catprop,type_functor,composition_laws,context_extension_category,
-universal_extension}.
+\cref{catprop,type_functor,composition_laws,context_extension_category,universal_extension}.
 \end{definition}
 
 
@@ -1530,8 +1509,7 @@ type in the context $\Gamma$, so $\Gamma\vdash B[a]$.
 \section{Presheaves}
 
 In practice, a category with families is built with more fundamental concepts. 
-A base category is chosen such that it possesses the properties that we desire 
-from the contexts in the particular type theory we are modelling. With this 
+A base category is chosen such that it possesses the properties that are required  for the contexts in the particular type theory that is being modelled. With this 
 base category, a category with families is built. For example, if the 
 contexts of the type theory have to be indexable by dimension variables, a base 
 category has to be chosen that has objects which represent dimensions.
@@ -1561,7 +1539,7 @@ $f$.
 \end{definition}
 
 \begin{example}
-If we take as base category $\mathcal{C}$ a category with only one object 
+Take as base category $\mathcal{C}$ a category with only one object 
 $\star$ , then the presheaves in $\Psh{\mathcal{C}}$ are contravariant functors 
 from $\star$ to $\set$ mapping the object to any set. 
 
@@ -1587,7 +1565,7 @@ A presheaf $\Gamma$ on $\mathcal{C}$ consists of two sets $\Gamma (0), \Gamma
 & \Gamma(0) 
 \end{tikzcd} \]
 
- If we interpret $\Gamma (0)$ as the set of vertices and $\Gamma (1)$ as the 
+ If $\Gamma (0)$ is interpreted as the set of vertices and $\Gamma (1)$ as the 
 set of edges, there is a directed graph. The map $\Gamma (f)$ gives the starting 
 vertex of an edge, $\Gamma (g)$ gives the ending vertex. 
 \end{example}
@@ -1595,7 +1573,7 @@ vertex of an edge, $\Gamma (g)$ gives the ending vertex.
 \begin{example} \label{reflgraph}
 Take $\mathcal{C} = \{0,1\}$, two morphisms $f,g:0\rightarrow 1$ as before and 
 now a third morphism $h: 1 \rightarrow 0$ such that $h \circ f = h \circ g = 
-id$. Then we interpret $\Gamma (0)$ again as a set of vertices and $\Gamma (1)$ 
+id$. Then $\Gamma (0)$ is interpreted again as a set of vertices and $\Gamma (1)$ 
 as a set of nodes.
 
 \[ \begin{tikzcd}
@@ -1643,7 +1621,7 @@ The first thing needed for the presheaf model to satisfy the definition of a
 category with families (see \cref{cwf}) is a category of contexts. 
 
 \begin{property}\label{precon}
-In a presheaf model over a base category $\mathcal{C}$, we take the category of 
+In a presheaf model over a base category $\mathcal{C}$, take the category of 
 contexts to be the presheaf category $\Psh{\mathcal{C}}$. The empty context is 
 the functor $1$ mapping all the objects in the base category to the same set. 
 \end{property}
@@ -1877,7 +1855,7 @@ that $A(h \mid v)(v')$ is an edge $e'$ with identical start and end point $v'$.
 
 This means that a type $A$ is a refined reflexive graph of $\Gamma$ with more 
 vertices and edges. The edges and vertices of $\Gamma '$ lie above those of the 
-original graph $\Gamma$, see \cref{depgraph}. Between the original graph and 
+original graph $\Gamma$, see \cref{depgraphdiag}. Between the original graph and 
 the new graph $\Gamma'$ there is a morphism that maps all the new vertices and 
 edges on the original ones. The types in this context can also be more 
 indirectly characterized with the previous lemma as tuples of a graph $\Delta$ 
@@ -1961,8 +1939,7 @@ above.
 
 At this point a general framework for making models of type 
 theory in category theory has been discussed, see \cref{catsem}. However, 
-remember from \cref{simpmod} that we were actually looking for a very specific 
-model. The goal is to find a constructive model in category theory that allows 
+remember from \cref{simpmod} that the goal is to find a constructive model in category theory that allows 
 to prove the univalence axiom by generating terms of instances of it and using 
 these terms in further computations. The model in cubical sets \cite{Bezem2014} 
 (and the slightly different one in \cite{Cohen2016}) was proven to be a model 
@@ -2061,7 +2038,7 @@ apply operations described by a De Morgan algebra. As a base category it has
 much more objects and morphisms than the category that was used to construct 
 directed and reflexive graphs, see \cref{reflgraph}. As a consequence, types in 
 a presheaf model over this category will be more complicated than in 
-\cref{depgraph}.
+\cref{depgraphdiag}.
 
 Now a few examples will be given of morphisms that are present in this category 
 and will be used in the rest of the text.
@@ -3550,7 +3527,7 @@ is called \keyword{generic programming}. There might be multiple ways of
 implementing a datatype and several implementations might be equivalent. This 
 is were the univalence axiom comes into play. 
 
-Assume we are given two date representations, ``(month, day)" and ``(day, 
+Assume two date representations are given: ``(month, day)" and ``(day, 
 month)". These representations are equivalent by the swapping map. Univalence 
 gives a path between the equivalent representations. Assume databases are 
 generically defined for a certain date representation. For example, the type of 
@@ -3828,6 +3805,8 @@ cubical type theory. Meanwhile, there is still research going on on whether the 
 
 \subsection{Cartesian computational type theory}\label{comptt}
 
+There a completely different approach taken to cubical type theory and proving the univalence axiom in Pittsburgh. This version does have a different syntax and does not make use of categorical semantics but also admits a proof of univalence.
+
 \subsubsection{Computational type theory}
 
 The American approach is called ``cartesian cubical computational type theory" 
@@ -3973,7 +3952,7 @@ normalizing}: there is no infinite sequence of reductions. This implies
 term does inhabit a certain type. The property of being strongly normalizing 
 has not been proven at all for cubical type theory. It is noted in 
 \cite{Cohen2016} that this could be done with resizing rules and in 
-\cite{Huber201} it is conjectured that the proof of canonicity could be somehow 
+\cite{Huber2016} it is conjectured that the proof of canonicity could be somehow 
 adapted, see \cref{canonicity}. The method described of computation and 
 evaluation in \cite{Abe13} may be useful.
 
