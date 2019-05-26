@@ -24,7 +24,7 @@ LabelStyle/.style = { %rectangle, draw,
                         text = black, font = \bfseries },
   VertexStyle/.append style = { shape = circle,
   								fill = black,
-  								minimum size = 2pt,
+  								minimum size = 2pt, 
   								inner sep=2pt,
                                 %font = \Large\bfseries
                                 	},
@@ -46,6 +46,11 @@ LabelStyle/.style = { %rectangle, draw,
 \usepackage{graphicx,xcolor,textpos,url}
 \usepackage{cite}
 \usepackage{makeidx}
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
 
 
 % --------------- Fundamental Functions ----------------------
@@ -109,7 +114,7 @@ LabelStyle/.style = { %rectangle, draw,
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
 \newcommand{\incfig}[1]{%
-    \def\svgwidth{\columnwidth}
+    \def\svgwidth{0.6\columnwidth}
     \import{./figures/}{#1.pdf_tex}
 }
 
@@ -346,7 +351,7 @@ mathematical domains more efficient.
 
 This text was written with the help and support of many people. First of all, I 
 would like to thank everyone who read drafts of this text thoroughly and gave 
-very useful feedback on intermediate presentations: Andreas, Dominique, Frank and Wouter. These friendly people have a lot of experience and made me aware of the actual state of my drafts. I also had a lot of curious friends such as Jonathan, Alexander, Emily, Zhiyu, Michael, Dieter, Ben, Edward, Zhiquan.  They listened to me when I tried to explain to them what I was reading or writing. Sometimes they asked questions 
+very useful feedback on intermediate presentations: Andreas, Dominique, Frank and Wouter. These friendly people have a lot of experience and made me aware of the actual state of my drafts. I also had a lot of curious friends such as Jonathan, Alexander, Emily, Zhiyu, Michael, Dieter, Ben, Edward, Zhiqian.  They listened to me when I tried to explain to them what I was reading or writing. Sometimes they asked questions 
 that made me understand what I did not understand.
 \\
 
@@ -704,7 +709,7 @@ context of the Theorem of Algebra \cite{Cruz-Filipe2005}. %\cref{coqextraction}
 
 Type theory is an alternative foundational theory for mathematics based on intuitionism. Set theory does have self-referencing paradoxes such as the set of all sets that do not contain itself \[ R = \{x \mid x \not \in x \}, \quad R\in R \Leftrightarrow R \not \in R. \] This paradox is often called the \keyword{Russel paradox} but was discovered first by Zermelo in 1899 and later eliminated by a hierarchy of classes of sets. Type theory has a similar self-referencing paradoxes, called the Burali-Forti or Girard paradox but is harder to state.
 
-This paradox is solved in type theory by
+This paradox is solved in type theory with the solutions:
 
 \begin{itemize}
  \item Reject the set comprehension principle which allows to form weird sets and replace it by types and typing rules as in \cref{typingrules}.
@@ -714,7 +719,14 @@ This paradox is solved in type theory by
  
 The levels of the 
 tower are \keyword{indexed} by ordinals or natural numbers For example, if the indexing set is the natural numbers, the levels are denoted by $\mathcal{U}_i$ for $i\in \mathbb{N}$. The levels are called \keyword{universe}s and are cumulative, $T: 
-\mathcal{U}_i:\mathcal{U}_{i+1} \Rightarrow T : \mathcal{U}_{i+1}$. 
+\mathcal{U}_i:\mathcal{U}_{i+1} \Rightarrow T : \mathcal{U}_{i+1}$ which is illustrated in \cref{universefig}.
+
+\begin{figure}\label{universefig}
+\centering
+\incfig{universes}
+\caption{An illustration of the hierarchy of universes. Every type in type theory belongs to a level in this hierarchy.}
+\end{figure}
+
 
 
 In informal type theory, this tower is implicitly used and it is assumed that 
@@ -1073,8 +1085,11 @@ $\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)$ is an equivalence of types.
 
 It can be proven that all equivalences as defined in \cref{contractible} are 
 propositions. The univalence axiom, once stated and accepted, has to be a 
-proposition because the property of being an equivalence is a proposition. The 
-univalence axiom gives ways to identify equivalent types. An algebraic 
+proposition because the property of being an equivalence is a proposition. Implementations of applications of the univalence axiom were released as part of libraries \cite{Voevodskyb} and \cite{gross2011} with code formalizing large portions of popular mathematics that were surveyed in \cite{Bauer2016}.
+
+\subsection{Univalent foundations of mathematics}
+
+The univalence axiom gives ways to identify equivalent types. An algebraic 
 topologist \cite{Grayson2018} said that it 
 
 \begin{quotation}
@@ -1084,14 +1099,8 @@ chore of checking the details of proofs for correctness, allowing them to focus
 on importance, originality, and clarity by exposition.
 \end{quotation}
 
-
-It was also mentioned in \cite{Voevodsky2010a} that the use of the univalence 
-axiom in proof assistants such as Coq could be useful for the formalization of 
-mathematics. This later resulted in an actual library \cite{Voevodskyb} with 
-code formalizing large portions of popular mathematics. The Univalent Foundations project was a joint work undertaken by mathematicians active in the fields of logic, computer science, algebra and topology around consequences of the univalence axiom that resulted in a textbook for univalent type 
-theory, also called \keyword{homotopy type theory} \cite{Voevodsky2013}. The practical aspects of this project are discussed in \cite{Bauer2013}. Meanwhile, there are 
-more introductions available to univalent type theory such as the short introduction for mathematicians \cite{Escardo2018}, the longer introduction \cite{Grayson2018} and 
-the implementation oriented course text \cite{Escardo2019}.
+Meanwhile, there are more introductions available to univalence such as the short introduction for mathematicians \cite{Escardo2018}, the longer intuitive introduction \cite{Grayson2018} and 
+the implementation oriented course texts \cite{Altenkirch2017} and \cite{Escardo2019}.
 
 \begin{definition}[Univalent type theory]\label{univalenttt}
 A type theory (see \cref{typetheory}) that includes the univalence axiom, 
@@ -1100,7 +1109,15 @@ defined in \cref{uniaxiom}, is called \keyword{univalent} or a
 \cref{homotopicinterp}, it is also called a \keyword{homotopy type theory}.
 \end{definition}
 
-Take two h-sets, or even two definitionally equal h-sets. In general, there are 
+The Univalent Foundations project was a joint work undertaken by mathematicians active in the fields of logic, computer science, algebra and topology around consequences of the univalence axiom that resulted in a textbook, also called \keyword{homotopy type theory} \cite{Voevodsky2013}. This project took place in Princeton in the style of Bourbaki but over the course of only one year. The practical aspects of this project are discussed in \cite{Bauer2013}. 
+
+It was also mentioned in \cite{Voevodsky2010a} that the use of the univalence 
+axiom in proof assistants such as Coq could be useful for the formalization of 
+mathematics. The philosophical aspects of the univalence axiom as a foundation for mathematics were discussed in \cite{LadPre16} and more practical aspects for  synthetic mathematics in \cite{Shulman2017}. 
+
+\subsection{Multiple proofs of identity}
+
+In univalent type theory, the identity type may have multiple terms. To illustrate this, take two h-sets, or even two definitionally equal h-sets. In general, there are 
 multiple bijections possible between these h-sets. Bijections between h-sets 
 are the equivalences between h-sets. Simplifying the finer aspects of 
 equivalences, the univalence axiom roughly gives a bijection between those equivalences and terms of the intensional identity 
@@ -1265,7 +1282,7 @@ topology.
 
 \begin{figure}\label{simplehomotopy}
 \centering
-\include{figures/homotopy.tikz}
+\input{figures/homotopy.tikz}
 \caption{In the context of topological spaces and algebraic topology, a path 
 between two curves $p,q$ starting and ending at the same base points $a,b$ is 
 called a \keyword{homotopy of paths}. In this picture there are homotopies $s$ 
@@ -1815,7 +1832,7 @@ context $\Gamma$, a type $\Gamma \vdash A$ forms a dependent or nested direct re
 
 \begin{proof} 
 
-The \cref{typelemma} tells that there is some context $\Delta$ and a morphism $\sigma : Delta \rightarrow \Gamma$. To verify that $\Delta$ is a dependent graph, it has to be proven that the morphism $\sigma$ of presheaves corresponds to morphism of graphs. For this it is necessary, to show that the presheaf model of \cref{reflgraph} is equivalent as a category to the category of graphs. Because this has not been done yet, the claim will be verified directly instead. 
+The \cref{typelemma} tells that there is some context $\Delta$ and a morphism $\sigma : \Delta \rightarrow \Gamma$. To verify that $\Delta$ is a dependent graph, it has to be proven that the morphism $\sigma$ of presheaves corresponds to morphism of graphs. For this it is necessary, to show that the presheaf model of \cref{reflgraph} is equivalent as a category to the category of graphs. Because this has not been done yet, the claim will be verified directly instead. 
 
 A type $A$ in the context $\Gamma$ is according to \cref{prety} a functor $A$ from the category of elements to the category of sets:
 
@@ -2205,12 +2222,12 @@ possible to define a new context $(\Gamma , \varphi)$, called the
 \end{definition}
  
 \begin{example}
-Let $\Delta \equiv (\mathbb{I}, (i=0))$. Then it is possible to prove that 
+Let $\Delta \equiv (\mathbb{I}, (i=0))$. Then 
 $\Delta \cong ()$ as contexts.
 \end{example} 
 
 \begin{proof}
-It rmeains to prove that there is a natural transformation between the 
+It remains to prove that there is a natural transformation between the 
 two functors. First it has to be proven that for all $I \in \square$, the 
 sets $\Delta (I)$ and $()(I)=\{\star \}$ are isomorphic. In other words, it is 
 necessary prove that the set $\Delta (I)$ exactly contains one element. But by 
@@ -2269,7 +2286,6 @@ called a \keyword{partial element of extent $\varphi$}  if it is a term $(
 
 There is also another definition of a partial element \cite{Orton2019}. This 
 alternative definition let's the choice of $u$ depend on $\rho \in \Gamma (I)$. 
-\unsure{Which one should I use}
 
 \begin{definition}
 Let $\Gamma$ be context and $I \in \square, i \not \in I, \rho \in \Gamma 
@@ -3274,28 +3290,27 @@ with univalence.
 In the theories of groups and other algebraic structures, proofs are preferably 
 done for only one structure in an isomorphism class. The proofs for other 
 structures in the same class are not considered valuable because they do not 
-add information. With the univalence axiom, it is possible to treat these 
-different proofs as equal. 
+add information. With the univalence axiom, it is possible to treat 
+different proofs for properties of isomorphic structures as equal. 
+
 
 This can be shown in the context of monoids (sets with a binary operation and 
 neutral element) for the following two concrete examples: $$s_1  \equiv 
 (\mathbb{N}, (m,n)\mapsto m+n, 0)$$ and $$s_2 \equiv (\mathbb{N}_0, 
 (m,n)\mapsto m+n -1, 1)$$ from \cite{Coquand2013} and \cite{Danielsson2012}. 
 
-The goal of this example is to create a term of the path type between  $s_1$ 
+
+The goal of this example is to create a term of the path type of cubical type theory (see \cref{pathindprop}) between  the structures $s_1$ 
 and $s_2$ in $\op{Mon}$ and transport proven properties of $s_1$ from the the 
 type of properties on $s_1$ to the one on $s_2$ without repeating the proof for 
-$s_2$. For example, if there is a proof of the fact that $s_1$ is commutative, 
-there is also a proof of the fact that $s_2$ is commutative. This shows one 
-application for the proof of univalence: the possibility of doing proofs up to 
-isomorphism. 
+$s_2$. More specifically, if there is a proof of the fact that $s_1$ is commutative, there is also a proof of the fact that $s_2$ is commutative. 
 
 The file \texttt{Algebra.Structures} in the standard library  
 \cite{Danielsson2019} contains definitions for monoids and other algebraic 
 structures as record types. Because of the number of  laws that need to be 
 supplied to define a monoid, the example was reduced to a custom definition of 
 magmas together with a proof that the carrier type is an h-set (defined in 
-\cref{hset}), see for an example \cref{m2def}. 
+\cref{hset}), see for an example of the definition of a mgma \cref{m2def}. 
 
 \begin{figure}\label{m2def}
  \centering
@@ -3321,8 +3336,9 @@ the carrier set is an h-set (see \cref{hset}) and groups them in one object.}
 \end{figure}
 
 
+\subsubsection{Defining a path between structures}
 
-A path between $s_1$ and $s_2$ coincides at time $i$ with a ``point-wise 
+In this section will be explained how a term \texttt{algPath} of the type \texttt{s₁ ≡ s₂} can be defined. Such a term is path with endpoints $s_1$ and $s_2$ that coincides at time $i$ with a ``point-wise 
 defined'' algebraic structure, a magma. So defining such path is equivalent 
 with defining a magma at every time $i$ that coincides with the given $s_1$ and 
 $s_2$ on its endpoints. To understand how this works, look at the definition of 
@@ -3337,13 +3353,21 @@ univalence axiom (proven to hold in \cref{ctt} by \cref{univalenceproof}) a
 path $\texttt{ℕ ≡ ℕ₀}$. This gives a path between one component in the term of 
 the record types of magmas. 
 
+\begin{figure}\label{transpop}
+\centering
+\incfig{transport_arguments}
+\caption{A visualization of the transports that are implemented in \cref{zeroPathLift}.}
+\end{figure}
+
 Another component is the operator. In this case, the operator is actually a 
-path between the two given operators. So it is necessary a point-wise defined 
-operator that coincides with the respective operators on its ending points. The 
-construction is done by transporting the arguments of the operator from 
-intermediate carrier set \texttt{fEq i} to the carrier set \texttt{fEq i0} 
-which is equal to $\mathbb{N}$ and applying \texttt{op₁} there, see 
-\cref{zeroPathLift}.
+path between the two given operators \texttt{op₁} and \texttt{op₂}. This means that a point-wise defined 
+operator has to be defined such that coincides with the respective operators on its ending points. The construction of such an operator \texttt{opᵢ'} at time \texttt{i} is illustrated in \cref{transpop} and implemented in \cref{zeroPathLift} by:
+
+\begin{enumerate}
+\item Transport the arguments of the operator \texttt{opᵢ' i} over \texttt{zeroPath i} from the intermediate carrier set \texttt{fEq i} to the carrier set \texttt{fEq i0} which is just $\mathbb{N}$. 
+\item Apply the usual summation of $\mathbb{N}$ defined by \texttt{op₁}.
+\item Transport the result of the computation back to \texttt{fEq i}.
+\end{enumerate}
 
 
 \begin{figure}\label{zeroPathLift}
@@ -3356,68 +3380,58 @@ opᵢ' : PathP (λ i → Op₂ (fEq i))  op₁  op₂'
 opᵢ' i x y = transport (sym (zeroPath i))
     (op₁ (transport (zeroPath i) x) (transport (zeroPath i) y))
 \end{BVerbatim}
-\caption{This definition of the intermediate operator is done by transporting 
-the arguments along \texttt{zeroPath} back to \texttt{fEq i0}, applying 
-\texttt{op₁}. The result is then translated back forward to \texttt{fEq i}.}
+\caption{This definition of an intermediate operator.}
 
 \end{figure}
 
-The operator \texttt{opᵢ'} from \cref{zeroPathLift} does not have the right 
+However, the operator \texttt{opᵢ'} from \cref{zeroPathLift} does not have the right 
 operators at its ending points however and it is necessary to define another 
-operator, see \cref{adaptedOp}.
+operator \texttt{opᵢ} for which \texttt{opᵢ i1 ≡ op₂}, see \cref{adaptedOp}.
 
 \begin{figure}\label{adaptedOp}
  \centering
 \begin{BVerbatim}
-startLemma : op₁ ≡ op₁'
-startLemma i = λ x y → x + (transportRefl y) i
-
 endLemma : op₂' ≡ op₂
 endLemma i x y =
   (op₂' x y
        ≡⟨ refl ⟩
    transport fEq (op₁ (transport (sym fEq) x) 
-                      (transport (sym fEq) y))
-       ≡⟨ transpR 
-            (op₁ (transport (sym fEq) x) 
-                 (transport (sym fEq) y)) ⟩
-   f (op₁ (transport (sym fEq) x) 
-           (transport (sym fEq) y))
-       ≡⟨ doubleCong (λ x y → f (op₁ x y)) 
-            (transpL x) (transpL y) ⟩
-   f (op₁ (g x) (g  y))
-       ≡⟨ cong f (l₂' x y) ⟩
+    (transport (sym fEq) y))
+       ≡⟨ transpR (op₁  (transport (sym fEq) x) 
+            (transport (sym fEq) y)) ⟩
+   f (op₁  (transport (sym fEq) x) (transport (sym fEq) y))
+       ≡⟨ cong₂ (λ x y → f (op₁ x y)) (transpL x) (transpL y) ⟩
+   f (op₁  (g x) (g  y))
+       ≡⟨  cong f (l₁ x y) ⟩
    f (predℕ ( predℕ ((fst x) + (fst y))))
        ≡⟨ refl ⟩
    (suc (predℕ ( predℕ ((fst x) + (fst y)))) , 
-       (predℕ ( predℕ ((fst x) + (fst y)))) , refl )
-       ≡⟨ lₑ x y ⟩
-   (predℕ (fst x + fst y) , 
-      (predℕ (predℕ (fst x + fst y)) , 
-       sumLem (fst x) (fst y) (snd x) (snd y)))
+   (predℕ ( predℕ ((fst x) + (fst y)))) , 
+    refl )
+       ≡⟨ l₆ x y ⟩
+   (predℕ ( fst x + fst y ) , 
+   (predℕ (predℕ (fst x + fst y)) , 
+    sumLem (fst x)  (fst y) (snd x) (snd y)))
        ≡⟨ refl ⟩
-   op₂ x y ∎) i
+   op₂ x y ∎) i 
 
-pathLemma : (PathP (λ i → Op₂ (fEq i)) op₁' op₂')  ≡  
-             PathP ((λ i → Op₂ (fEq i))) op₁ op₂
-pathLemma = cong₂ (PathP (λ i → Op₂ (fEq i))) startLemma endLemma
+pathLemma : (PathP (λ i → Op₂ (fEq i)) op₁' op₂') 
+    ≡  PathP ((λ i → Op₂ (fEq i))) op₁ op₂
+pathLemma = 
+    cong₂ (PathP (λ i → Op₂ (fEq i))) startLemma endLemma
 
 opᵢ : PathP (λ i → Op₂ (fEq i)) op₁ op₂
 opᵢ = transport pathLemma opᵢ'
 \end{BVerbatim}
 
-\caption{This code shows a lemma that proves that the endpoints of the original 
-intermediate operator \texttt{opᵢ'} are (path) equal to \texttt{op₁} and 
-\texttt{op₂}. Using these proofs and transport, a new intermediate operator 
-\texttt{opᵢ} is defined that does satisfy the requirements for the 
-intermediate operator of the intermediate magma.}   
+\caption{This lemma proves that the endpoint of the original 
+intermediate operator \texttt{opᵢ'} is (path) equal to
+\texttt{op₂}. This is used to define a new intermediate operator 
+\texttt{opᵢ} for which \texttt{opᵢ i1 ≡ op₂}.}   
 \end{figure}
 
 The rest of the definition of the intermediate point-wise defined algebraic 
-structure is straightforward. Once a term \texttt{algPath} of the equality 
-\texttt{s₁ ≡ s₂} (see \cref{algpath}) between both magmas is obtained by 
-assembling all point-wise constructs in a record type, algebraic properties of 
-magmas can be transported.  
+structure \texttt{algPath} of type \texttt{s₁ ≡ s₂} is straightforward and can be seen in \cref{algpath}. 
 
 \begin{figure}\label{algpath}
 \centering
@@ -3439,11 +3453,17 @@ components depending on the parameter \texttt{i}. Each component was point-wise
 defined before and can be assembled into a point-wise structure.}
 \end{figure}
 
+\subsubsection{Transporting proofs}
 
 
-For example, such a transport of properties could consist of mapping a term of 
-the property that \texttt{s₁} is commutative to a term of the property that 
-\texttt{s₂} is commutative, see \cref{comtrans}.
+An application of the path \texttt{s₁ ≡ s₂} between the two magmas, is that the 
+proof of commutativity of the first magma \texttt{s₁} can be transported to a 
+proof of the commutativity of the second magma \texttt{s₂}, defined as 
+$$\texttt{com₂ = transport (λ i → isCommutative (algPath i)) com₁}.$$ See \cref{comtrans} for the full code fragment. Although the 
+property of being commutative is very simple, it can be generalized to more 
+complicated properties and algebraic structures. The 
+complete code of this implementation can be found on \cite{Van19} and verified 
+with the installation instructions.
 
 \begin{figure}\label{comtrans}
 \centering
@@ -3458,7 +3478,7 @@ com₁ = +-comm
 com₂ : isCommutative s₂
 com₂ = transport (λ i → isCommutative (algPath i)) com₁
 \end{BVerbatim}
-\caption{Here a magma is defined to be commutative if it's operation is 
+\caption{A magma is defined to be commutative if its operation is 
 commutative on the carrier type. Commutativity for natural numbers has already 
 been proven in the standard library. This proof can be transported along the 
 term of equality \texttt{s₁ ≡ s₂} to give a proof of commutativity of 
@@ -3466,36 +3486,19 @@ term of equality \texttt{s₁ ≡ s₂} to give a proof of commutativity of
 \end{figure}
 
 
-At this point it can be concluded that if there is a homotopy type 
-equivalences (which is simply a bijection for discrete set-like types or h-sets, see \cref{hset}) between 
-the carrier types of two terms of an algebraic type that have ``compatible 
-operations'', there is an equality between the terms. In this case, the 
-equality is a term \texttt{algPath} of type \texttt{s₁ ≡ s₂}. The compatibility of the operations means that 
-the algebraic operations can be connected by a path but actually corresponds to 
-the homotopy type equivalence being a morphism in category theory.
+\subsubsection{Conclusion}
 
+This example shows that it is possible to do a version of the ``isomorphism-invariant'' mathematics as claimed in \cite{Voevodsky2013} in practice within the context of simple algebra. 
 
-An application of the path \texttt{s₁ ≡ s₂} between the two magmas, is that the 
-proof of commutativity of the first magma \texttt{s₁} can be transported to a 
-proof of the commutativity of the second magma \texttt{s₂}, defined as 
-\texttt{com₂ = transport (λ i → isCommutative (algPath i)) com₁}. Although the 
-property of being commutative is very simple, it can be generalized to more 
-complicated properties and algebraic structures. This shows that it can be 
-possible to do ``isomorphism-invariant'' algebra in practice.  The 
-complete code of this implementation can be found on \cite{Van19} and verified 
-with the installation instructions.
+The requirement for the applicapibility of this example seems to be the construction of a homotopy type equivalence \texttt{f} over which an intermediate operator has to be defined. This homotopy equivalence between carrier types can is a roughly a bijection for discrete set-like types or h-sets as defined in \cref{hset}. The proofs in \cref{adaptedOp} can be read as proofs of the property that the bijection \texttt{f} is a morphism in the category of magmas. However, the proof of being a morphism is harder in cubical type theory than using standard type theory because of the explicit use of transports. Not all of the necessary lemmas about equivalences have been implemented yet. 
 
-However, due to the numerous trivial lemmas that have to be implemented and the 
-unusual homotopy theory inspired approach, it is not the easiest approach for 
-proving algebraic properties. Definitional identities that in traditional 
-mathematics simply hold by simple computation do not only hold up to some path 
-in univalent type theory and cubical type theory. This means that simple facts 
-about natural numbers are not simple anymore. However, not all structures in 
+It can be concluded that trying to use a (weak form of) the structure invariance principle in cubical type theory is not the easiest approach for 
+proving algebraic properties up to isomorphism. However, not all structures in 
 mathematics are as well-known as natural numbers and the structural and overly 
 rigorous approach that such type theories require can be more beneficial in a 
-general setting At least in this case of simple traditional algebra, it seems 
+general setting, see also the discussion in \cref{futapp}.  At least in this case of simple traditional algebra, it seems 
 easier to use specialized software such as \cite{TheGAPGroup2018} to carry out 
-algebraic computations and proofs.
+algebraic computations and proofs. It is also possible that the encoding of natural numbers without zero as a dependent sum was not the best choice in implementations. There are other succesful related implementations such as the implementation of a transport of properties between unary and binary encodings of natural numbers in the file \texttt{Data/BinNat/BinNat.agda} in \cite{Moertberg2018}.
 
 
 \subsection{Generic datatypes}
@@ -3583,7 +3586,6 @@ was only until recently that the semantics were worked out in \cite
 {Lumsdaine2017} and  \cite{Coquand2018}.
 
 
-\unsure{add information of implementations of higher inductive types}
 
 \begin{example}
 The \keyword{circle} $S^1$ as a topological object is defined as line of which 
@@ -3698,16 +3700,12 @@ have not been implemented with the help of cubical type theory and
 \cite{Moertberg2018} include:
 
 \begin{itemize}
-\item The \keyword{structure identity principle} defined in 
-\cite{Voevodsky2013}, theorem 9.8.2 and \cite{Aczel2012} states that isomorphic 
-structures are equal. As a consequence proofs can be transferred or recycled 
-between isomorphic structures. This principle could also be seen as a 
+\item Structuralism is a view in the philosophy of mathematics that states that isomorphic structures are equal. Structuralism in topology is called synthetic topology and its use in homotopy type theory is discussed in \cite{Shulman2017}. Structuralism for general mathematics in relation to univalent type theory is discussed in \cite{Awodey2014} and \cite{Tsementzis2016}. The \keyword{structure identity principle} defined in 
+\cite{Voevodsky2013}, theorem 9.8.2 and \cite{Aczel2012} is a version of this principle in homotopy type theory that should enable the transport of proofs between isomorphic structures. This principle could also be seen as a 
 generalization of the simple example in \cref{magmas} to any category. The 
 principle has not been formalized in all generality yet in cubical type theory 
 but if this was done, it would be much easier for a practicing mathematician to 
-identify isomorphic structures, one of the ``main benefits'' of homotopy type 
-theory. Right now, software such as \cite{TheGAPGroup2018} has to be used to 
-reason about isomorphic algebraic structures.
+identify isomorphic structures and proofs, one of the ``main benefits'' of homotopy type theory. Right now, software such as \cite{TheGAPGroup2018} has to be used to reason about isomorphic algebraic structures in practice. 
 
 \item The application in \cref{higherhomotopy} needs the use of the univalence 
 axiom. The theory of algebraic topology has some other theorems that can be 
@@ -3754,7 +3752,7 @@ The proof of univalence described in \cref{univalenceproof} was not established 
 
 
 
-The first time dimension variables or cubes were used in type theory was in \cite{bernardy2012computational}. The theory of \keyword{nominal sets} which is introduced in \cite{Pitts:2013:NSN:2512979} introduced a way of working with dimension variables as objects in a category. In \cite{Bezem2014}, this idea was extended to a categorical model of type theory in cubical sets together with Kan extension properties. The way nominal sets were used in \cite{Bezem2014} was discussed in \cite{Pit14}. Cubical sets were however already discussed in \cite{GraMau03}. The model was extended in \cite{huber2015model} to include more detailed proofs and semantics of the universe. In \cite{Coq13} it was suggested how this model could be allow a proof of the univalence axiom. By that time there was already an implementation of \cite{huber2015model} available in \cite{Moertberg2015}. The proof of univalence with this model was given in \cite{Bezem2018} but slightly more complicated than in later models and higher inductive tpes could not yet be modelled. 
+The first time dimension variables or cubes were used in type theory was in \cite{bernardy2012computational}. The theory of \keyword{nominal sets} which is introduced in \cite{Pitts:2013:NSN:2512979} introduced a way of working with dimension variables as objects in a category. In \cite{Bezem2014}, this idea was extended to a categorical model of type theory in cubical sets together with Kan extension properties. The way nominal sets were used in \cite{Bezem2014} was discussed in \cite{Pit14}. Cubical sets were however already discussed in \cite{GraMau03}. The model was extended in \cite{huber2015model} to include more detailed proofs and semantics of the universe. In \cite{Coq13} it was suggested how this model could be allow a proof of the univalence axiom. By that time there was already an implementation of \cite{huber2015model} available in \cite{Huber2014} and later \cite{Moertberg2015}. A formaly written proof of univalence with this model was given in \cite{Bezem2018} but slightly more complicated than in later models and higher inductive tpes could not yet be modelled. 
 
 This earlier model was however valuable because it proved the consistency of cubical type theory relative to the framework of category theory in cubical sets. It also did not use choice principles which made it the first constructive model of the univalence axiom and univalent type theory. Models of type theory in type theory that do not use any extra structure on the base category are called \keyword{monoidal} or sub-structural because they can be represented using only products of an interval object.
 
@@ -3764,7 +3762,7 @@ This earlier model was however valuable because it proved the consistency of cub
 
 The \keyword{lattice structure} in  \cref{lattice} was the first step in allowing higher inductive types and simplifying operations. It was  was historically 
 later introduced by \cite{Cohen2016} and slightly corrected in \cite{Huber2016} for simplifying composition and using 
-higher inductive types. There is still research going on on whether the lattice structure is necessary in the base category and other models such as \cite{Altenkirch2017} do not make used of it.
+higher inductive types. There is still research going on on whether the lattice structure is necessary in the base category and other models such as \cite{Altenkirch2015} do not make used of it.
 There is an unpublished comparative study in \cite{Awodey2016June} on choices of base categories that are related to the base categories used in \cite{Bezem2014} and \cite{Huber2016}. Each choice of a variation of the base category can lead to more desirable properties of the type theory being modelled but no better alternative has been found yet (a choice that results in a more efficient cubical type theory). For example, \cite{Gun2019} uses twisted cubes to model directed (cubical) type theory.
 
 The latest version of cubical type theory that is implemented in proof assistents has slightly different operation thant described in \cite{Huber2016}. To allow working with higher inductive types, \cite{Huber17note} suggested to decompose the composition operation in a homogeneous composition and a generalized transport. This idea was worked out in \cite{Coquand2018}. Since then, no big changes were made to the semantics but there is still research on models that can unify the semantics of cubical type theory and variations such as two-level (cubical) type theory in \cite{Uem19} and \cite{Cavallo2019}. 
@@ -3912,11 +3910,8 @@ term does inhabit a certain type. The property of being strongly normalizing
 has not been proven at all for cubical type theory. It is noted in 
 \cite{Cohen2016} that this could be done with resizing rules and in 
 \cite{Huber2016} it is conjectured that the proof of canonicity could be somehow 
-adapted, see \cref{canonicity}. The method described of computation and 
-evaluation in \cite{Abe13} can be useful.
-
-
-
+adapted, see \cref{canonicity}. The method of ``computation and 
+evaluation'' in \cite{Abe13} can be useful but this has not been verified yet.
 
 The \keyword{confluency} of terms means that two sequences of reductions 
 starting from the same term can be made to converge again. It is mentioned in 
@@ -3953,10 +3948,7 @@ homotopy type theory but was solved for its extension, cubical type theory, in
 removing a necessary condition for path liftings in
 \cite{Coquand2019}.  
 
-
-
-This makes cubical type 
-theory into an example of a theory 
+This makes cubical type theory into an example of a theory 
 in which both canonicity and univalence holds. The statement of canonicity for 
 cubical type theory is slightly different from the original conjecture (see 
 \cite{Huber2016}, p. 125): 
@@ -4030,8 +4022,7 @@ using canonicity for in formalizing fundamental theorems in homotopy theory, see
 type theory can be replaced by more general or efficient alternatives.
 
 
-\unsure{Which parts of  \cite{Shiue2018} are interesting? This remark was also 
-made by other learners of homotopy type theory such as \cite{Booij2018}}
+\unsure{There are pieces of interesting information in the notes  \cite{Shiue2018} and \cite{Booij2018}}
 
 
 % -------------- Index and bibliography -----------------
@@ -4041,7 +4032,7 @@ made by other learners of homotopy type theory such as \cite{Booij2018}}
 \printindex
 
 \newpage
-\bibliographystyle{alpha}
+\bibliographystyle{alpha}  %apalike
 \bibliography{../../../../Referenties/library}
 
 \newpage
