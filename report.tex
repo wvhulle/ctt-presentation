@@ -1006,7 +1006,7 @@ as \textquotedblleft univalent functor\textquotedblright . He said about his ter
 to be faithful to the way in which I think about mathematical objects in my 
 head.''
  Unfortunately, he suffered from hallucinations \cite{Baez2017} and died 
-because of an aorta-aneurism \cite{Rehmeyer2017}. Picture taking in his office at Princeton and found on \cite{Grayson2017}.}
+because of an aorta-aneurism \cite{Rehmeyer2017}. Picture taken in his office at Princeton and found on \cite{Grayson2017}.}
 \end{figure}
 
 The univalence axiom states that the type of equivalences between two types is 
@@ -3436,7 +3436,7 @@ com₂ = transport (λ i → isCommutative (algPath i)) com₁
 commutative on the carrier type. Commutativity for natural numbers has already 
 been proven in the standard library. This proof can be transported along the 
 term of equality \texttt{s₁ ≡ s₂} to give a proof of commutativity of 
-\texttt{s₂}. Unfortunately, normalizing \texttt{com₂} results in a memory leak that may be caused by the implementation of cubical type theory in the underlying library \cite{Moertberg2018}.}
+\texttt{s₂}. Unfortunately, normalizing \texttt{com₂} results in a memory leak that may be caused by the implementation of cubical type theory in the underlying library \cite{Moertberg2018}. This also fails for concrete small values for \texttt{com₁}, for example {com₁ 4 6}.} 
 \end{figure}
 
 \subsubsection{Conclusion}
