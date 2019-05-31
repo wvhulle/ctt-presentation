@@ -489,10 +489,10 @@ A \keyword{judgment} is a statement in (intuitionistic) type theory about types 
 Judgements are always accompanied by transformation rules that describe how several judgements can be combined into one new judgement. These rules, called \keyword{typing rules}, can be seen as rules of computation. This is an important difference with set theory because in set theory the only constructions available are not much more than sets, tuples and propositions. But intuitionistic type theory is rooted in intuitionism and constructivism (see \cref{constructivism}) which requires a constructive approach to computation.
 
 \begin{definition}\label{typingrules}
- The following types of typing rules are required for every type:
+ The following types of typing rules are required for a type:
 \begin{itemize}
 \item A \keyword{formation rule} states how to introduce a new type reference it once it is introduced. For example the formation rule of natural numbers is simply $\mathbb{N}$.
-\item The \keyword{constructor}s of a type state how terms of the type can be constructed. For example, there are two ways to introduce a term of the type of natural numbers: the zero element or as a successor of a natural number.
+\item The \keyword{constructor}s of a type state how terms of the type can be constructed. For example, there are two ways to introduce a term of the type of natural numbers: the zero element or as a successor of a natural number. An exception to this is the empty type \texttt{⊥} which has no constructors.
 \item To compute with terms and types, \keyword{eliminator}s describe how it is possible to apply terms and types to other terms and types. For example the eliminator of the natural numbers takes a property about the natural numbers and states that it is enough to prove this by induction to prove it for all natural numbers. The \keyword{computation rule}s determine how an eliminator can act on a constructor. 
 \end{itemize}
 \end{definition}
@@ -791,7 +791,7 @@ notZero (suc n) = ⊤
 \caption{The type of non-zero natural numbers $\mathbb{N}_0$ can be defined in 
 Agda using a dependent sum type indexed by the natural numbers. Terms of the 
 type \texttt{ℕ₀} are tuples of a natural number and a proof that it is 
-non-zero in the form of a dependent function.}
+non-zero. The function non-zero is defined as a dependent function that either takes values in the empty type \texttt{⊥} or the unit type \texttt{⊤}. This allows to pattern match and reduce applications of \texttt{notZero} to the case where the argument is of the form \texttt{(suc n)}.}
 \end{figure}
 
 
@@ -1083,7 +1083,7 @@ The Univalent Foundations project was a joint work undertaken by mathematicians 
 
 It was also mentioned in \cite{Voevodsky2010a} that the use of the univalence 
 axiom in proof assistants such as Coq could be useful for the formalization of 
-mathematics. The philosophical aspects of the univalence axiom as a foundation for mathematics were discussed in \cite{LadPre16} and more practical aspects for  synthetic mathematics in \cite{Shulman2017}. A version of homotopy type theory, called modal homotopy type theory is being used to formalize theoretical physics \cref{Sch19}.
+mathematics. The philosophical aspects of the univalence axiom as a foundation for mathematics were discussed in \cite{LadPre16} and more practical aspects for  synthetic mathematics in \cite{Shulman2017}. A version of homotopy type theory, called \keyword{modal homotopy type theory} is being used to formalize and clean up certain foundational theories of physics such as differential cohomology and higher differential geometry (see for a recent example \cref{Sch19}). This shows applications of homotopy type theory are still being investigated in other fields than just type theory or logic. The rest of this text will assume that the univalence axiom is useful and look more at the technical aspects of find models and primitives for univalent type theory.
 
 \subsection{Multiple proofs of identity}
 
