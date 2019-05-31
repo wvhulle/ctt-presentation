@@ -2907,7 +2907,7 @@ There is an unpublished comparative study in \cite{Awodey2016June} on choices of
 The latest version of cubical type theory that is implemented in proof assistents has slightly different operation thant described in \cite{Huber2016}. To allow working with higher inductive types, \cite{Huber17note} suggested to decompose the composition operation in a homogeneous composition and a generalized transport. This idea was worked out in \cite{Coquand2018}. Since then, no big changes were made to the semantics but there is still research on models that can unify the semantics of cubical type theory and variations such as two-level (cubical) type theory in \cite{Uem19} and \cite{Cavallo2019}. 
 
 
-\section{Proof of univalence}\label{univalenceproof}
+\chapter{Proof of univalence}\label{univalenceproof}
 
 Cubical type theory was invented to give a ``computational interpretation of 
 the univalence axiom'' which would allow to compute with expressions in 
@@ -2916,7 +2916,7 @@ historical attempts to this proof and one of the most recent versions of the
 proof.
 
 
-\subsection{Statement of theorem}
+\section{The univalence theorem}
 
 Remember from \cref{uniaxiom} that the \keyword{univalence} theorem in cubical 
 type theory (which is an axiom in univalent type theory) states:
@@ -2947,49 +2947,7 @@ type theory, more specifically cubical type theory. The first part of this proof
 in \cite{Weinberger2016}. The formalization has been continuously worked on 
 since \cite{Moertberg2015} and \cite{Cohen2016} in \cite{Moertberg2018}. Recently, this library code was surveyed in \cite{Moertberg2018a} but recent restructuring and revisions of the files in this library can have made this explanation less up-to-date. In the following sections the different parts of the implementation the proof will be discussed.
 
-% A diagram of the structure of the current code is in \cref{structproof}.
-% 
-% In the following, the implementation \cite{Moertberg2018} in Agda will be 
-% discussed. Code written in Agda can contain expressions or notations that are 
-% unfamiliar to a mathematician working outside of type theory. To try to 
-% minimize confusion, no big chunks of Agda code will be listed. Instead, a 
-% slightly different notation will be used to provide consistency with the 
-% previous parts of this text. For example,
-% 
-% \begin{itemize}
-% \item Defined types and terms will still be denoted with a monospaced font. 
-% Built-in components of Agda will be denoted with standard mathematical 
-%notation.
-% \item Universes in Agda are denoted with $\set$ and a universe level because 
-% there is no easy way to omit the universe levels and assigne them 
-% automatically. In this text, universe levels such as $\forall \ \{\mathcal{l} 
-% \} \ A : \set \  \mathcal{l} \rightarrow P$ will be replaced by the more 
-% familiar notation $\forall A : \type, P$ or $\forall A, P$. It is assumed 
-%that 
-% universe levels can be assigned appropriately.
-% \item Path types in Agda code are denoted with $\equiv$ because the $=$ 
-% notation is reserved but in this text it will be denoted by $=$ to represent 
-% that they are actually intensional identity types.
-% \end{itemize}
-% 
-% 
-% is
-% \begin{figure}\label{structproof}
-% \centering
-% 
-% \digraph{univalence}{rankdir=TB;size="8,5";
-% equivContr -> unglueEquiv -> EquivContr;
-% EquivContr -> contrSinglEquiv -> EquivJ;
-% isoToIsEquiv -> Univalencethm;
-% EquivJ  -> Univalencethm;
-% pathToEquiv -> univalence;
-% pathToEquivRefl -> univalence;
-% Univalencethm -> univalence;
-% }
-% \caption{A diagrammatic overview of the implementation of the proof of the 
-% univalence axiom in Agda-Cubical \cite{Moertberg2018}. The proof is split in 
-% two parts that are two different files.}
-% \end{figure}
+\section{Proof of the univalence theorem}
 
 \subsection{Contractibility of equivalence singletons}
 
@@ -3678,7 +3636,9 @@ of normalization of \texttt{brunerie} but it still does not normalize. Although 
 it shows how univalence could be used to formalize proofs of algebraic topology 
 and verify their correctness, at least for relatively low order homotopy groups.
 
-\subsection{Future applications}\label{futapp}
+\chapter{Related work}
+
+\section{Other possible applications}\label{futapp}
 
 Until now, most applications of cubical type theory are related to implementing 
 simple inductive types and higher inductive types. Most mathematical concepts 
