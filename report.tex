@@ -154,7 +154,7 @@ LabelStyle/.style = { %rectangle, draw,
 
 \global\long\def\evidence#1{\left\llbracket#1\right\rrbracket}
 \newcommand{\form}[1]{\scalebox{1.087}{\boldmath{#1}}}
-\global\long\def\ctx{\text{\ensuremath{\mathcal{\text{Ctx}}}}}%
+\global\long\def\ctx{\text{Ctx}}%
 \global\long\def\set{\text{\textbf{Set}}}%
 \global\long\def\ty#1{\text{Ty}\left(#1\right)}%
 \global\long\def\tm#1#2{\text{Tm}\left(#1,#2\right)}%
@@ -1337,16 +1337,16 @@ terms and typing rules from type theory to a model in category theory.
 
 \begin{definition}\label{cwf} A \keyword{category with families} model is a 
 category and a functor denoted by 
-$\left(\mathcal{\text{Ctx}},\mathcal{F}\right)$ that satisfies 
+$\left(\text{Ctx},\mathcal{F}\right)$ that satisfies 
 \Cref{catprop,type_functor,composition_laws,context_extension_category,universal_extension}.
 \end{definition}
 
 
 \begin{property}\label{catprop} The \keyword{context category} $\ctx$ is a 
 category whose objects represent contexts of the type theory.   There is a 
-terminal object $()$ in $\mathcal{\text{Ctx}}$, called the \keyword{empty 
+terminal object $()$ in $\ctx$, called the \keyword{empty 
 context}. This is an object such that for every other object  $ 
-\Gamma\in\mathcal{\mathcal{\text{Ctx}}}$, there is a unique
+\Gamma\in \text{Ctx}$, there is a unique
 morphism $\Gamma\rightarrow()$.
 \end{property}
 
@@ -1357,8 +1357,9 @@ from the context, $$\Gamma\vdash$$ denotes that $\Gamma$ is a context in the
 context category $\text{Ctx}$. The morphisms of the category $\text{Ctx}$ are 
 called \keyword{substitutions} or \keyword{context morphism}s.  
 
-The first thing it is necessary is a way to capture the relation between terms 
-and their types in set (and category) theory. This is done with a family of 
+
+The relation between terms 
+and their types in set (and category) theory is captured with a family of 
 sets. 
 
 \begin{definition}
@@ -1378,24 +1379,28 @@ $\mathcal{F}=\left(\text{Ty},\text{Tm}\right)$ that goes from the opposite
 category $\text{Ctx}^{\text{op}}$ to the category of families $\textbf{Fam}$.
 \end{property}
 
-This functor takes a context $\Gamma$, returns a set denoted by 
-$\text{Ty}\left(\Gamma\right)$, called the \keyword{types} in context $\Gamma$ 
-and a family of sets indexed by elements $A\in\ty{\Gamma}$, called the terms 
-$\tm{\Gamma}A$ of $A$. Because these category-theoretical types represent the 
-real types, the dependency $A \in \text{Ty}(\Gamma)$ is often denoted by the 
-judgement $$\Gamma\vdash A.$$ Similarly, the elements $a\in\tm{\Gamma}{A}$ are 
+This functor takes a context $\Gamma \in \ctx$ and returns:
+
+\begin{itemize}
+ \item a set denoted by 
+$\text{Ty}\left(\Gamma\right)$, called the \keyword{types} in context $\Gamma$. Because these category-theoretical types represent the real types, the dependency $A \in \text{Ty}(\Gamma)$ is often denoted by the judgement $$\Gamma\vdash A.$$
+\item a family of sets indexed by elements $A\in\ty{\Gamma}$, called the \keyword{terms} 
+$\tm{\Gamma}{A}$ of $A$. Similarly, the elements $a\in\tm{\Gamma}{A}$ are 
 called \keyword{terms} of $A$ within the context $\Gamma$, denoted by 
 $$\Gamma\vdash a:A.$$
+\end{itemize}
 
- Take a substitution $\sigma:\Delta\rightarrow\Gamma$, then the morphism 
+ 
+
+Take a substitution $\sigma:\Delta\rightarrow\Gamma$, then the morphism 
 $\mathcal{F}(\sigma)$ is a morphism that acts on $\ty{\Gamma}$. 
 
 \begin{property}\label{composition_laws}
-The action of a substitution on a type $A\in\ty{\Gamma}$ is written as 
+Let $\Gamma \in \ctx$. The action of a substitution on a type $A\in\ty{\Gamma}$ is written as 
 $A\sigma$ and the action on terms $a$ is written as $a\sigma$. Because 
 $\mathcal{F}$ is contra-variant, $A \sigma\in \ty{\Delta}$ and $a \sigma \in 
 \tm{\Delta}{A \sigma}$. Let $\Gamma '$ be yet another context. The 
-substitutions on terms should satisfy
+substitutions on terms satisfy
 the following composition laws: 
 $\left(A\sigma\right)\tau=A\left(\sigma\tau\right)$
 and $\left(a\sigma\right)\tau=a\left(\sigma\tau\right)$ for 
@@ -1411,7 +1416,7 @@ including the term $\Gamma \vdash q : A$ defined in
 \Cref{context_extension_category}. 
 
 
-\begin{property}\label{context_extension_category} Given a context $\Gamma$ and 
+\begin{property}\label{context_extension_category} Given a context $\Gamma \in \ctx$ and 
 type $\Gamma \vdash A$, there are the following objects:
 
 \begin{itemize}
@@ -1437,7 +1442,7 @@ $q\left(\sigma,a\right)=a$.
 \item The substitution is invariant under composition of $\sigma$ with other 
 substitutions $\tau$: $\left(\sigma,a\right)\tau = 
 \left(\sigma\tau,a\tau\right)$.
-\item The context morphism $\left(p,q\right)$ is the identity on $\Gamma.A$.
+\item The context morphism $\left(p,q\right)$ is the identity morphism on the extended context $\Gamma.A$.
 \end{itemize}
 
 \end{property}
@@ -1463,12 +1468,10 @@ $\left[a\right]:\Gamma\rightarrow\Gamma.A$. The action of $\left[a\right]$ on
 $B$ gives $B\left[a\right]$ which is by the contra-variance of $\mathcal{F}$ a 
 type in the context $\Gamma$, so $\Gamma\vdash B[a]$.
 
-
-
 \section{Pre-sheaves}
 
 In practice, a category with families is built with more fundamental concepts. 
-A base category is chosen that it possesses the properties which are required  for the contexts in the particular type theory that is being modelled. With this 
+A base category is chosen such that it possesses the properties which are required  for the contexts in the particular type theory that is being modelled. With this 
 base category, a category with families is built. For example, if the 
 contexts of the type theory have to be indexable by dimension variables, a base 
 category has to be chosen that has objects which are at least able to represent dimensions.
@@ -1500,7 +1503,7 @@ $f$.
 \begin{example}
 Take as base category $\mathcal{C}$ a category with only one object 
 $\star$ , then the pre-sheaves in $\psh{\mathcal{C}}$ are contra-variant functors 
-from $\star$ to $\set$ mapping the object to any set. 
+from $\mathcal{C}$ to $\set$ mapping the object $\star$ to any set. 
 
 \end{example}
 
@@ -1525,8 +1528,7 @@ A pre-sheaf $\Gamma$ on $\mathcal{C}$ consists of two sets $\Gamma (0), \Gamma
 \end{tikzcd} \]
 
  If $\Gamma (0)$ is interpreted as the set of vertices and $\Gamma (1)$ as the 
-set of edges, there is a directed graph. The map $\Gamma (f)$ gives the starting 
-vertex of an edge, $\Gamma (g)$ gives the ending vertex. 
+set of edges, $\Gamma$ is a \keyword{directed graph}. The map $\Gamma (f)$ gives the starting vertex of an edge, $\Gamma (g)$ gives the ending vertex. 
 \end{example}
 
 \begin{example} \label{reflgraph}
@@ -1543,7 +1545,7 @@ as a set of nodes.
 \arrow[l, "\Gamma (h)"{above}]
 \end{tikzcd} \]
 
-In this interpretation, there is that $\Gamma (f) \circ \Gamma (h) = id_{\Gamma 
+In this interpretation, $\Gamma (f) \circ \Gamma (h) = id_{\Gamma 
 (0)}$ and $\Gamma (g) \circ \Gamma (h) = id_{\Gamma(0)}$. This means that for 
 each $v \in \Gamma (0)$, $\Gamma (h) (v)$ serves as a an edge with both 
 starting and ending vertex $v$. This means that from every pre-sheaf, it is 
@@ -1561,16 +1563,13 @@ a sieve, which arises in the context of cubical type theory
 
 \subsubsection{The pre-sheaf model}
 
-But first, let's explain how it is possible to make a concrete category with 
-families using pre-sheaves. This explanation is based on \cite{Hofmann1997}, 
-section 4.1, p. 45, \cite{Huber2016}, Sec. 1.2 and \cite{Orton2019}, 
-section 3.2.
+A a concrete category with families can be made using pre-sheaves. This was done in \cite{Hofmann1997}, section 4.1, p. 45, redone in \cite{Huber2016}, Sec. 1.2 and more rigorously  in \cite{Orton2019}, section 3.2.
 
 
 \begin{definition}\label{premodel}
 Given a small category $\mathcal{C}$ (a category in which the morphisms form 
-sets), called the \keyword{base category}, there is a specific category with families $\psh{\mathcal{C}}$, called the \keyword{pre-sheaf model with base category 
-$\mathcal{C}$}. This is a model $$\left( \psh{\mathcal{C}}, 
+sets), called the \keyword{base category}, there is a specific category with families $\psh{\mathcal{C}}$, called the \keyword{pre-sheaf model with base category} 
+$\mathcal{C}$. This is a model $$\left( \psh{\mathcal{C}}, 
 \left( \text{Ty}, \text{Tm} \right) \right)$$ where the individual components of this tuple are defined in \Cref{precon,prety,pretm,preext}.
 \end{definition}
 
@@ -1580,7 +1579,7 @@ category with families according to \Cref{catprop} is a category of contexts.
 
 \begin{property}\label{precon}
   The category of contexts in the model $\psh{\mathcal{C}}$ is simply defined as $\psh{\mathcal{C}}$. The empty context is 
-the functor $1$ mapping all the objects in the base category to the same set. 
+the functor $1$ mapping all the objects in the base category to a fixed set. 
 \end{property}
 
 Examples of possible contexts for pre-sheaf models can be found in \Cref{pre-sheafexs}. The central example in this text is cubical sets, see \Cref{cubset}. 
@@ -1647,14 +1646,11 @@ However, to analyse the interpreted object deeper, it is necessary to
 observe which values $a\rho$, the term $a$, takes ``above" an element $\rho 
 \in \Gamma (I)$ according to \Cref{pretm}.
 
-The definition of a category of families also requires to define extension 
+The definition of a category of families also requires to define the extension 
 of contexts in $\psh{\mathcal{C}}$. 
 
 \begin{property}\label{preext}
-Given a context $\Gamma$ and type $\Gamma \vdash A$ in $\psh{\mathcal{C}}$, define the context 
-extension in $\psh{\mathcal{C}}$ as a contra-variant functor. Given an object $I 
-\in \mathcal{C}$, it takes values $$(\Gamma . A)(I) = \left\{ (\rho , u) \mid 
-\rho \in \Gamma (I) , u \in A (I, \rho ) \right\}.$$ This new functor is 
+Given a context $\Gamma$ and type $\Gamma \vdash A$ in $\psh{\mathcal{C}}$, the context extension in $\psh{\mathcal{C}}$ is as a contra-variant functor: given an object $I \in \mathcal{C}$, it takes values $$(\Gamma . A)(I) = \left\{ (\rho , u) \mid \rho \in \Gamma (I) , u \in A (I, \rho ) \right\}.$$ This new functor is 
 denoted by $\Gamma . A$. Given $\rho \in \Gamma (I), u \in A(I,\rho )$ and a 
 morphism $f \in \text{Hom}_{\mathcal{C}}(J,I)$, $(\rho, u)f$ is defined as 
 $(\rho f, uf)$. 
@@ -1776,9 +1772,8 @@ The equivalence has been proven.
 
 \begin{example}
 If $\mathcal{C}$ is chosen to be the category with two 
-objects and three morphisms as in \Cref{reflgraph}, the contexts in the pre-sheaf model become directed reflexive graphs. Given a 
-context $\Gamma$, a type $\Gamma \vdash A$ forms a dependent or nested direct reflexive graph. 
- 
+objects and three morphisms as in \Cref{reflgraph}, the contexts in the pre-sheaf model become \keyword{directed reflexive graphs}. Given a 
+context $\Gamma$, a type $\Gamma \vdash A$ forms a dependent or \keyword{nested directed reflexive graph}. 
 \end{example}
 
 \begin{proof} 
@@ -1810,7 +1805,7 @@ which is a map $$A(0,v) \rightarrow A(0, \Gamma (f) \circ \Gamma (h) (v)): v'
 that $A(h \mid v)(v')$ is an edge $e'$ with identical start and end point $v'$.
 \end{itemize}
 
-This means that a type $A$ is a refined reflexive graph of $\Gamma$, denoted by $\Delta$ with more 
+This means that a type $A$ is a nested reflexive graph of $\Gamma$, denoted by $\Delta$ with more 
 vertices and edges, see the upper part of \Cref{depgraphdiag}.
 
 %The edges and vertices of $\Gamma '$ lie above those of the original graph $\Gamma$, see . Between the original graph and the new graph $\Gamma'$ there is a morphism that maps all the new vertices and edges on the original ones. The types in this context can also be more indirectly characterized with the previous lemma as tuples of a graph $\Delta$ and a graph morphism $f:\Delta \rightarrow \Gamma$.
@@ -1861,7 +1856,7 @@ on the node $\nu = \rho f$ and elevate it to higher nodes $a\nu$ and $b\nu$.
 The pre-sheaf model on a category with only two elements is in a sense the 
 simplest example of a category with families there is. As soon more objects are 
 added to the base category, the resulting category with families can be seen as 
-a generalization of a reflexive directed graph. 
+a complicated dependent reflexive directed graph. 
 
 A category with families supports a certain type if it is closed under the type 
 rules of this type.  It can be proven that every pre-sheaf model supports all 
@@ -1879,28 +1874,23 @@ Let $X$ be any type, if $\forall x : X$ and $p : (x = x)$, then $p =
 \end{axiom}
 
 Because axiom K is related to the uniqueness of identity proofs principle (a 
-relation that is covered in \cite{Voevodsky2013}, Sec. 7.2), it is in 
+relation that is covered in detail in \cite{Voevodsky2013}, Sec. 7.2), it is in 
 contradiction with the univalence axiom, see \Cref{uniaxiom}. A pre-sheaf model 
 does not necessary support the intensional identity type from type theory, an 
 identity type that supports multiple terms. In univalent type theory the 
 identity type must have multiple terms and does not satisfy \Cref{axiomk}. This 
-means that an arbitrary pre-sheaf model is not sufficient any more to model univalent type theory. 
-To find a pre-sheaf model for univalent type theory, it is 
-necessary to look further into variations on the pre-sheaf model explained 
-above.  
+means that an arbitrary pre-sheaf model is not sufficient any more to model univalent type theory. To find a pre-sheaf model for univalent type theory, it is 
+necessary to look further into specific base categories and types.
 
 \chapter{The pre-sheaf model of cubical type theory}\label{cubical}
 
 A general framework for making models of type 
-theory with pre-sheaves has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible 
-to generate terms of it.  
+theory with pre-sheaves has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible to generate terms of it. 
 
 The model with cubical sets can help with computing with terms of the 
-univalence axiom because it is easier to implement than other models and 
-completely constructive (see 
-\Cref{nominalmod} for a short history of the alternative models). This means that all the evaluation the generated terms 
-in this model does not get stuck and can always be simplified or computed into an expression using the primitives of the model. Proof of concept is the recent implementation of 
-this model in the proof assistant Agda \cite{Moertberg2018}. 
+univalence axiom because it is easier to implement than other models and is
+completely constructive. See \Cref{nominalmod} for a short history of the alternative models. The cubical set model gives rise to a new type theory called cubical type theory. The goal of cubical type theory is to make sure that the evaluation of terms in univalent type theory does no get stuck and can be computed into an expression using the primitives of the cubical set model. Proof of concept is the recent implementation of 
+cubical type theory in the proof assistant Agda as a library \cite{Moertberg2018} which will be used on later for applications. 
 
 \section{The category of cubes}
 
@@ -1908,7 +1898,7 @@ Cubical type theory is based on cubical sets which are built with cubes (coming 
 vertices of the cubes stand for the steps in applying a chain of 
 (univalent) equalities as defined in \Cref{equalitytype}. Computing with 
 equalities in the cubical set model is done by computing with cubes, so it is 
-necessary to formulate precisely what a cube is. This will be done with an 
+necessary to formulate precisely what a cube is. This can be done with an 
 algebra of faces \cite{Huber2016}. Here, faces are a generalization of the concept of vertices, edges and faces of 3-dimensional cubes to their higher-dimensional variants.
 
 Based on \cite{Balbes1977}:
@@ -1956,7 +1946,7 @@ Every bounded distributive lattice (a partially ordered set with relations) give
 \begin{figure}\label{latticeex}
 \centering
 \includegraphics[width=0.7\textwidth,height=0.7\textheight,keepaspectratio=true]{figures/lattice.png}
-\caption{An illustration of the free bounded distributive lattice over generating sets of dimension variables $I=\emptyset$,$I=\{x\}$, $I=\{x,y\}$ and $I=\{x,y,z\}$ by writing edges $a \rightarrow b$ if and only if $a \leq b$. This lattice gives rise to a De Morgan algebra $dM(I)$ by defining $\wedge$ as the infinum in this lattice and $\vee$ as the supremum. Illustration taken from \cite{Eppstein2010}.}
+\caption{An illustration of the free bounded distributive lattice over generating sets of dimension variables $I=\emptyset$,$I=\{x\}$, $I=\{x,y\}$ and $I=\{x,y,z\}$ by writing edges $a \rightarrow b$ if and only if $a \leq b$. This lattice gives rise to a De Morgan algebra $dM(I)$ by defining $\wedge$ as the infinum (the smalles element) of the lattice and $\vee$ as the supremum (the largest element) of the lattice. Illustration taken from \cite{Eppstein2010}.}
 \end{figure}
 
 The involution of an element $x$ in a free De Morgan algebra is sometimes 
@@ -1964,16 +1954,15 @@ denoted by $1-x$ instead  of $\neg x$. Viewing a De Morgan algebra as a lattice 
 
 \begin{definition}[Category of cubes]\label{cubcat}
   The category $\cube$ contains as objects the  finite subsets $I \subset 
-\mathbb{A}$, called (dimension) names. Morphisms in this category are maps into 
-De Morgan algebras. More precisely, given two objects $I,J \in \cube$, $f 
+\mathbb{A}$, called \keyword{dimension names}. Morphisms in this category are maps into De Morgan algebras: given two objects $I,J \in \cube$, $f 
 \in \text{Hom}_{\cube}(J,I)$ if and only if $f: I \rightarrow dM(J)$ is a 
 set map.
   \begin{itemize}
   \item  If $f \in \homo{\cube}{J}{I}, g \in \homo{\cube}{K}{J}$, 
 the composition $g \circ f$, written as $fg$, is defined as the composition  
-$\hat{g} \circ f$, where $\hat{g}$ is the extension of $g$ to the free De 
+of set maps $\hat{g} \circ f$, where $\hat{g}$ is the extension of the set map $g$ to the free De 
 Morgan algebra $dM(J)$.
-    \item The identity map in this category is just the identity.
+    \item The identity map in this category is just the identity set map.
 \end{itemize}
     \end{definition}
 
@@ -2021,7 +2010,6 @@ A \keyword{cubical set} $\Gamma$ is a pre-sheaf $\Gamma \in \psh{\cube}$.
 \end{definition}
 
 
-
 In \Cref{cubset}, the contexts of the pre-sheaf model $\psh{\cube}$ are defined (see \Cref{premodel} for the definition of a pre-sheaf model). $\psh{\cube}$, which is actually a category with families, is denoted in this notation by only referring to the contexts. A pre-sheaf model that models a particular type theory should also have type and term functors (see \Cref{type_functor}) that model the right types, in this case $\psh{\cube}$ models the types of univalent type theory. These necessary types and functors of $\psh{\cube}$ will be described in the next sections. Because $\psh{\cube}$ models actually more than just univalent type theory, the type theory modelled is another type theory, called \keyword{cubical type theory}. This type theory forms an extension of cubical type theory and is defined in \Cref{ctt}.
 
 First, some consequences of the choice of base category $\cube$ from \Cref{cubcat} in $\psh{\cube}$ will be studied. Given two finite sets of dimension variables $I,J \in \cube$ and a cubical set $\Gamma \in \psh{\cube}$,
@@ -2065,8 +2053,13 @@ It is possible to define a cubical set using the face lattice. For a $I\in
 $\mathbb{F}$ that only contains dimension names $i \in I$. If $f \in 
 \homo{\cube}{J}{I}, \mathbb{F}(I) \rightarrow \mathbb{F}(J): \varphi 
 \mapsto f(\varphi)$ where $f$ just substitutes the symbols in $\varphi$ and 
-applies the substitution rules on \cite{Orton2019}, p. 39. On the other hand, 
-$\mathbb{F}$ can also be seen as a type in $\psh{\cube}$. 
+applies the rewriting rules on \cite{Orton2019}, p. 39: given $r,s \in J$,
+
+$$\begin{aligned}(r \vee s)=1 & \mapsto(r=1) \vee(s=1) \\(r \wedge s)=1 & \mapsto(r=1) \wedge(s=1) \\(1-r)=1 & \mapsto r=0 \end{aligned}$$
+ 
+$$\begin{aligned}(r \vee s)=0 & \mapsto(r=0) \wedge(s=0) \\(r \wedge s)=0 & \mapsto (r=0) \vee(s=0) \\(1-r)=0 & \mapsto r=1 \end{aligned}$$
+
+On the other hand, $\mathbb{F}$ can also be seen as a type in $\psh{\cube}$. 
 
 Remember from \Cref{premodel} that in such a pre-sheaf model, contexts are 
 pre-sheaves and types are pre-sheaves over a category of elements. The contexts 
@@ -2075,10 +2068,10 @@ denoted by ``cubical sets".
 
 The interpretation of the empty context $()$ in this pre-sheaf model is by 
 \Cref{precon} a pre-sheaf denoted by $1$ that maps all objects in the base 
-category $\cube$ to the same set containing one element $\singleton$. 
+category $\cube$ to the same set containing one element, for example $\singleton$. 
 
 To define $\mathbb{F}$ as a type in the empty context within the pre-sheaf 
-model, it is necessary to describe how $\mathbb{F}$ acts on the category of 
+model $\psh{\cube}$, it is necessary to describe how $\mathbb{F}$ acts on the category of 
 elements. By definition of the category of elements (see \Cref{catel}), 
 $$\int_{\cube} 1 = \left\{ (I, \rho ) \mid I \in \cube, \rho \in 1I 
 \right\} \cong \left\{ (I, \star ) \mid I \in \cube \right\}  \cong 
@@ -2136,9 +2129,9 @@ In general, the type $\Gamma \vdash \mathbb{F}$ is defined in $\psh{\cube}$ by t
 \rightarrow (\rho : \Gamma (I)) \rightarrow  \mathbb{F}(I,\rho): I \mapsto \rho 
 \mapsto \varphi \rho $$ where $I$ is implicit.
 
-To calculate with $\varphi$, it is necessary a precise interpretation in the 
-pre-sheaf and categories with families model. Define $ 0_{\mathbb{F}}, 
-1_{\mathbb{F}} \in \mathbb{F}$ to be terms $0,1 : \mathbb{F}$ in the model by 
+To calculate with $\varphi$, it is necessary to give a precise interpretation in 
+$\psh{\cube}$. Define $ 0_{\mathbb{F}}, 
+1_{\mathbb{F}} \in \mathbb{F}$ to be terms $0,1 : \mathbb{F}$ in $\psh{\cube}$ by 
 setting \(0 \rho = 0, 1 \rho = 1\) for all $\rho \in \Gamma (I)$, $\Gamma \in 
 \psh{\cube}$ and $I \in \cube$.  
 
@@ -2146,8 +2139,7 @@ For other extents, the definition or interpretation can depend on the context.
 When $\varphi$ is an extent containing only variables $i,j,k \in \mathbb{A}$, 
 there is a term $(i: \mathbb{I}), (j: \mathbb{I}), (k: \mathbb{I}) \vdash 
 \varphi : \mathbb{F}$ also denoted $(i,j,k: \mathbb{I}) \vdash \varphi : 
-\mathbb{F}$. It's interpretation in the category with families is as follows. 
-Take an $I \in \cube$ and  $\rho \in (i,j,k: \mathbb{I})$. Then $\rho = 
+\mathbb{F}$. It's interpretation in $\psh{\cube}$ is as follows: take an $I \in \cube$ and  $\rho \in (i,j,k: \mathbb{I})$, then $\rho = 
 ((\rho_i, \rho_j), \rho_k)$, where $\rho_i \in dM(I)$, $\rho_j \in 
 \mathbb{F}(I,\rho_i)$ which means that $\rho_j$ is an extent that only uses the 
 variables in $I$. Further on, $\rho_k \in \mathbb{F}(I, (\rho_i, \rho_j))$. Now 
@@ -2159,7 +2151,7 @@ corresponding $\rho_i$ and apply the rules on \cite{Orton2019}, p. 39.
 
 
 \begin{definition}\label{contextrestriction}
-Given a context $\Gamma$ and term $\Gamma \vdash \varphi : \mathbb{F}$, it is 
+Given a context $\Gamma \in \psh{\cube}$ and term $\Gamma \vdash \varphi : \mathbb{F}$, it is 
 possible to define a new context $(\Gamma , \varphi)$, called the 
 \keyword{context restriction by extent $\varphi$}. It is defined as  $$(\Gamma 
 , \varphi)(I) = \left\{ \rho \in \Gamma (I) \mid \varphi \rho = 1_{\mathbb{F}} 
@@ -2184,9 +2176,7 @@ of the natural transformation.
 \end{proof}
  
  Similarly, it can be proven that the context $(i: \mathbb{I}, i=0, i=0)$ is 
-isomorphic to the context $(i : \mathbb{I}, i = 0)$.
-
- 
+isomorphic to the context $(i : \mathbb{I}, i = 0)$. 
  
 There is an inclusion of the restricted context in the original context using a 
 context morphism $\iota_{\varphi} : (\Gamma , \varphi ) \rightarrow \Gamma $. 
