@@ -138,12 +138,12 @@ LabelStyle/.style = { %rectangle, draw,
 \usepackage{unicode-math}
 
 
-\setmainfont{CMU Serif} 
-\setmathfont{Latin Modern Math}
+%\setmainfont{CMU Serif} 
+%\setmathfont{Latin Modern Math}
 %\setmonofont[Scale=0.9]{FreeMono} %FreeMono lacks some subscripts
 %\setmonofont[Scale=0.9]{Unifont}
 %\setmonofont[Scale=0.9]{CMU Typewriter Text}
-\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+\setmonofont[Scale=0.7]{DejaVu Sans Mono}
 %\setsansfont{CMU Sans Serif}
 \setsansfont{Helvetica} % Closed source font but should be used in the final version on front and back
 %\setsansfont{TeX Gyre Schola Math}
@@ -364,16 +364,15 @@ A written permission of the promoter is also required to use the methods, produc
 
 \chapter*{Preface}
 
-The topic for my master thesis came up when reading about proof assistants and homotopy type theory. I wanted to know if the implementation of the axiom of 
-univalence in cubical sets can make writing, reading and exchanging proofs in obscure but still interesting mathematical domains more efficient.
+The topic for my master thesis came up while reading about proof assistants and homotopy type theory. I wanted to know if the implementation of the axiom of 
+univalence in cubical sets can make writing, reading and exchanging proofs easier. 
 
 This text was written with the help and support of many people. First of all, I 
-would like to thank everyone who read drafts of this text thoroughly and gave 
-very useful feedback on intermediate presentations: Andreas, Dominique, Frank and Wouter. These friendly people have a lot of experience and made me aware of the actual state of my drafts. I also had a lot of curious friends such as Jonathan, Alexander, Emily, Zhiyu, Michael, Dieter, Ben, Edward, Zhiqian.  They listened to me when I tried to explain to them what I was reading or writing. Sometimes they asked questions 
-that made me understand what I did not understand.
+would like to thank my teachers who read drafts of this text thoroughly and gave 
+very useful feedback on intermediate presentations: Andreas, Dominique, Frank and Wouter. These friendly people have a lot of experience and made me aware of the actual state of my drafts. They especially helped me to restructure the content, focus on the important aspects and solve insightful problems. I am grateful to my sister for proofreading in the last week before submission. My curious friends Jonathan, Alexander, Emily, Zhiyu, Michael, Dieter, Ben, Edward, Zhiqian were always there and asked questions that made me understand what I did not understand.
 \\
 
-\mbox{}\hfill \textit{Leuven, May 2019}
+\mbox{}\hfill \textit{Leuven, June 2019}
 
 \chapter*{Summary}
 
@@ -381,17 +380,17 @@ that made me understand what I did not understand.
 
 The decimal numbers and binary numbers are both representations of numbers that can be used in calculations and computers. Both representations can be used to add, multiply and they have the same numerical properties. For example, addition from the left is the same as addition from the right in both representations. Because both representations  represent the same object, the structure of the two proofs in the two representations would be very similar.  
 
-The same phenomenon occurs in more complicated structures than numbers such as topological spaces and algebraic structures. Those are objects that can have multiple representations that look very different. For example, a doughnut looks very different from a mug of coffee but as topological spaces they have the same properties such as the number of holes. This shows a distinction can be made between the different encodings of one object and the underlying object itself. These encodings are similar and the proofs for the properties of different encodings are also very similar.
+The same phenomenon occurs in more complicated structures than numbers such as topological spaces and algebraic structures. Those are objects that can have multiple representations that look very different. For example, a doughnut looks very different from a mug of coffee, but as topological spaces they have the same properties such as the number of holes. This shows a distinction can be made between the different encodings of one object and the underlying object itself. These encodings are similar and the proofs for the properties of different encodings are also very similar.
 
-In homotopy type theory, objects and encodings are equally important fundamental concepts that come in the form of types. The distinction between encodings and underlying the object is made by introducing  different notions of equality: equivalence and path equality. Two types are said to encode the same underlying object if they are equivalent. The univalence axiom of homotopy type theory tells that these encodings are path equal. Because the univalence axiom gives a path between equivalent encodings, proofs of properties of the encodings can be transported along the path. If this transport can be done automatically, the transport of the different proofs can be considered as one single proof about the underlying object. 
+In homotopy type theory, objects and encodings are equally important fundamental concepts that come in the form of types. The distinction between encodings and their underlying objects is made by introducing  different notions of equality: type equivalence and path equality. Two types are said to encode the same underlying object if they are equivalent as types. The univalence axiom of homotopy type theory tells that these encodings are path equal. Because the univalence axiom gives a path between equivalent encodings, proofs of properties of the encodings can be transported along the path. If this transport can be done automatically, the transport of the different proofs can be considered as one single proof about the underlying object. 
 
-To do the transport automatically, it is necessary to find a model in which the univalence axiom holds. A model in general gives meaning to axioms in a more familiar or understandable language. The model in cubical sets of the univalence axiom gives an explicit function that can be implemented and computed. This implementation maps two encodings to a proof that the underlying objects are the same. It is currently an open problem to use this mapping in practice for complicated objects and their different encodings. This text will explain how the model works and look at some examples coming from mathematics where the model and its implementation could be used. There is also some ongoing debate and uncertainty whether the model is efficient enough to be used in practice to generate encoding-invariant proofs for underlying objects because it fails generate statements in some ``simple'' cases.
+To do the transport automatically, it is necessary to find a model in which the univalence axiom holds. A model in general gives meaning to axioms in a more familiar or understandable language. The model in cubical sets of the univalence axiom gives an explicit function that can be implemented and computed. This implementation maps two encodings to a proof that the underlying objects are the same. It is currently an open problem to use this mapping in practice for complicated objects and their different encodings. This text will explain how the model works and look at some examples coming from mathematics where the model and its implementation could be used. There is also some ongoing debate and uncertainty whether the model is efficient enough to be used in practice to generate encoding-invariant proofs because it fails to generate statements for basic examples such as basic proofs about natural numbers.
 
 \section*{For specialists}
 
 The univalence axiom states that the type of equivalences of spaces is equivalent with the type of equalities between those spaces. The axiom has many interesting consequences such as the ability to do mathematics up to isomorphism as claimed by \cite{Voevodsky2013}, a statement that will be verified in \Cref{magmas}, and giving a foundation for a synthetic framework of theoretical physics. The univalence axiom is very simple but has many consequences such as the theory of homotopy type theory in which types are topological spaces. The  consistency of the univalence axiom relative to ZFC was proven by giving a model in simplicial sets \cite{Kapulkin2012}. This was a first step in the recognition of the univalence axiom among mathematicians. However, this model in simplicial sets made use of the axiom of choice which made it non-constructive and unsuitable for a constructive implementation, see \Cref{simpmod}.
 
-Cubical type theory is an intuitionistic type theory that can model the univalence axiom constructively without using choice. This means that the univalence axiom is not an axiom any more but a valid and provable theorem. Cubical type theory will be explained in detail in \Cref{cubical}. Its proof in cubical theory has only recently been completed in \cite{Cohen2016}. Meanwhile, several updated proofs have been constructed in \cite{Sterling2018b, Moertberg2018} which will be discussed in \Cref{univalenceproof}. By the constructiveness of cubical type theory, a proof gives an explicit map between given equalities. The map can be used to rewrite proofs of theorems in homotopy theory in the more basic constructive language of cubical sets. Understanding constructive proofs of univalence can also help to study or understand applications or consequences of the univalence axiom which will be surveyed in \Cref{applications}. This text is mainly a literature review which means that as much recent literature will be covered and put into context as possible. In \Cref{futapp} and \Cref{normalizing} open problems in the field will be discussed.
+Cubical type theory is an intuitionistic type theory that can model the univalence axiom constructively without using choice. This means that the univalence axiom is not an axiom any more but a valid and provable theorem. Cubical type theory will be explained in detail in \Cref{cubical}. Its proof in cubical theory has only recently been completed in \cite{Cohen2016}. Meanwhile, several updated proofs have been constructed in \cite{Sterling2018b, Moertberg2018} which will be discussed in \Cref{univalenceproof}. By the constructiveness of cubical type theory, a proof gives an explicit map between given equalities. The map can be used to rewrite proofs of theorems in homotopy theory in the more basic constructive language of cubical sets. Understanding constructive proofs of univalence can also help to study or understand applications or consequences of the univalence axiom which will be surveyed in \Cref{applications}. This text is mainly a literature review which means that as much recent literature will be covered as possible. In \Cref{futapp} and \Cref{normalizing}, open problems in the field will be discussed.
 
 \chapter*{Glossary}
 
@@ -446,12 +445,12 @@ were very abstract and vague, even to other mathematicians. The terms \keyword{c
 \cite{Brouwer1905}. According to \cite{Brouwer1905}, mathematics should be the 
 result of mental human activity rather than objective discovery. This philosophy 
 was formalized into a formal system based on intuitionism, called intuitionistic 
-(or constructive) logic \cite{Heyting1930}. The difference between intuitionistic and traditional logic, is the lack of the following propositions which are extra  (unnecessary) assumptions or axioms according to intuitionistic logic:
+(or constructive) logic \cite{Heyting1930}. The difference between intuitionistic and traditional logic is the lack of the following propositions which are redundant assumptions or axioms according to intuitionistic logic:
 
 \begin{itemize}
  \item The \keyword{principle of excluded middle} states that for every proposition $P$, $P \vee \neg P$. It means that $P$ holds or does not hold and is also called \keyword{decidability} of $P$. Decidability can hold for a large portion of mathematics and does not need to be taken as an axiom, see for example the decidability results in \cite{Tarski1951}.  
  \item The \keyword{axiom of choice} states the existence of a choice function $f$ on collections of sets $X$: $$f : X \rightarrow \cup X, \quad \forall A \in X: f(A) \in A$$ and can be seen as a generalization of the principle of excluded middle. This axiom can lead to \keyword{abstract nonsense} but weaker versions are accepted in intuitionistic logic, see \cite{Voevodsky2013}, Sec. 3.8.
- \item Other axioms that involve others ways of implicit choice on arbitrary objects are not accepted unless a constructive motivation or model is given, see \Cref{cubical} for a constructive model of the univalence axiom in \Cref{uniaxiom}.
+ \item Other axioms that involve other ways of implicit choice on arbitrary objects are not accepted unless a constructive motivation or model is given, see \Cref{cubical} for a constructive model of the univalence axiom in \Cref{uniaxiom}.
 \end{itemize}
 
 \begin{example}
@@ -476,11 +475,11 @@ There are still theorems that do not have constructive proofs such as the Robert
 
 The philosophy of intuitionism is kept alive in proof assistants and type theory which are used by mathematicians to write more intuitive proofs with the help of computing power. Most proof assistants such as Coq, NuPRL, Agda support writing proofs in intuitionistic logic. On top of expressions and definitions in intuitionistic logic, a user of a proof assistant can formulate complex theorems and proofs. These formalized proofs can be used to investigate proofs of real-life theorems from mathematical domains such as algebra or topology that are hard to write down by hand such as the Odd Order Theorem:
 
-\begin{theorem}
-If $G$ is a finite group and there exists an $n \geq 0$ such that $|G| = 2n+1$, then $G$ is solvable.
+\begin{theorem}\label{solvable}
+If $G$ is a finite group and there exists an $n \geq 0$ such that if $|G| = 2n+1$, then $G$ is solvable.
 \end{theorem}
 
-This theorem was conjectured in 1911 and proven much later in \cite{Feit1963}. It was one of the first proofs in group theory that was hundreds of pages long. The proof was formalized in the proof assistant Coq. The implementation of the formal proof ended up being at least (or only) 5 times as long, see \cite{Gonthier2013}, Sec. 6. The implementation of such a large proof required the implementation of new features and re-usable libraries in the proof assistant Coq. Subsequently, new developments should be easier. Proponents claim that proof assistants will become more widely used in the short term.
+This theorem was conjectured in 1911 and proven much later in \cite{Feit1963}. It was one of the first proofs in group theory that was hundreds of pages long. The proof was formalized in the proof assistant Coq. The implementation of the formal proof ended up being at least (or only) 5 times as long, see \cite{Gonthier2013}, Sec. 6. It also required the implementation of new features and re-usable libraries in the proof assistant Coq. Subsequently, with the help of these libraries, new developments should be easier. Proponents claim that proof assistants will become more widely used in the short term.
 
 
 %The most basic example that is often introduced first is the inductive definition of natural numbers. In the proof assistant and programming language Agda this renders as:
@@ -495,7 +494,7 @@ This theorem was conjectured in 1911 and proven much later in \cite{Feit1963}. I
 
 Type theory, in general, is different from set theory. Set theory has two main layers: sets and propositions about elements of sets. In type theory, the analogues of these two layers are called \keyword{type}s and \keyword{term}s of types. The main difference between set theory and type theory is that terms are always accompanied by their type. Types can be empty, but when they have a term, they are called \keyword{inhabited}. Terms do not exist on their own. Without a type annotation, terms do not have any meaning, while in set theory it is perfectly possible to speak about a mathematical object on its own. For example, in type theory there is the type of groups denoted by $\op{Group}$ and a group $G$ would be denoted by the notation $G : \op{Group}$. Although this difference can seem very superficial, it implies that set membership is not a logical proposition any more but becomes a judgement, see \Cref{judgements}.
 
-Designers of formal systems and proof assistants based on type theory are confronted with questions about the properties of their systems. For example, certain expressions written in the system can or can not normalize or other expressions can be invalid in the system but not according to a mathematician using the system. These are the topics that this text will try to cover although some applications can be mentioned in \Cref{applications}. An in-depth overview of the history of type theory can be found in \cite{Coquand2013oct} or \cite{Constable2011} and \cite{Constable2015July}.
+Designers of formal systems and proof assistants based on type theory are confronted with questions about the properties of their systems. For example, certain expressions written in the system can or can not normalize or other expressions can be invalid in the system but not according to a mathematician using the system. An in-depth overview of the history of type theory can be found in \cite{Coquand2013oct} or \cite{Constable2011} and \cite{Constable2015July}.
 
 
 \section{Intuitionistic type theory}
@@ -503,7 +502,7 @@ Designers of formal systems and proof assistants based on type theory are confro
 Now that some useful applications of type theory have been given, this section will explain in more detail what intuitionistic type theory \cite{Martin-Loef1975} is about.
 
 \subsection{Judgements and contexts}\label{judgements}
-A \keyword{judgement} is a statement in (intuitionistic) type theory about types and terms. Judgements can be philosophically seen as a constructive act of knowledge but formally, they come in different forms:
+A \keyword{judgement} is a statement about types and terms in type theory or intuitionistic type theory. Judgements can be philosophically seen as a constructive act of knowledge, but formally, they come in different forms:
 
 \begin{itemize}
  \item $A$ (starting with upper case) is just the statement that $A$ is a type.
@@ -516,9 +515,9 @@ Judgements are always accompanied by transformation rules that describe how seve
 \begin{definition}\label{typingrules}
  The following types of typing rules are required for a type:
 \begin{itemize}
-\item A \keyword{formation rule} states how to introduce a new type reference it once it is introduced. For example the formation rule of natural numbers is simply $\mathbb{N}$.
+\item A \keyword{formation rule} states how to introduce a new type reference it once it is introduced. For example, the formation rule of natural numbers is simply $\mathbb{N}$.
 \item The \keyword{constructor}s of a type state how terms of the type can be constructed. For example, there are two ways to introduce a term of the type of natural numbers: the zero element or as a successor of a natural number. An exception to this is the empty type \texttt{⊥} which has no constructors.
-\item To compute with terms and types, \keyword{eliminator}s describe how it is possible to apply terms and types to other terms and types. For example the eliminator of the natural numbers takes a property about the natural numbers and states that it is enough to prove this by induction to prove it for all natural numbers. The \keyword{computation rule}s determine how an eliminator can act on a constructor. 
+\item To compute with terms and types, \keyword{eliminator}s describe how it is possible to apply terms and types to other terms and types. For example, the eliminator of the natural numbers takes a property about the natural numbers and states that it is enough to prove this by induction to prove it for all natural numbers. The \keyword{computation rule}s determine how an eliminator can act on a constructor. 
 \end{itemize}
 \end{definition}
 
@@ -692,15 +691,16 @@ the type theory can only contain type theoretic interpretations of concepts of
 constructive mathematics, see \Cref{constructivism}. The Curry-Howard 
 correspondence then implies for such intuitionistic type theories that terms 
 double as constructive and computable proofs. Which means that these terms can 
-be converted into programs, a process called \keyword{program extraction} and 
+be converted into programs, a process called \keyword{program extraction} which is 
 implemented in many proof assistants. Examples of such implementations are:
 \begin{itemize}
 \item The proof assistant Agda is a functional programming language based on 
 intuitionistic type theory (see \Cref{typetheory}) in which programs double as 
 mathematical proofs \cite{Abel2019}. Program extraction is possible for 
 well-behaved parts of the theory but it is not the main purpose, see for an example of where proof extraction fails \Cref{higherhomotopy}.
-\item Idris is a programming language related to Agda and compiles to imperative 
+\item Idris is similar to Agda and compiles to imperative 
 languages, see \cite{Brady2018}. This programming language will not be further investigated.
+
 \item   The proof assistant Coq \cite{Arias2019} has program extraction as one 
 of its main applications, see for example \cite{Pit-Claudel2018}. This 
 particular extraction mechanism does have some limitations, for example in the 
@@ -710,18 +710,17 @@ context of the Theorem of Algebra \cite{Cruz-Filipe2005}.
 
 \subsection{Universes}\label{universes}
 
-Type theory is an alternative foundational theory for mathematics based on intuitionism. Set theory does have self-referencing paradoxes such as the set of all sets that do not contain itself \[ R = \{x \mid x \not \in x \}, \quad R\in R \Leftrightarrow R \not \in R. \] This paradox is often called the \keyword{Russell paradox} but was discovered first by Zermelo in 1899 and later eliminated by a hierarchy of classes of sets. Type theory has a similar self-referencing paradoxes, called the Burali-Forti or Girard paradox but is harder to state.
+Type theory is an alternative foundational theory for mathematics based on intuitionism. Set theory does have self-referencing paradoxes such as the set of all sets that do not contain itself \[ R = \{x \mid x \not \in x \}, \quad R\in R \Leftrightarrow R \not \in R. \] This paradox is often called the \keyword{Russell paradox} but was discovered first by Zermelo in 1899 and later eliminated by a hierarchy of classes of sets. Type theory has a similar self-referencing paradox, called the Burali-Forti or Girard paradox but it is harder to state on one line.
 
-This paradox is solved in type theory with the solutions:
+This Russel paradox (and its type theory variant) is solved in type theory with the solutions:
 
 \begin{itemize}
  \item Reject the set comprehension principle which allows to form weird sets and replace it by types and typing rules as in \Cref{typingrules}.
- \item  Forcing the existence of an upside-down tower of types such that each type consistently belongs in that tower. 
+ \item  Force the existence of an upside-down tower of types such that each type consistently belongs in that tower. 
  
 \end{itemize}
  
-The levels of the 
-tower are \keyword{indexed} by ordinals or natural numbers For example, if the indexing set is the natural numbers, the levels are denoted by $\mathcal{U}_i$ for $i\in \mathbb{N}$. The levels are called \keyword{universe}s and are cumulative, $T: 
+The levels of the tower are indexed by ordinals or natural numbers. For example, if the indexing set is the natural numbers, the levels are denoted by $\mathcal{U}_i$ for $i\in \mathbb{N}$. The levels are called \keyword{universe}s and are cumulative, $T: 
 \mathcal{U}_i:\mathcal{U}_{i+1} \Rightarrow T : \mathcal{U}_{i+1}$ which is illustrated in \Cref{universefig}.
 
 \begin{figure}\label{universefig}
@@ -734,15 +733,13 @@ tower are \keyword{indexed} by ordinals or natural numbers For example, if the i
 
 In informal type theory, this tower is implicitly used and it is assumed that 
 every type $T$ belongs to some universe, denoted by $\mathcal{U}$ or $Type$. The 
-universes in the tower can be considered as types, with types as terms. An 
+universes in the tower are types, with other types as terms. An 
 important consequence of this is that every type is also a term of some 
 universe.
 
 In formal type theory implementations such as Agda, the tower of universe levels 
 can be manipulated explicitly. This allows for formalizations of 
-complex foundational mathematics. The explicit referencing of universe levels is also necessary because the 
-assignment of universe levels is a non-trivial task that cannot be automated with implicit arguments (see \Cref{informal})
-without introducing inconsistencies, see for example \Cref{AgdaEquivalences}.
+complex foundational mathematics. The explicit referencing of universe levels is also necessary because the assignment of universe levels is a non-trivial task that cannot be automated with implicit arguments (see \Cref{informal}) without introducing inconsistencies, see for example \Cref{AgdaEquivalences}.
 
 \begin{figure}\label{AgdaEquivalences}
 \centering
@@ -754,14 +751,14 @@ A ≃ B = Σ[ f ∈ (A → B) ] (isEquiv f)
 \caption{Equivalences will be introduced in \Cref{contractible}. The definition 
 of equivalences in \cite{Moertberg2018} explicitly references the 
 universe levels of the types $A$ and $B$, respectively denoted by $l$ and $l'$. 
-The universe level of the type of equivalences is the maximum \texttt{l-max l l'} 
+The universe level of the type of equivalences is defined as the maximum \texttt{l-max l l'} 
 to prevent paradoxes arising from using \texttt{A ≃ B} in the same context as 
 other expressions using \texttt{A} or \texttt{B}.}
 \end{figure}
 
 \subsection{Dependent types}
 
-In traditional logic, propositions state properties about elements of sets. Such 
+In traditional logic, a proposition states a property about elements of a set. Such 
 a property could for example state: given a group, there is a group element $g$ 
 with infinite order. One could say that this property depends on the presence of 
 an element $g$, and in a sense it is a \keyword{dependent property} depending on a group 
@@ -782,15 +779,9 @@ basic building blocks for intuitionistic type theory:
 
 \item Given a type $B$ that depends on the choice of a term $a:A$, the \keyword{dependent product} is the type
 denoted by $$\prod_{a:A}B(a)$$ which has as terms the generalized functions $f: (a:A) \rightarrow B(a)$. The dependent product can be viewed as a 
-generalization of the function type and the typing rules (see \Cref{typingrules}) for the dependent product are formally 
-stated in \cite{Voevodsky2013}, A.2.4. 
+generalization of the function type and the typing rules (see \Cref{typingrules}) for the dependent product are formally stated in \cite{Voevodsky2013}, A.2.4. 
 
-\item The dual type of the dependent product over a type $A$ and a family of types $B$ depending on terms $a:A$ is the \keyword{dependent sum} which is denoted by  $\sum A \ B$ or $$\sum_{a:A} B(a).$$ This type has as terms tuples $(a, b)$ where $a:A$ is a term and $b:B(a)$ is the value of a generalized function applied to this term. The formal typing rules for the dependent sum are in 
-\cite{Voevodsky2013}, A.2.5.  
-When the second term $b$ does not depend on the first term  $a$, the dependent sum becomes a finite product which is denoted by $A \times B$. A finite sum type has as terms the tuples of 
-the form $(a,b)$ where $a\in A$ and $b:B$.
-
-
+\item The dual type of the dependent product over a type $A$ and a family of types $B$ depending on terms $a:A$ is the \keyword{dependent sum} which is denoted by  $\sum A \ B$ or $$\sum_{a:A} B(a).$$ This type has as terms tuples $(a, b)$ where $a:A$ is a term and $b:B(a)$ is the value of a generalized function applied to this term. The formal typing rules for the dependent sum are in \cite{Voevodsky2013}, A.2.5. When the second term $b$ does not depend on the first term  $a$, the dependent sum becomes a finite product which is denoted by $A \times B$. A finite sum type has as terms the tuples of the form $(a,b)$ where $a\in A$ and $b:B$.
 \end{itemize}
 
 \end{definition}
@@ -822,8 +813,7 @@ non-zero. The function non-zero is defined as a dependent function that either t
 
 \subsection{Equality}
 
-
-Equality in type theory is completely different from set theory and called the intensional identity type. Its definition is such that type theory still good computational properties such as the \keyword{normalizability} of terms and types, see \Cref{normalizing}. This implies it is suitable for implementation of proof assistants and this contributed to its popularity. 
+Equality in type theory is completely different from set theory and called the intensional identity type. Its definition is such that type theory still has good computational properties such as the \keyword{normalizability} of terms and types, see \Cref{normalizing}. This implies it is suitable for implementation of proof assistants and this contributed to its popularity. 
 
 In traditional mathematics, an equality between two sets is an equivalence relation: a transitive, symmetric and reflexive relation. When an equivalence relation is not explicitly given, it assumed that the equivalence is one of the following: 
 
@@ -836,9 +826,9 @@ of definitions. It denoted in this text by $\equiv$ and by $=$ in most programmi
 In the absence of any of such interpretations, it also possible to define equality based on whether properties are the same or different between objects. This way of identifying objects is called \keyword{extensional} because it is based on the behaviour of ``black-box'' objects which can not be well-behaved.  This equality is called \keyword{judgemental equality}. Judgemental equality is sometimes also called \keyword{propositional equality} to emphasize that the properties of equal objects (at least according to this equality) have the same properties.
 
 \begin{example}[Leibniz's function extensionality axiom]\label{extensionality}
-Two arbitrary sect functions $f,g : X \rightarrow Y$ can be identified whether they take the same values:
+According to this axiom, two arbitrary set functions $f,g : X \rightarrow Y$ are identified when they take the same values:
      \[f = g \Leftrightarrow f(x) = g(x), \forall x \]
-This is an example of a propositional equality between two different objects. This principle is in type theory also called \keyword{function extensionality axiom} because it does not hold in standard type theory. The function extensionality axiom does hold however in certain extensions such as cubical type theory or univalent type theory, see \cite{Voevodsky2013} for a proof. A generalization of this axiom is called \keyword{indiscernibility of identicals}.
+This is an example of a propositional equality between two different objects. This principle is in type theory also called \keyword{function extensionality axiom} because it does not hold in standard type theory and ``extensionality'' is the term associated with black-box reasoning. The function extensionality axiom does hold however in certain extensions such as cubical type theory or univalent type theory, see the chapter about the univalence axiom in \cite{Voevodsky2013} for a proof. A generalization of this axiom is called \keyword{indiscernibility of identicals}.
 \end{example}
 
 The \keyword{intensional identity type} is not defined as a relation using set-theoretic concepts such as tuples, opposed to the traditional equivalence relations of mathematics. The intensional identity type is a type with its own typing rules which will be stated explicitly in \Cref{equalitytype} and was only fairly recently added to type theory. Its 
@@ -863,9 +853,9 @@ $\op{Id}_X(a,b)$). The intensional identity type satisfies
 \Cref{reflprop,pathindprop}.
 \end{definition}
 
-When $a=_X b$, the terms $a$ and $b$ satisfy the  same properties, so it is possible to treat the intensional identity type as the propositional equality from mathematics which explains the notation ``$=$''. 
+When $a=_X b$, the terms $a$ and $b$ satisfy the  same properties and it is possible to treat the intensional identity type as the jugmental equality from mathematics which explains the notation ``$=$''. 
 
-\begin{property}[Introduction rule]\label{reflprop}
+\begin{property}[Identity type introduction rule]\label{reflprop}
 There is only one constructor called \keyword{reflexivity} or in short 
 $\op{refl}$. Given a term $a:X$ it returns the term $\op{refl}(a)$ of the 
 intensional identity type  $a = a$. 
@@ -874,14 +864,11 @@ intensional identity type  $a = a$.
 The rule \Cref{reflprop} makes the intensional identity type reflexive by construction.
 
 The definition of the eliminator for the intensional identity type is one of 
-the most complex expressions in type theory because it looks so self-explanatory 
-or simple but is not. This is because the proof of equality is now a term of 
+the most complex expressions in type theory because it short but has many implications. This is because a proof of equality between two objects is now a term of 
 the intensional identity type and there can be multiple terms (or equalities). 
 
-\begin{property}[Elimination rule]\label{pathindprop}
-The eliminator is also called \keyword{path 
-induction} or $J$: given a dependent product type, also called a 
-family
+\begin{property}[Identity type elimination rule]\label{pathindprop}
+The eliminator is also called \keyword{path induction} or $J$: given a dependent product type, also called a family
 $$C : \prod_{x,y:A} (x =_A y) \rightarrow \mathcal{U}$$
 representing a predicate depending on terms (and proofs of identity), a 
 function $$c:\prod_{x:A} C(x,x,\op{refl}_x)$$ that can be considered as the base 
@@ -889,31 +876,28 @@ step in an inductive construction, there is a function $$f: \prod_{x,y:A}
 \prod_{p:x=_Ay}C(x,y,p)$$ such that $$f(x,x,\op{refl}_x) \equiv c(x).$$
 \end{property}
 
-
-It tells that that to prove a property for all terms $x,y$ and equalities 
-$p:x=y$ between them, it suffices to consider all the cases where $x$ is 
+It tells that that to prove a property $C$ for all terms $x,y$ and equalities 
+$p:x=y$ between them, it suffices to consider all the cases of the proof where $x$ is 
 definitionally equal to $y$ and where the term of the intensional identity type 
 under consideration is $\op{refl}_x : x = x$.
 
-
- Using the 
-definition of the eliminator, it is possible to prove the remaining properties 
-of the usual identity \cite{Voevodsky2013}, Ch. 2. 
+Using the definition of the eliminator, the remaining properties 
+of the usual identity can be proven. This is also done in \cite{Voevodsky2013}, Ch. 2. 
 
 \begin{lemma}
   For every type $A$ and every $x,y,z:A$:
   \begin{itemize}
-  \item The intensional identity type is symmetric. There is a function 
+  \item The intensional identity type is \keyword{symmetric}. There is a function 
 $(x=y)\rightarrow (y=x)$ denoted by $p \mapsto p^{-1}$, such that 
 $\op{refl}_x\equiv \op{refl}_x$ for each $x: A$. The term $p^{-1}$ is called 
 the inverse of $p$.
-  \item The intensional identity type is also transitive. This means that there 
+  \item The intensional identity type is also \keyword{transitive}. This means that there 
 is a function $(x=y)\rightarrow (y=z) \rightarrow (x=z)$ written $p \mapsto q 
 \mapsto p \star q$ such that $\op{refl}_x \star \op{refl}_x \equiv 
 \op{refl}_x$. The expression $ p \star q$ is called the \keyword{concatenation} 
 of $p$ and $q$.
     \item The intensional identity type supports \keyword{indiscernibility of 
-identicals}, see \Cref{extensionality} in the following way: if $P$ is a type family over $A$ or in other words, there is a 
+identicals} (see \Cref{extensionality}): if $P$ is a type family over $A$ or, in other words, there is a 
 dependent function $P:A \rightarrow \mathcal{U}$ and suppose there is a term $p: 
 x=_Ay$, then there is a function, called the transport $p_\star:P(x)\rightarrow 
 P(y)$. When the family $P$ is important, $p_\star$ is sometimes also denoted by 
@@ -922,9 +906,7 @@ $transport^P(p,-):P(x) \rightarrow P(y)$.
 \end{lemma}
 
 These properties are not the defining properties of the intensional 
-identity type but consequences of \Cref{pathindprop}. This is what makes the intensional identity type special 
-compared to the traditional notion of equality, defined with relations over sets.
-
+identity type but consequences of \Cref{pathindprop}. This is what makes the intensional identity type special compared to the traditional notion of equality, defined with relations over sets.
 
 As mentioned earlier, the introduction of the intensional identity type was an 
 important step in the establishment of (Per-Martin L\"of) type theory. Having 
@@ -946,32 +928,37 @@ introduced in \Cref{dependencies}.
   \end{itemize}
 \end{definition}
 
-This definition is however very simple and is often extended with more complicated types such higher inductive types, see for an introduction to type theory
-\cite{Palmgren2014} or for higher inductive types \cite{Voevodsky2013}. In this text, only aspects of type 
-theory relevant to (applications of) the proof the univalence theorem will be 
-mentioned. The type theory \Cref{typetheory} is also called MLTT and is very close to the implementation of proof assistant Agda \cite{Abel2019} and variants of MLTT such as CIC, used in proof assistant Coq \cite{Arias2019}. For now, for understanding the intensional 
-identity type and the univalence axiom, the differences are however not that 
+For an introduction to more advanced aspects of this version type theory, see
+\cite{Palmgren2014}. This theory is also called MLTT and is very close to the type theory used in proof assistant Agda \cite{Abel2019}. Next to Agda, there is are other variants of MLTT such as CIC, used in proof assistant Coq \cite{Arias2019}. For now, for understanding the intensional identity type and the univalence axiom, the differences are however not that 
 important. There are for example formalizations of the univalence axiom and 
 applications of it in both assistants. For simplicity, this text not cover the differences between MLTT,  CIC and type theory as in \Cref{typetheory} and all code examples and implementations will be in Agda.
 
+%MLTT is often extended with more complicated types such higher inductive types, see \cite{Voevodsky2013} and . In this text, only aspects of type 
+%theory relevant to (applications of) the proof the univalence theorem will be 
+%mentioned. 
+
 \subsubsection{Implications of equality as a type}\label{groupex}
 
-With equality having been defined an implemented, it is possible to translate 
+With equality having been defined and implemented, it is possible to translate 
 the definitions of mathematical objects that use equality relations between 
-elements of sets to the language of type theory. An example is the is the type 
-theoretic definition of a group. One could try to define a group as a dependent 
+elements of sets to the language of type theory. An example is the type 
+theoretic definition of a group. 
+
+\begin{example}[Naive group type]\label{simplegroup}
+One could try to define a group as a dependent 
 sum. Take $G$ to be the base type, $e$ the neutral element, $i$ the inversion 
 and $m$ the multiplication map. A first try at a definition of a group would 
 then be $\sum_{G,e,i}m:(G\times G \rightarrow G)$, but this definition is not 
 yet complete. The maps $i$ and $m$  have to satisfy associativity and other 
 properties. These properties have to be encoded as types or terms. Let's say there is a proof that these properties hold, called $\alpha$, then the first definition of a group can be extended to contain this proof. However, the following questions turns up: if two groups $G$ and $G'$ have different multiplication 
 maps, they are definitely not equal. But what if they have different proofs of 
-associativity, $\alpha$ and $\alpha'$? This can happen because the identity 
+associativity, $\alpha$ and $\alpha'$? This can happen because the intensional identity type
 between terms of  $G$ can have more than one term. Are they still equal? They 
-are not, at least according to the way the base type $G$ is chosen. By the 
-definition of the intensional identity type on $G$ it was possible to have 
-different terms of the intensional identity type and accordingly different 
+are not, at least according to the definition of the base type $G$. By the 
+definition of the intensional identity type on $G$, there can be
+different terms of the intensional identity type and different 
 proofs of associativity $\alpha$ and $\alpha'$.
+\end{example}
 
 Of course this an undesirable consequence of the generality of the definition 
 of the intensional identity type. In practice, it is undesirable to have more 
@@ -982,7 +969,7 @@ of the group. This motivates the following definitions:
 \begin{definition}\label{hset}
 \begin{itemize}
 \item  An \keyword{h-prop} $X$ is a type such that any two terms $x,y:X$ are 
-equal and can be formally stated as $$\op{isProp}(X) \equiv 
+equal and can be formally stated using a dependent product type as $$\op{isProp}(X) \equiv 
 \prod_{x,y:X}(x=y).$$
 \item When the intensional identity type between any two terms of a type $X$ is 
 an h-prop, the type is called an \keyword{h-set} which is formally denoted by 
@@ -1002,16 +989,15 @@ they have the same properties. In type theory the prefix is omitted, for
 example the type of all types that are h-props is denoted by $\op{Prop}$ and the 
 type of all types that are h-sets is denoted by $\texttt{Set}$, but for clarity, this text will always try to use the ``h'' prefix.
 
-In the previous example, the type $G$ can be chosen to be an h-set, that is $G: 
+In \cref{simplegroup}, the type $G$ can be chosen to be an h-set, that is $G: 
 \op{Set}$. Then the possibility of having multiple proofs of associativity is 
 eliminated because the intensional identity type is always an h-prop. The 
 definition of groups can be changed such that it only allows for $G$ to be an 
 h-set. This gives an intuitive type-theoretical alternative to the 
 traditional mathematical definition of groups. This means that all existing 
-constructive proofs can be studied again in type theory. Although this can seem 
-like a stupid idea to do everything again, it has proven to be useful in the 
-context of big theorems in algebra that needed a lot of so-called 
-proof-engineering \cite{Gonthier2013}.
+constructive proofs can be studied again in type theory. Although it may seem 
+like a stupid idea to do everything again, it has proven to be useful for proving big theorems in algebra that needed a lot of so-called 
+proof-engineering, for example in the formal type theoretical proof of \cref{solvable}.
 
 \section{The univalence axiom}
 
@@ -1021,7 +1007,7 @@ proof-engineering \cite{Gonthier2013}.
 \par\end{center}
 \caption{\label{fig:Vladimir-Voevodsky-1966-2017}
   Vladimir Voevodsky (1966-2017)  was a Russian
-algebraist who found new ways to apply topology to algebraic geometry. When 
+algebraic topologist and algebraic geometrist. When 
 working on the simplicial model for a type theory that was inspired by 
 algebraic topology, \cite{Voevodsky2010a} introduced the univalence axiom under 
 the name of equivalence axiom. According to \cite{Voevodsky2014}, the term \keyword{univalence} comes from a 
@@ -1040,14 +1026,14 @@ to type theory gives a new theory, called \keyword{univalent type theory}, see
 \Cref{univalenttt}, a new domain in mathematics that was considered very 
 promising and still is. See for example \cite{shulman_2018}. In this domain, concepts from topology, category theory 
 and type theory  are combined to study new ways of writing proofs and discover 
-new results because of its topological interpretations, see 
+new results with topological interpretations, see 
 \Cref{homotopicinterp}. The definition of the univalence axiom is based on the 
 concept of equivalences. It is proven in \cite{Voevodsky2013}, Sec. 4.5, 
 that there are at least three different but equivalent definitions of 
 equivalence. The definition of equivalences used in this section and in 
 \cite{Pelayo2014} corresponds with the definition $\op{isContr}$ in 
 \cite{Voevodsky2013}. In applications (see for examples \Cref{applications}) it 
-is often easier to use $\op{biinv}$ which views equivalences as
+is often easier to use $\op{biinv}$ which characterizes equivalences as
 generalized homotopies.
 
 \begin{definition}\label{contractible}
@@ -1078,7 +1064,7 @@ Given types $X,Y : \mathcal{U}$ for some universe $\mathcal{U}$, the map
 $\Phi_{X,Y}: (X=Y) \rightarrow (X \simeq Y)$ is an equivalence of types. 
 \end{axiom}
 
-It can be proven that all equivalences as defined in \Cref{contractible} are 
+It can be proven that all equivalences, defined as in \Cref{contractible}, are 
 propositions. The univalence axiom, once stated and accepted, has to be a 
 proposition because the property of being an equivalence is a proposition. Implementations of applications of the univalence axiom were released as part of libraries \cite{Voevodskyb} and \cite{gross2011} with code formalizing large portions of popular mathematics that were surveyed in \cite{Bauer2016}.
 
@@ -1108,7 +1094,7 @@ The Univalent Foundations project was a joint work undertaken by mathematicians 
 
 It was also mentioned in \cite{Voevodsky2010a} that the use of the univalence 
 axiom in proof assistants such as Coq could be useful for the formalization of 
-mathematics. The philosophical aspects of the univalence axiom as a foundation for mathematics were discussed in \cite{LadPre16} and more practical aspects for  synthetic mathematics in \cite{Shulman2017}. A version of homotopy type theory, called \keyword{modal homotopy type theory} is being used to formalize and clean up certain foundational theories of physics such as differential co-homology and higher differential geometry (see for a recent example \cite{Sch19}). This shows applications of homotopy type theory are still being investigated in other fields than just type theory or logic. The rest of this text will assume that the univalence axiom is useful and look more at the technical aspects of find models and primitives for univalent type theory.
+mathematics. The philosophical aspects of the univalence axiom as a foundation for mathematics were discussed in \cite{LadPre16} and more practical aspects for  synthetic mathematics in \cite{Shulman2017}. A version of homotopy type theory, called \keyword{modal homotopy type theory} is being used to formalize and clean up certain foundational theories of physics such as differential co-homology and higher differential geometry (see for a recent example \cite{Sch19}). This shows applications of homotopy type theory are still being investigated in other fields than just type theory or logic. The rest of this text will assume that the univalence axiom is useful and look more at the technical aspects of models and primitives for univalent type theory.
 
 \subsection{Multiple proofs of identity}
 
@@ -1117,14 +1103,13 @@ multiple bijections possible between these h-sets. Bijections between h-sets
 are the equivalences between h-sets. Simplifying the finer aspects of 
 equivalences, the univalence axiom roughly gives a bijection between those equivalences and terms of the intensional identity 
 type between h-sets. However, in case there are multiple bijections, 
-multiple equalities can be possible and this unsatisfactory. An h-set should only be equal to 
+multiple equalities can be possible and this is unsatisfactory. An h-set should only be equal to 
 itself in one way. Furthermore, the universe in which those h-sets are contained 
-cannot be an h-set. Furthermore, the type of objects in a category is not an h-set, see \cite{Voevodsky2013}, 
-lemma 9.1.8. In general, there exist constructions of types that prove for any 
+cannot be an h-set. Another example is categories: the type of objects in a category is not an h-set, see \cite{Voevodsky2013}, lemma 9.1.8. In general, there exist constructions of types that prove for any 
 positive integer $n$ that there is a nested tower of equalities which is non-trivial 
 with depth $n$, see \Cref{secondleveleq}.  
 
-This demonstrates that in univalent type theory certainly not all types are h-sets and there can be multiple proofs of identity. This implies that the \keyword{uniqueness of identity proofs 
+This demonstrates that in univalent type theory, certainly not all types are h-sets and there can be multiple proofs of identity. This implies that the \keyword{uniqueness of identity proofs 
 principle} (UIP), stating that there is only one proof of identity, does not hold. So univalent type theory has some slightly 
 counter-intuitive consequences for the classical mathematician that is used to 
 working with (h-)sets and never really bothers too much with alternative 
@@ -1161,7 +1146,7 @@ somewhat unexpected and gave rise to a new field in foundations of mathematics
 that also had many applications \cite{Voevodsky2013}. Mathematicians who are 
 working in foundations can try to find models of a theory they are working 
 with. Models with category theory prove the relative consistency of the system 
-in relation with classical foundational frameworks such as set theory, 
+in relation to classical foundational frameworks such as set theory, 
 intuitionistic logic and optionally the axiom of choice. This was also the case 
 in (univalent) type theory which was first modelled with groupoids in 
 \cite{Hofmann1998}. This section will explore some of the models that exist for 
@@ -1172,7 +1157,7 @@ univalent type theory.
 
 Before the univalence axiom was discovered, one of the first models of type 
 theory was done in the language of groupoids \cite{Hofmann1998} and is called the \keyword{groupoid model}. A 
-\keyword{groupoid} is a concept of category theory that is inspired by the 
+\keyword{groupoid} is a concept in category theory that is inspired by the 
 behaviour of groups. 
 
 \begin{definition}
@@ -1181,8 +1166,8 @@ A \keyword{groupoid} is a category with only invertible morphisms.
 
 Let $X$ be any type. The model in 
 groupoids of type theory worked by interpreting every term of $a,b:X$ as an 
-object and the terms of the intensional identity type $\op{Id}_X(a,b)$ as 
-invertible morphisms (see \Cref{secondleveleq} where the equalities are 
+object of a category and the terms of the intensional identity type $\op{Id}_X(a,b)$ as 
+invertible morphisms in the category (see \Cref{secondleveleq} where the equalities are 
 replaced by morphisms). The tower of equalities needed to be interpreted as 
 well. This was done with a higher-dimensional groupoid, called an 
 \keyword{$\infty$-groupoid} or $\omega$-groupoid, see the thesis 
@@ -1302,8 +1287,6 @@ introduction of \cite{Voevodsky2013} gives a comparison of the concepts of
 univalent type theory together with their interpretations in the topological 
 model and intuitionistic logic, see \Cref{curryhoward}.}
 \end{table}
-
-
 
 
 \section{Simplicial model}\label{simpmod}
@@ -1600,7 +1583,7 @@ category with families according to \Cref{catprop} is a category of contexts.
 the functor $1$ mapping all the objects in the base category to the same set. 
 \end{property}
 
-Example of possible contexts for pre-sheaf models can be found in \Cref{pre-sheafexs}. The central example in this text is cubical sets, see \Cref{cubset}. 
+Examples of possible contexts for pre-sheaf models can be found in \Cref{pre-sheafexs}. The central example in this text is cubical sets, see \Cref{cubset}. 
 
 There also has to be a functor from the category of pre-sheaves to families of 
 sets that satisfies \Cref{type_functor} for types and terms in a category with 
@@ -1900,24 +1883,23 @@ relation that is covered in \cite{Voevodsky2013}, Sec. 7.2), it is in
 contradiction with the univalence axiom, see \Cref{uniaxiom}. A pre-sheaf model 
 does not necessary support the intensional identity type from type theory, an 
 identity type that supports multiple terms. In univalent type theory the 
-identity type must have multiple terms and not satisfy \Cref{axiomk}. This 
-means that not any pre-sheaf model is sufficient to model univalent type theory. 
-To find a pre-sheaf model for univalent type theory in category theory, it is 
-necessary need to look further into variations on the pre-sheaf model explained 
+identity type must have multiple terms and does not satisfy \Cref{axiomk}. This 
+means that an arbitrary pre-sheaf model is not sufficient any more to model univalent type theory. 
+To find a pre-sheaf model for univalent type theory, it is 
+necessary to look further into variations on the pre-sheaf model explained 
 above.  
 
 \chapter{The pre-sheaf model of cubical type theory}\label{cubical}
 
 A general framework for making models of type 
-theory with pre-sheaves in category theory has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible 
+theory with pre-sheaves has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible 
 to generate terms of it.  
 
 The model with cubical sets can help with computing with terms of the 
 univalence axiom because it is easier to implement than other models and 
 completely constructive (see 
 \Cref{nominalmod} for a short history of the alternative models). This means that all the evaluation the generated terms 
-in this model does not get stuck and can always be simplified or computed into 
-the primitives of the model. Proof of concept is the recent implementation of 
+in this model does not get stuck and can always be simplified or computed into an expression using the primitives of the model. Proof of concept is the recent implementation of 
 this model in the proof assistant Agda \cite{Moertberg2018}. 
 
 \section{The category of cubes}
@@ -1996,7 +1978,7 @@ Morgan algebra $dM(J)$.
     \end{definition}
 
 From now on, until the rest of this chapter, the symbol $\cube$ will be 
-used to denote the category defined in \Cref{cubcat}. $\cube$ can be 
+used to denote the category defined in \Cref{cubcat}. The category $\cube$ can be 
 interpreted as an abstract higher-dimensional cube on which it is possible to 
 apply operations described by a De Morgan algebra. As a base category it has 
 much more objects and morphisms than the category that was used to construct 
@@ -2062,7 +2044,7 @@ Another example gives an interpretation to the unknowns of polynomial rings as f
 Let $R$ be a commutative ring with a unit element. Define for $I$ a finite set 
 of unknowns $\left\{x_1 , ..., x_n \right\}$, the set $R[I]$ of all polynomials 
 in these unknowns. Then $R[-]$ can be considered as a functor and even a 
-cubical set. For example if $p(x,y,z) = 1 + x^2y +z \in R[x,y,z]$, it is 
+cubical set. For example, if $p(x,y,z) = 1 + x^2y +z \in R[x,y,z]$, it is 
 possible to apply the face map $(y/0)$ to obtain $(1+x^2 y +z ) (y/0) = 1+z$.
 \end{example}
 
@@ -2093,7 +2075,7 @@ denoted by ``cubical sets".
 
 The interpretation of the empty context $()$ in this pre-sheaf model is by 
 \Cref{precon} a pre-sheaf denoted by $1$ that maps all objects in the base 
-category $\cube$ to the same set $\singleton$. 
+category $\cube$ to the same set containing one element $\singleton$. 
 
 To define $\mathbb{F}$ as a type in the empty context within the pre-sheaf 
 model, it is necessary to describe how $\mathbb{F}$ acts on the category of 
@@ -2133,7 +2115,7 @@ defined by $$(\Gamma . A)(I) = \left\{ (\rho , u ) \mid \rho \in \Gamma (I), u
 Given $\Gamma \vdash A$ and an interpretation in $\psh{\cube}$, there is 
 always a term $q$ in $$\mathbb{\Gamma}, A \vdash q : A.$$ This is used in 
 $\psh{\cube}$ in combination with the interval object to parametrise 
-terms and types by dimension variables. For example if $\Gamma$ is any context, 
+terms and types by dimension variables. For example, if $\Gamma$ is any context, 
 there is the type $\Gamma \vdash \mathbb{I}$ and an extension $\Gamma. 
 \mathbb{I}$ but also a term $\Gamma. \mathbb{I} \vdash q : \mathbb{I}$.
 r $(\Gamma, q : \mathbb{I})$ where $q$ is as before but depends on the context 
@@ -2440,7 +2422,10 @@ $i=1$.
 
 Again, it is possible to write this operation with natural deduction as a introduction rule telling the 
 existence of the category theoretical interpretation in $\psh{\cube}$ of a specific 
-term with a specific type. The notation $\op{comp}(I,i,\rho, \varphi, u, a_0)$ 
+term with a specific type. 
+
+\begin{definition}[Composition introduction rule]
+The notation $\op{comp}(I,i,\rho, \varphi, u, a_0)$ 
 is written with a shorter syntax and with application to $\rho$ implicit as 
 $\compt{i}{A}{\varphi}{u}{a_0}$.
 
@@ -2465,6 +2450,8 @@ a_0 \sigma$}
 
 where $j$ does not appear as a dimension variable in a syntactical 
 representation of $\Delta$ yet. For types the morphism acts analogously. 
+\end{definition}
+
 
 The existence of a composition structure for all types in $\psh{\cube}$ cannot be taken for granted. Its 
 existence depends on the choice of context and type.
@@ -2799,10 +2786,8 @@ equivalent to the total type $\Gamma, \varphi \vdash f : \op{Equiv} \ A \ B $
 as far as it is defined, there is a type $\Gamma \vdash \op{Glue} \ \left[ 
 \varphi \mapsto \left( A, f \right) \right] \ B$ that satisfies certain 
 elimination rules. 
-\end{definition}
 
-
- This can also be expressed with natural deduction as:
+This can also be expressed with natural deduction as:
 
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash \varphi : \mathbb{F}$}
@@ -2813,8 +2798,13 @@ elimination rules.
 \right) \right] \ B$}
 \end{prooftree}
 
+\end{definition}
 
-Another way to phrase this is as follows: the formation rule of the $\op{Glue}$ type tells that given an element of 
+
+ 
+
+
+Another way to phrase this is as follows: the introduction rule of the $\op{Glue}$ type tells that given an element of 
 the face lattice $\mathbb{F}$ expressing the sides of a square on which $f$ is 
 defined as an equivalence $A\rightarrow B$, there is a bigger type that ``glues 
 the sides together''. It is a bigger type because by one of the eliminating typing rules as mentioned on \cite{Huber2016}, figure 6.5, the 
@@ -2948,7 +2938,7 @@ within a particular model. In this section, the proof of the theorem in
 
 \subsection{History of the proof}
 
-In this section the development of the most recent revision of the proof in  \cite{Moertberg2018}, \texttt{Cubical.Foundations.Univalence} as of writing this 
+In this section, the development of the most recent revision of the proof in  \cite{Moertberg2018}, \texttt{Cubical.Foundations.Univalence} as of writing this 
 text will be discussed. For a history of the development of the semantics, see \Cref{nominalmod}.
 
 The first model in which this theorem became provable was simplicial sets 
@@ -2960,7 +2950,7 @@ without lattice structure (mentioned in \Cref{nominalmod}).
 The proof in \cite{Huber2016} was the first one that was formally verified in a 
 type theory, more specifically cubical type theory. The first part of this proof has since been rewritten 
 in \cite{Weinberger2016}. The formalization has been continuously worked on 
-since \cite{Moertberg2015} and \cite{Cohen2016} in \cite{Moertberg2018}. Recently, this library code was surveyed in \cite{Moertberg2018a} but recent restructuring and revisions of the files in this library can have made this explanation less up-to-date. In the following sections the different parts of the implementation the proof will be discussed.
+since \cite{Moertberg2015} and \cite{Cohen2016} in \cite{Moertberg2018}. Recently, this library code was surveyed in \cite{Moertberg2018a} but later revisions of the files in this library can have made this explanation less up-to-date. In the following sections the different parts of the implementation the proof will be discussed.
 
 \section{Proof of the univalence theorem}
 
@@ -2976,9 +2966,8 @@ Another proof is \cite{Huber2016}, p. 103, Thm 6.7.2 and uses two extra
 lemmas to construct to proof the equivalence.
 
 \begin{proof}
-As mentioned in \Cref{contractible,uniaxiom}, an equivalence is a function such 
-that its fibres (pre-images) are contractible. So, to prove that 
-\texttt{unglue} is an equivalence amount to proving that for any $b$ in the 
+As mentioned in \Cref{contractible,uniaxiom}, an equivalence is a function with contractible  fibres (pre-images). So, to prove that 
+\texttt{unglue} is an equivalence amounts to proving that for any $b$ in the 
 co-domain $A$, the fibre $\op{fiber}\ \op{unglue} \ b$ is contractible. In 
 other words, the following proofs have to be given:
 \begin{itemize}
@@ -3016,8 +3005,8 @@ It is necessary to give a term $x : \sum \ T : \type \  \left( T \simeq
 A \right)$ and a proof that there is an equality between $x$ and any other term 
 $y$ of the same type. Take the trivial equivalence  $(A, \op{idEquiv})$ for 
 $x$. It remains to prove that every other term is equal to this one. So take 
-another term $$\op{y : Σ (Set\ l) (λ T → T ≃ A))}$$ then it can be shown with 
-$\op{unglueIsEquiv}$ that there is a path $(A , idEquiv A) \equiv y$.
+another term $$\op{y : Σ\ (Set\ l)\ (λ T → T ≃ A))}$$ then it can be shown with 
+$\op{unglueIsEquiv}$ that there is a path $(A , \texttt{idEquiv}\ A) \equiv y$.
 \end{proof}
 
 
@@ -3074,7 +3063,7 @@ base case $r$ over the equality returned by $\texttt{contrSingleEquiv e)}$.
 \end{proof}
 
 This construction of the map $\op{ua}$ is based on the one defined in 
-\cite{Huber2016}, Example 6.6.2, p. 101.
+\cite{Huber2016}, Ex. 6.6.2, p. 101.
 
 \begin{definition}
 $\op{ua} : \forall \ A\ B:\type, A \simeq B \rightarrow A = B$ is defined with 
@@ -3299,7 +3288,7 @@ the record types of magmas.
 
 Another component is the operator. In this case, the operator is actually a 
 path between the two given operators \texttt{op₁} and \texttt{op₂}. This means that a point-wise defined 
-operator has to be defined such that coincides with the respective operators on its ending points. The construction of such an operator \texttt{opᵢ'} at time \texttt{i} is illustrated in \Cref{transpop} and implemented in \Cref{zeroPathLift} by:
+operator has to be defined such that coincides with the respective operators on its endpoints. The construction of such an operator \texttt{opᵢ'} at time \texttt{i} is illustrated in \Cref{transpop} and implemented in \Cref{zeroPathLift} by:
 
 \begin{enumerate}
 \item Transport the arguments of the operator \texttt{opᵢ' i} over \texttt{zeroPath i} from the intermediate carrier set \texttt{fEq i} to the carrier set \texttt{fEq i0} which is just $\mathbb{N}$. 
@@ -3361,14 +3350,11 @@ structure \texttt{algPath} of type \texttt{s₁ ≡ s₂} is straightforward and
 \begin{figure}\label{algpath}
 \centering
  \begin{BVerbatim}
-isSetᵢ : (i : I) → isSet (fEq i)
-isSetᵢ i = {!transport  (λ j → isSet (fEq (i ∧ j))) isSetℕ!} 
 
 algPath : s₁ ≡ s₂
 algPath = λ i → record {
    Carrier = (fEq i) ;
-   _✧_ = opᵢ i ;
-   s = isSetᵢ i
+   _✧_ = opᵢ i
    }
  \end{BVerbatim}
 
@@ -3714,7 +3700,7 @@ of univalent type theory.
 
 \section{Cartesian computational type theory}\label{comptt}
 
-There a completely different approach taken to cubical type theory and proving the univalence axiom in Pittsburgh. This version does have a different syntax and does not (directly) make use of categorical semantics but also admits a proof of univalence. The Pittsburgh approach is called ``cartesian cubical computational type theory" and discussed in  \cite{Angiuli2017}, \cite{Angiuli2018}. This version of 
+A completely different approach is taken in Pittsburgh  to cubical type theory and proving the univalence axiom in Pittsburgh. This version does have a different syntax and does not (directly) make use of categorical semantics but also admits a proof of univalence. The Pittsburgh approach is called \keyword{cartesian cubical computational type theory} and discussed in  \cite{Angiuli2017}, \cite{Angiuli2018}. This version of 
 cubical type theory is based on an extensional variant of intuitionistic type 
 theory and has an identity type, denoted by ``$\doteq$'' that is more 
 like ``equality by definition''. The identity ``$\doteq$'' is called the extensional identity type and satisfies the uniqueness of identity proof principle opposed to the intensional identity type \Cref{equalitytype} and the path type of cubical type theory. Another path identity 
@@ -3722,10 +3708,10 @@ type is introduced on top of the theory that is similar to the path type in \Cre
 
 \subsection{Computational type theory}
 
-Cartesian cubical computational type theory is based on computational type theory. This theory extends type theory with quotients of types, set 
+Cartesian cubical computational type theory is based on \keyword{computational type theory}. This theory extends type theory with quotients of types, set 
 comprehension types, partial recursive function types, intersection types and 
 other special types \cite{Constable2011}, p. 6.  Computational type theory has 
-been implemented in the proof assistant NuPRL and the underlying formal theory 
+been implemented in the proof assistant \keyword{NuPRL} and the underlying formal theory 
 was described using partial equivalence relations (PERs) in \cite{Allen1987} 
 according to \cite{Angiuli2018} which was later generalized to a set-theoretic semantic model in 
 \cite{Harper1991}. A historical overview of the relation between computational type theory and \Cref{typetheory} is given in \cite{Constable2003} and recently 
@@ -3904,7 +3890,7 @@ unique $n \in \mathbb{N}$ (in a meta-theory) with $I \vdash u = \op{suc}^n \
 effectively calculated (in a meta-theory). 
 \end{theorem}
 
-There is also another version of canonicity in literature: ``canonicity of booleans'' (see \cite{Angiuli2018} 
+There is also another version of canonicity in literature called \keyword{canonicity of booleans} (see \cite{Angiuli2018} 
 or \Cref{comptt}). But 
 because numeral values give rise to boolean expressions and the other way 
 around, canonicity of booleans is equivalent with canonicity of numerals. When 
@@ -3942,26 +3928,25 @@ according to \cite{Cubicalv92:online}.
 
 \chapter*{Conclusion}
 
-This text gave an overview of the motivations and concepts behind the cubical 
-set model of an extension univalent type theory in \Cref{catsem} and the type 
-theory called cubical type theory that is modelled by with cubical sets in 
-\Cref{cubical}. Using the properties of the model, more precisely the 
-\texttt{Glue} construction, it is possible to encode a proof of the univalence 
-axiom in cubical type theory, see \Cref{univalenceproof}. The application of the 
+This text gave an overview of the concepts behind the cubical 
+set model and cubical type theory (see \Cref{cubical}) which is an extension of univalent type theory. With the help of the 
+\texttt{Glue} construction that is part of the cubical set model (see \Cref{glueOp}), it is possible to proof the univalence axiom in cubical type theory. This was discussed in \Cref{univalenceproof}. The application of the 
 proof of univalence in cubical type theory to isomorphic algebraic structures in 
-\Cref{magmas} was not immediate but allowed to study transport of properties of 
-structures. In standard univalent type theory it would not be possible to 
-compute the transports of such properties but with the help of cubical type 
-theory this became possible. Studying these formalized proofs in cubical type 
+\Cref{magmas} was not immediate and required defining severa new constructions. The eventual application returned a path between algebraic structers over which  properties of 
+structures could be transported. However, due to bugs in the implementation of numerals in the library, this transports could not be tested out. In standard univalent type theory it would not be possible to even define the transports of such properties but with the help of cubical type 
+theory this became (partially) possible. 
+
+
+Studying these formalized proofs in cubical type 
 theory can give a (better) topological intuition about using the structure 
 identity principle (see \cite{Aczel2012}) in computer assisted proofs. Having 
 this intuition becomes very useful with the implementation of cubical type 
 theory because it allows to improve and understand the theorems from homotopy 
-type theory using the primitives of the cubical set model which are 
+type theory using the primitives of the cubical set model which are only
 cubes together with a composition operation. However, there remain big challenges to solve such as proving normalizability and 
-using canonicity for in formalizing fundamental theorems in homotopy theory, see 
-\Cref{normalizing}. There is ongoing research whether the primitives of cubical 
-type theory can be replaced by more general or efficient alternatives.
+using canonicity in formalizing fundamental theorems in homotopy theory, see 
+\Cref{normalizing}. There is also ongoing research whether the primitives of cubical 
+type theory can be replaced by more general or efficient alternatives such as \texttt{V}-types.
 
 
 %\unsure{There are pieces of interesting information in the notes  \cite{Shiue2018} and \cite{Booij2018}}
