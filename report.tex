@@ -8,7 +8,7 @@
 % -------------------------------------------------------------------
 \RequirePackage{fix-cm}
 %\documentclass[ebook, oneside, openany,xetex]{memoir} % for ebook
-\documentclass[12pt,a4paper,twoside,xetex,draft]{book} % for publication
+\documentclass[12pt,a4paper,twoside,xetex]{book} % for publication
 \usepackage{fancyvrb}
 
  % ----- Illustrations and general page layout  -----------------------------
@@ -98,7 +98,7 @@ LabelStyle/.style = { %rectangle, draw,
 \Crefmultiformat{chapter}{Chs.~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
 
 \newtheorem{theorem}{Theorem}[section]
-\crefname{theorem}{Thm.}{Thms.}
+\crefname{theorem}{Th.}{Ths.}
 \newtheorem{corollary}{Corollary}[theorem]
 \crefname{corollary}{Cor.}{Cors.}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -1068,7 +1068,7 @@ It can be proven that all equivalences, defined as in \Cref{contractible}, are
 propositions. The univalence axiom, once stated and accepted, has to be a 
 proposition because the property of being an equivalence is a proposition. Implementations of applications of the univalence axiom were released as part of libraries \cite{Voevodskyb} and \cite{gross2011} with code formalizing large portions of popular mathematics that were surveyed in \cite{Bauer2016}.
 
-\subsection{Univalent foundations of mathematics}
+\subsection{Univalent foundations of mathematics}\label{univalentfoundations}
 
 The univalence axiom gives ways to identify equivalent types. An algebraic 
 topologist \cite{Grayson2018} said that it 
@@ -2043,38 +2043,39 @@ The faces described in \cref{cubfaces} are put into a lattice structure to be ab
 \begin{definition}\label{facelattice}
 The \keyword{face lattice} $\mathbb{F}$ is the distributive lattice generated 
 by the face maps (which are the substitutions of the form $(i/b), i\in 
-\mathbb{A}, b \in \left\{ 0,1 \right\}$). An element of the lattice $\varphi 
+\mathbb{A}, b \in \left\{ 0,1 \right\}$). These substitutions are also written as $i = b$ (variations of cubical type theory also allow other values for $b$, see \Cref{compcubes}). An element of the lattice $\varphi 
 \in \mathbb{F}$ is called an \keyword{extent}. The top element in this lattice 
 is denoted by $1_{\mathbb{F}}$ and the bottom element by $0_{\mathbb{F}}$ but 
 the reference to $\mathbb{F}$ is often omitted in literature. The face lattice 
-also satisfies $(i/0) \wedge (i/1) = 0_{\mathbb{F}}$ by definition. 
+also satisfies $(i=0) \wedge (i=1) = 0_{\mathbb{F}}$ by definition. 
 \end{definition}
 
-The face lattice gives rise to a cubical set. For a $I\in 
+\begin{example}\label{facecubical}
+The face lattice gives rise to a cubical set. For a set of dimension names $I\in 
 \cube$, set $\mathbb{F}(I)$ to be the subset of extents in 
-$\mathbb{F}$ that only contains dimension names $i \in I$. If $f \in 
-\homo{\cube}{J}{I}, \mathbb{F}(I) \rightarrow \mathbb{F}(J): \varphi 
+$\mathbb{F}$ that only contains dimension names $i \in I$. If there is a morphism $f \in 
+\homo{\cube}{J}{I}$, then by contravariance there is a set map $\mathbb{F}(I) \rightarrow \mathbb{F}(J): \varphi 
 \mapsto f(\varphi)$ where $f$ just substitutes the symbols in $\varphi$ and 
 applies the rewriting rules on \cite{Orton2019}, p. 39: given $r,s \in J$,
 
-$$\begin{aligned}(r \vee s)/1 & \mapsto(r/1) \vee(s/1) \\(r \wedge s)/1 & \mapsto(r/1) \wedge(s/1) \\(1-r)/1 & \mapsto r/0 \end{aligned}$$
+$$\begin{aligned}(r \vee s)=1 & \mapsto(r=1) \vee(s=1) \\(r \wedge s)=1 & \mapsto(r=1) \wedge(s=1) \\(1-r)=1 & \mapsto r=0 \end{aligned}$$
  
-$$\begin{aligned}(r \vee s)/0 & \mapsto(r/0) \wedge(s/0) \\(r \wedge s)/0 & \mapsto (r/0) \vee(s/0) \\(1-r)/0 & \mapsto r/1 \end{aligned}$$
+$$\begin{aligned}(r \vee s)=0 & \mapsto(r=0) \wedge(s=0) \\(r \wedge s)=0 & \mapsto (r=0) \vee(s=0) \\(1-r)=0 & \mapsto r=1 \end{aligned}$$
+\end{example}
 
-On the other hand, $\mathbb{F}$ can also be seen as a type in $\psh{\cube}$. 
 
-Remember from \Cref{premodel} that in such a pre-sheaf model, contexts are 
+On the other hand, $\mathbb{F}$ can also be seen as a type in $\psh{\cube}$, see \Cref{facetype}. 
+
+Remember from \Cref{premodel} and \Cref{precon} that in the presheaf model $\psh{\cube}$, contexts are 
 pre-sheaves and types are pre-sheaves over a category of elements. The contexts 
-in $\psh{\cube}$ are in \Cref{cubset} 
-denoted by ``cubical sets".
+in $\psh{\cube}$ are by \Cref{cubset} called cubical sets.
 
 The interpretation of the empty context $()$ in this pre-sheaf model is by 
 \Cref{precon} a pre-sheaf denoted by $1$ that maps all objects in the base 
 category $\cube$ to the same set containing one element, for example $\singleton$. 
 
 To define $\mathbb{F}$ as a type in the empty context within the pre-sheaf 
-model $\psh{\cube}$, it is necessary to describe how $\mathbb{F}$ acts on the category of 
-elements. By definition of the category of elements (see \Cref{catel}), 
+model $\psh{\cube}$, it is necessary to describe how $\mathbb{F}$ acts on the category of elements. By definition of the category of elements (see \Cref{catel}), 
 $$\int_{\cube} 1 = \left\{ (I, \rho ) \mid I \in \cube, \rho \in 1I 
 \right\} \cong \left\{ (I, \star ) \mid I \in \cube \right\}  \cong 
 \cube$$ where the last isomorphism is just a bijection that works by 
@@ -2083,10 +2084,8 @@ sending $(I, \star )$ to the set $\mathbb{F}(I)$.
 
 \begin{definition}\label{interval}
 The \keyword{interval object} $\mathbb{I}$ represents the unit interval. It is 
-modelled as a context in $\psh{\cube}$. Such a model is a functor  
-$\cube \rightarrow \set : I \mapsto dM(I)$.  $(i=0)$ acts as a term 
-$\mathbb{I} \vdash (i = 0) : \mathbb{F}$ on elements $\rho \in dM (I)$. This 
-map is defined as the map setting all the occurrences of $i$ in $\rho$ to $0$ 
+modelled as a context in $\psh{\cube}$ which is a functor  
+$\cube \rightarrow \set : I \mapsto dM(I)$. Given an $i \in I$, the morphism $(i/0)$ acts as a term $\mathbb{I} \vdash (i/0) : \mathbb{F}$ on elements $\rho \in dM (I)$. This term is defined as the map setting all the occurrences of $i$ in $\rho$ to $0$ 
 and applying the rules of the distributive lattice.
 \end{definition}
 
@@ -2098,16 +2097,17 @@ The interval object (or any other context) can also be seen as a type in the emp
 \section{Restricting contexts and types}
 
 It would now be possible to describe how traditional types that are defined in 
-(univalent type theory) can be interpreted in $\psh{\cube}$. 
-However, the face and interval objects form a very important part of cubical 
-type theory because of their interaction with other contexts. To understand 
-this interaction, it is necessary how types interact with contexts in general.  
+(univalent) type theory can be interpreted in $\psh{\cube}$. However, the face and interval objects form a very important part of cubical 
+type theory because of they can be used to index and restrict contexts.  
 
-$\psh{\cube}$ also contains the context extensions from 
+\subsection{Indexing contexts by dimensions}\label{contextindexing}
+
+$\psh{\cube}$ contains the context extension as defined in 
 \Cref{preext}: if $\Gamma \vdash A$ is a type, then the context extension is 
 defined by $$(\Gamma . A)(I) = \left\{ (\rho , u ) \mid \rho \in \Gamma (I), u 
 \in A (I,\rho) \right\}.$$
-Given $\Gamma \vdash A$ and an interpretation in $\psh{\cube}$, there is 
+
+Given $\Gamma \vdash A$ and an interpretation in $\psh{\cube}$, according to \cref{universal_extension} there is 
 always a term $q$ in $$\mathbb{\Gamma}, A \vdash q : A.$$ This is used in 
 $\psh{\cube}$ in combination with the interval object to parametrise 
 terms and types by dimension variables. For example, if $\Gamma$ is any context, 
@@ -2117,52 +2117,54 @@ r $(\Gamma, q : \mathbb{I})$ where $q$ is as before but depends on the context
 $\Gamma$ and type $\mathbb{I}$. In this situation and in literature $q$ is 
 replaced by a letter $i,j,k$ and written in the context extension part. More 
 precisely one writes $\Gamma, (i: \mathbb{I})$ instead of $\Gamma . 
-\mathbb{I}$. If 
+\mathbb{I}$. 
+
+\subsection{Restricting indexed contexts}
 
 In $\psh{\cube}$, there is another way to form new 
 contexts using extents. But to introduce this formally, it is necessary to 
 pinpoint how extents are interpreted as terms.
 
-\begin{definition}
+\begin{definition}[The face type]\label{facetype}
 In general, the type $\Gamma \vdash \mathbb{F}$ is defined in $\psh{\cube}$ by the contra-variant functor $$\mathbb{F} : \left\{ (I, \rho) \mid  I \in 
 \cube,  \rho \in \Gamma (I) \right\} \rightarrow \set: (I, \rho) \mapsto 
-\mathbb{F}(I)$$ where $\rho$ is just ignored. Terms $\Gamma \vdash \varphi : 
+\mathbb{F}(I)$$ where $\rho$ is just ignored. 
+\end{definition}
+
+\begin{definition}[The face terms]
+Given a context $\Gamma \in \psh{\cube}$, the terms $\Gamma \vdash \varphi : 
 \mathbb{F}$ are defined by a dependent function $$\varphi : (I : \cube) 
 \rightarrow (\rho : \Gamma (I)) \rightarrow  \mathbb{F}(I,\rho): I \mapsto \rho 
 \mapsto \varphi \rho $$ where $I$ is implicit.
 
-To calculate with $\varphi$, it is necessary to give a precise interpretation in 
-$\psh{\cube}$. Define $ 0_{\mathbb{F}}, 
-1_{\mathbb{F}} \in \mathbb{F}$ to be terms $0,1 : \mathbb{F}$ in $\psh{\cube}$ by 
-setting \(0 \rho = 0, 1 \rho = 1\) for all $\rho \in \Gamma (I)$, $\Gamma \in 
-\psh{\cube}$ and $I \in \cube$.  
+The following terms have special notation:
+\begin{itemize}
+ \item The symbols $ 0_{\mathbb{F}}, 
+1_{\mathbb{F}} \in \mathbb{F}$ denote the terms $$\Gamma \vdash 0,1 : \mathbb{F}$$ in $\psh{\cube}$ that are defined by the map \(0 \rho = 0, 1 \rho = 1\) for all $\rho \in \Gamma (I)$, $\Gamma \in \psh{\cube}$ and $I \in \cube$.
 
-For other extents, the definition or interpretation can depend on the context. 
-When $\varphi$ is an extent containing only variables $i,j,k \in \mathbb{A}$, 
-there is a term $(i: \mathbb{I}), (j: \mathbb{I}), (k: \mathbb{I}) \vdash 
-\varphi : \mathbb{F}$ also denoted $(i,j,k: \mathbb{I}) \vdash \varphi : 
-\mathbb{F}$. It's interpretation in $\psh{\cube}$ is as follows: take an $I \in \cube$ and  $\rho \in (i,j,k: \mathbb{I})$, then $\rho = 
-((\rho_i, \rho_j), \rho_k)$, where $\rho_i \in dM(I)$, $\rho_j \in 
-\mathbb{F}(I,\rho_i)$ which means that $\rho_j$ is an extent that only uses the 
-variables in $I$. Further on, $\rho_k \in \mathbb{F}(I, (\rho_i, \rho_j))$. Now 
-it is possible to define $\varphi(I,\rho)=\varphi(I,(\rho_i,\rho_j,\rho_k))$ as 
-the extent where every variable $i$ occurring in $\varphi$ is replaced by the 
-corresponding $\rho_i$ and apply the rules on \cite{Orton2019}, p. 39.
+\item When $\varphi$ is an extent containing only variables $i,j,k \in \mathbb{A}$ (for example $\varphi = (i = 0) \wedge (j = 1) \vee (k = 0)$), it is a term $(i: \mathbb{I}), (j: \mathbb{I}), (k: \mathbb{I}) \vdash 
+    \varphi : \mathbb{F}$ also denoted $$(i,j,k: \mathbb{I}) \vdash \varphi : 
+    \mathbb{F}$$ that is defined in  $\psh{\cube}$ as functor that maps $I \in \cube$ and  $\rho \in (i,j,k: \mathbb{I})$ as follows: 
+    \begin{itemize}
+    \item  The set $\rho$ can be rewritten with the definition of a context extension (see \Cref{contextindexing}) as $\rho = ((\rho_i, \rho_j), \rho_k)$, where $\rho_i \in dM(I)$ and $\rho_j \in \mathbb{F}(I,\rho_i)$ which means that $\rho_j$ is an extent that only uses the     variables in $I$. 
+    \item Furthermore, by \Cref{pretm} and the above, $\rho_k \in \mathbb{F}(I, (\rho_i, \rho_j))$. Define $\varphi(I,\rho)=\varphi(I,(\rho_i,\rho_j,\rho_k))$ as 
+    the extent where every variable $i$ occurring in $\varphi$ is replaced by the 
+    corresponding $\rho_i$ and apply the rules in \Cref{facecubical}.
+    \end{itemize}
+\item This definition of terms can be generalized from an extent containing only the set of dimension names $i,j,k$ to any set of dimension names.
+\end{itemize}
 \end{definition}
 
-
-
 \begin{definition}\label{contextrestriction}
-Given a context $\Gamma \in \psh{\cube}$ and term $\Gamma \vdash \varphi : \mathbb{F}$, it is 
-possible to define a new context $(\Gamma , \varphi)$, called the 
-\keyword{context restriction by extent $\varphi$}. It is defined as  $$(\Gamma 
+Given a context $\Gamma \in \psh{\cube}$ and term $\Gamma \vdash \varphi : \mathbb{F}$, there is a new context $(\Gamma , \varphi)$, called the 
+\keyword{context restriction by extent $\varphi$}, defined as  $$(\Gamma 
 , \varphi)(I) = \left\{ \rho \in \Gamma (I) \mid \varphi \rho = 1_{\mathbb{F}} 
 \in \mathbb{F}(I) \right \} .$$
 \end{definition}
  
 \begin{example}
-Let $\Delta \equiv (\mathbb{I}, (i=0))$. Then 
-$\Delta \cong ()$ as contexts.
+Given a context $\Delta \equiv (\mathbb{I}, (i=0))$, there is an isomorphism of contexts
+$\Delta \cong ()$ where $()$ is the empty context .
 \end{example} 
 
 \begin{proof}
@@ -2206,13 +2208,10 @@ to look at $a$ in the restriction of the original context: $i , j : \mathbb{I},
 The operation of extending (actually restricting) a context by an extent, can 
 be viewed as a typing rule: 
 
-
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash \varphi : \mathbb{F}$}
 \UnaryInfC{$ \Gamma , \varphi \vdash $}
 \end{prooftree}
-
-
 
 
 \begin{definition}
@@ -2221,33 +2220,31 @@ called a \keyword{partial element of extent $\varphi$}  if it is a term $(
 \Gamma, \varphi ) \vdash u : A{\iota}_{\varphi}$.
 \end{definition}
 
-There is also another definition of a partial element \cite{Orton2019}. This 
-alternative definition let's the choice of $u$ depend on $\rho \in \Gamma (I)$. 
+% There is also another definition of a partial element \cite{Orton2019}. This 
+% alternative definition lets the choice of $u$ depend on $\rho \in \Gamma (I)$. 
+% 
+% \begin{definition}
+% Let $\Gamma$ be context and $I \in \cube, i \not \in I, \rho \in \Gamma 
+% (I \cup \{i\}), \varphi \in \mathbb{F}(I)$. A partial element $u$ of $A(\rho)$ 
+% is a family $u_f \in A(\rho f)$ for every $f: J \rightarrow I \cup \{i\}$ such 
+% that $\mathbb{F}(s_i \circ f)(\varphi) = 1 _ {\mathbb{F}}$, with the property 
+% that for any $g:K \rightarrow J$,  $u_{f\circ g} = A(g)(u_f)$. Call 
+% $\varphi$ the \keyword{extent} of the partial element $u$.
+% \end{definition}
 
-\begin{definition}
-Let $\Gamma$ be context and $I \in \cube, i \not \in I, \rho \in \Gamma 
-(I \cup \{i\}), \varphi \in \mathbb{F}(I)$. A partial element $u$ of $A(\rho)$ 
-is a family $u_f \in A(\rho f)$ for every $f: J \rightarrow I \cup \{i\}$ such 
-that $\mathbb{F}(s_i \circ f)(\varphi) = 1 _ {\mathbb{F}}$, with the property 
-that for any $g:K \rightarrow J$,  $u_{f\circ g} = A(g)(u_f)$. Call 
-$\varphi$ the \keyword{extent} of the partial element $u$.
-\end{definition}
 
-
-For each $\Gamma \vdash u : A$ and extent $\varphi$, there is partial element 
+For each $\Gamma \vdash u : A$ and extent $\varphi$, there is a partial element 
 of extent $\varphi$, or term $(\Gamma, \varphi) \vdash u{\iota}_{\varphi} : 
 A{\iota}_{\varphi}$. When a term $(\Gamma, \varphi) \vdash v : 
 A{\iota}_{\varphi}$ is induced by a restriction by an extent $\varphi$, or in 
-other words $v = u{\iota}_{\varphi}$, $v$ is called \keyword{extensible}. This 
-can be intuitively seen as $v$ being extendible to $u$ by dropping the 
+other words $v = u{\iota}_{\varphi}$, the term $v$ is called \keyword{extensible}. This can be intuitively seen as the term $v$ being extendible to $u$ by dropping the 
 restriction by the extent $\varphi$. In type notation this relation between $u$ 
 and $v$ is written as $\Gamma \vdash u : A [ \varphi \mapsto v ]$ expressing 
 that $\varphi$ extends the term $v$ through $\varphi$. This can clarify the use 
-of the word extent.
+of the word \keyword{extent}.
 
 This specific notation for extents does not really state the presence of new 
-types, contexts or terms in the model but can also be seen as a typing rule and 
-written with natural deduction: 
+types, contexts or terms in the model but can also be seen as a typing rule: 
 
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash v : A$}
@@ -2256,8 +2253,8 @@ written with natural deduction:
 \BinaryInfC{$\Gamma \vdash u : A\ [ \varphi \mapsto v ] $}
 \end{prooftree}
 
-\begin{definition}[Generalized extent]\label{genextent}
-A generalization of extents, in this text called \keyword{generalized extent}, is given in \cite{Huber2016}, p. 95 and can be summarized as follows:
+\begin{definition}[Generalized extent introduction rule]\label{genextent}
+A generalization of extents, in this text called \keyword{generalized extent}, is given in \cite{Huber2016}, p. 95 and can be summarized as the typing rule:
 
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash a : A$}
@@ -2282,16 +2279,14 @@ Then there exists a term of type $A$, called a \keyword{system}, which  is denot
 by $[\varphi_1 \  t_1, ..., \varphi_n \ t_n]: A$. This term also has to satisfy
 \end{definition}
 
-This term also has to satisfy the elimination rules mentioned in \cite{Huber2016}, figure 6.4.  A system allows to treat compatible terms, terms that agree at all points of the hypercube, as one term. The following lemma proves that compositions can be treated as generalized extents.
-
-
+This term also has to satisfy the elimination rules mentioned in \cite{Huber2016}, figure 6.4.  A system allows to treat compatible terms, terms that agree at all points of the hypercube, as a single term. \Cref{extentrewrite} states that certain compositions can be treated as generalized extents.
 
 \begin{lemma}\label{extentrewrite}
 Let $\Gamma \vdash \varphi : \mathbb{F}$ and $\Gamma \vdash A$. If $\varphi = 
 \bigvee_i \varphi_i$ and $\Gamma \vdash \varphi_1 \vee ... \vee \varphi_n = 
 1_{\mathbb{F}} : \mathbb{F}$, then the following types are logically equivalent: 
 \begin{itemize}
-\item $A\ [\varphi \mapsto [\varphi_1 \ t_1, ..., \varphi_n \ t_n]$
+\item $A\ \left[\varphi \mapsto [\varphi_1 \ t_1, ..., \varphi_n \ t_n] \right]$
 \item $A\ [\varphi_1 \mapsto t_1, ..., \varphi_n \mapsto t_n]$
 \end{itemize}
 
@@ -2324,7 +2319,7 @@ be lifted by \text{Ty} to the level of types.
 \begin{example}
 Let $\Gamma  \in \psh{\cube}$ and a type $\Gamma \vdash A$. If $I=\{x\}$ is one dimensional and $\rho \in \Gamma(I)$, substitutions $(x/r)$ that 
 map the dimension variable $x$ on $0$ or $1$ can be visualized as mapping $\rho$ on the endpoints of an edge. The lift $A(\rho)$ is mapped by $(x/r)$ on the faces of the 
-cylinder similarly to the action of the morphisms $f$ and $g$ in \Cref{depgraphdiag}. Another way to interpret the type $A$ is using \Cref{typelemma} by viewing the type $A$ as a new context $\Delta$.  This is visualized in \Cref{hubtypes}. 
+cylinder similarly to the action of the morphisms $f$ and $g$ in \Cref{depgraphdiag}. This is visualized in \Cref{hubtypes}.  Another way to interpret the type $A$ is using \Cref{typelemma} by viewing the type $A$ as a new context $\Delta$.  
 \end{example}
 
 \begin{figure}\label{hubtypes}
@@ -2341,8 +2336,7 @@ sense. Given a type $A$ and terms $a,b,c:A$, the interpretation of the
 intensional identity type $a =_A b$ and $b=_A c$  in cubical sets is only 
 transitive if $A$ satisfies a \keyword{Kan extension property} (see 
 \Cref{fig:Kan}). This property of types $A$ tells how the terms of $A$ can be 
-extended from a restricted context cube to a full cube. It is made precise with 
-a composition and filling operation on the types and terms in $\psh{\cube}$.
+extended from a restricted context cube to a full cube and is made precise with a composition and filling operation on the types and terms in $\psh{\cube}$.
 
 % a c
 % b c cube
@@ -2350,12 +2344,7 @@ a composition and filling operation on the types and terms in $\psh{\cube}$.
 \begin{centering}
 \includegraphics[width=0.3\textwidth]{figures/Daniel_Kan.jpg}
 \par\end{centering}
-\caption{\label{fig:Kan}Daniel Kan (1927-2013) was a Dutch category and homotopy theorist. He defined his Kan extension property  in the context of algebraic 
-topology for cubical sets, see his book \cite{Kan1955} saying how boxes can be 
-filled. Although \cite{Coquand2019} mentions a predecessor to this property in 
-\cite{Eilenberg1939}. This Kan extension property later involved into different 
-flavours such as a version for simplicial sets stating that every ``horn'' can 
-be filled and the composition operation, see \Cref{compdef}. Picture taken in his home in 
+\caption{\label{fig:Kan}Daniel Kan (1927-2013) was a Dutch category and homotopy theorist. He defined his Kan extension property  in the context of algebraic topology for cubical sets, see his book \cite{Kan1955} saying how boxes can be filled. \cite{Coquand2019} mentions that there is a predecessor of this property in \cite{Eilenberg1939}. This Kan extension property later evolved into different flavours such as a version for simplicial sets stating that every ``horn'' can be filled and the composition operation of cubical type theory, see \Cref{compdef}. Picture taken in his home in 
 Massachusetts by \cite{Kan2005}.}
 \end{figure}
 
@@ -2412,7 +2401,7 @@ $i=1$.
 
 
 
-Again, it is possible to write this operation with natural deduction as a introduction rule telling the 
+Again, this operation can be written as aa introduction rule telling the 
 existence of the category theoretical interpretation in $\psh{\cube}$ of a specific 
 term with a specific type. 
 
@@ -2557,7 +2546,7 @@ section 4.3.}
 \end{figure}
 
 If $A$ is a Kan type, by definition, it has a composition operation. The 
-syntactical object $u = [i=0 \mapsto a, i=1 \mapsto q j]$ can be viewed as a 
+term $u = [i=0 \mapsto a, i=1 \mapsto q\ j]$ can be viewed as a 
 term that is only defined on three sides:
 
 \begin{itemize}
@@ -2579,7 +2568,7 @@ c]$.
 
 If this term depends on $i$, the introduction rule of a 
 path can be applied to return a term denoted by $\left< i \right> z$ that has 
-type $\pa{A}{a}{c}$. To verify this it is necessary to check that the endpoints 
+type $\pa{A}{a}{c}$. To verify this, it is necessary to check that the endpoints 
 of this path $\left< i \right> z$ are indeed $a$ and $c$.
 
 The endpoints are obtained by applying the context morphisms $$(i/0),(i/1): 
@@ -2606,7 +2595,7 @@ property hold for $\op{Path}$.
 If $A$ is Kan, it can be proven that the path type $\op{Path}_A(a,b)$ not only  
 satisfies transitivity but also all the typing rules of  the intensional 
 identity type (as mentioned in \Cref{equalitytype} or
-\cite{Orton2019}, p. 35) except the computation rule. However, it is not known if the Kan property and the composition structure are necessary for this property of the identity type to hold in $\psh{\cube}$, and 
+\cite{Orton2019}, p. 35) except for the computation rule. However, it is not known if the Kan property and the composition structure are necessary for this property of the identity type to hold in $\psh{\cube}$, and 
 whether the composition operation can be weakened. 
 
 In \cite{Cavallo2019}, the composition operation of $\psh{\cube}$ is weakened to a \keyword{weak composition operation}. This allows to develop a type theory 
@@ -3115,7 +3104,7 @@ states that $\op{au}$ is an equivalence.
 \end{theorem}
 
 \begin{proof}
-First it is shown that the given map $\op{au}$ has to be an isomorphism with as 
+First, it is shown that the given map $\op{au}$ has to be an isomorphism with as 
 inverse the previously constructed map $\op{ua}$. An isomorphism is the 
 homotopy type theoretic variant of a homotopy equivalence or more precisely, a 
 bi-invertible map as in chapter 4 of \cite{Voevodsky2013}. To prove that 
@@ -3553,7 +3542,7 @@ b  \ b$. See \Cref{torus}. Another way to construct the torus is given in
 
 \subsubsection{Algebraic topology}\label{higherhomotopy}
 
-Based \keyword{loop spaces} in algebraic topology contain the loops in a topological space that start and end at a particular point. Because there can be many loops, the spaces become very big. It is possible to add an operation to a loop space that composes two loops, called concatenation. This type of space can be generalized to higher-dimensional based loop spaces by iterating the loop space construction. These higher-dimensional loop spaces can be interpreted as spaces that contain loops between loops and also have a concatenation operation. Loop spaces with such an operation in a topological space $X$ are denoted by $\Omega_i (X)$ (omitting the base point) but the operation does not have to be well-behaved. This is were homotopy comes into play. Loops can be considered up-to path-homotopy. This means in practice that an equivalence relation is defined on the loop space, identifying the loops that can be deformed without tearing into each other. The resulting space with this equivalence relation based on continuous deformations retains the concatenation operation but is more well-behaved. The concatenation operation is invertible and also commutative in higher-dimensional loop spaces with such an equivalence relation, a result that is called the Eckmann-Hilton theorem (see \cite{Voevodsky2013}, 2.1.6. Because the concatenation is invertible, the loop spaces form groups for this operation, called \keyword{homotopy groups}. Given a topological space $X$, this is denoted by $\pi_i(X)$ where the base point is often omitted for path-connected topological spaces. Homotopy groups are the same for homotopy equivalent spaces, they are homotopy invariants. The first homotopy group is called the fundamental group. For more information on general 
+Based \keyword{loop spaces} in algebraic topology contain the loops in a topological space that start and end at a particular point. Because there can be many loops, the spaces become very big. It is possible to add an operation to a loop space that composes two loops, called concatenation. This type of space can be generalized to higher-dimensional based loop spaces by iterating the loop space construction. These higher-dimensional loop spaces can be interpreted as spaces that contain loops between loops and also have a concatenation operation. Loop spaces with such an operation in a topological space $X$ are denoted by $\Omega_i (X)$ (omitting the base point) but the operation does not have to be well-behaved. This is were homotopy comes into play. Loops can be considered up-to path-homotopy. This means in practice that an equivalence relation is defined on the loop space, identifying the loops that can be deformed without tearing into each other. The resulting space with this equivalence relation based on continuous deformations retains the concatenation operation but is more well-behaved. The concatenation operation is invertible and also commutative in higher-dimensional loop spaces with such an equivalence relation, a result that is called the Eckmann-Hilton theorem (see \cite{Voevodsky2013}, 2.1.6. Because the concatenation is invertible, the loop spaces form groups for this operation, called \keyword{homotopy groups}. Given a topological space $X$, this is denoted by $\pi_i(X)$ where the base point is often omitted for path-connected topological spaces. Homotopy groups are the same for homotopy equivalent spaces, they are homotopy invariants. The first homotopy group is called the \keyword{fundamental group}. For more information on general 
 algebraic topology, see the text \cite{Hatcher2001}.
 
 
@@ -3576,7 +3565,7 @@ $\Omega_1 (S^1) \simeq \mathbb{Z}$.
 General \keyword{loop spaces} of types 
 are defined by iterating the $\Omega$ construction. In formal homotopy type 
 theory, general loop spaces are denoted by $\Omega_i (X)$. However, these type-theoretic loop spaces can be turned into homotopy groups $\pi_i(X)$ using a truncation operation. 
-The resulting homotopy spaces are quite complicated to compute for high values of $i$. The proofs use the \keyword{Hopf fibration} and long exact sequences. Many cases were already proven in homotopy type theory in \cite{Voevodsky2013}, Chapter 8. See also \cite{Licata2013May} for a survey of most results that have been proven in 
+The resulting homotopy spaces are quite complicated to compute for high values of $i$. The proofs use the \keyword{Hopf fibration} and long exact sequences. Many cases were already proven in homotopy type theory in \cite{Voevodsky2013}, Ch. 8. See also \cite{Licata2013May} for a survey of most results that have been proven in 
 homotopy type theory and the methods used. One important result that was proven 
 is:
 
@@ -3601,7 +3590,7 @@ author mentions in the conclusion that cubical concepts are not always perfectly
 suited for this proof. 
 
 Nevertheless, there have been attempts at implementing the proof in cubical type 
-theory based on the sketch in \cite{Brunerie2016}, Appendix B. The first 
+theory based on the sketch in \cite{Brunerie2016}, Ap. B. The first 
 implementation was in the module \texttt{Examples.Brunerie} of the library 
 \cite{Moertberg2015} but is very long. The latest version is implemented in Agda 
 and can be found in the file  \texttt{Cubical.Experiments.Brunerie} of 
@@ -3644,7 +3633,7 @@ have not been implemented with the help of cubical type theory and
 
 \begin{itemize}
 \item Structuralism is a view in the philosophy of mathematics that states that isomorphic structures are equal. Structuralism in topology is called synthetic topology and its use in homotopy type theory is discussed in \cite{Shulman2017}. Structuralism for general mathematics in relation to univalent type theory is discussed in \cite{Awodey2014} and \cite{Tsementzis2016}. The \keyword{structure identity principle} defined in 
-\cite{Voevodsky2013}, theorem 9.8.2 and \cite{Aczel2012} is a version of this principle in homotopy type theory that should enable the transport of proofs between isomorphic structures. This principle could also be seen as a 
+\cite{Voevodsky2013}, Th. 9.8.2 and \cite{Aczel2012} is a version of this principle in homotopy type theory that should enable the transport of proofs between isomorphic structures. This principle could also be seen as a 
 generalization of the simple example in \Cref{magmas} to any category. The 
 principle has not been formalized in all generality yet in cubical type theory 
 but if this was done, it would be much easier for a practising mathematician to 
@@ -3738,7 +3727,7 @@ case, $a,b$ are said to have \keyword{equal canonical values}.
 \end{itemize}
 
 
-\subsection{Cubical extensions}
+\subsection{Cubical extensions}\label{compcubes}
 
 Cartesian cubical computational type theory is based on results in the technical 
 report \cite{AnHoHa17} and \cite{Angiuli2018}. The more informal text 
@@ -3780,7 +3769,7 @@ possibilities in cartesian cubical computational type theory:
 
 \begin{itemize}
  \item Introduce \texttt{Glue} types as in \Cref{univalenceproof}, after 
-\cite{Huber2016}. This was also taken in a previous version of cartesian cubical 
+\cite{Huber2016}. This approacht was also taken in a previous version of cartesian cubical 
 computational type theory \cite{Angiuli2017}.
  \item In \cite{Angiuli2018}, the \texttt{Glue} type is weakened to a type 
 called \texttt{V}-type with simple typing rules. On top of the \texttt{V}-type, 
@@ -3803,9 +3792,7 @@ Brunerie number that was introduced in \Cref{higherhomotopy}.
 
 \subsection{Implementations}
 
-It was implemented in Haskell \cite{MorAng18} and in the language RedPRL 
-\cite{Sterling2018a} with a proof of univalence that is slightly longer than the 
-one in \cite{Moertberg2018}. Development was continued in RedTT 
+Cartesian cubical computational type theory was implemented in Haskell \cite{MorAng18} and in the language RedPRL \cite{Sterling2018a} with a proof of univalence that is slightly longer than the one in \cite{Moertberg2018}. Development was continued in RedTT 
 \cite{Sterling2018b} which has many similarities but also extra features such as 
 extension types according to \cite{Moertberg2018a} but stopped by the end of 
 2018. The library code in \cite{Sterling2018b} also contains an alternative 
@@ -3814,9 +3801,7 @@ structure of the libraries is very similar. The composition and composition
 operations used in \cite{Sterling2018b} have also been implemented in 
 \cite{Moertberg2018} in the file \texttt{Foundations.CartesianKanOps}. 
 
-
 \section{Open challenges}\label{normalizing}
-
 
 \subsection{Strongly normalizing}
 
@@ -3861,10 +3846,10 @@ involve univalence) such that $u$
 does not involve the univalence axiom.
 \end{conjecture}
 
-This conjecture can fail to hold when axioms such as function extensionality or 
-univalence are added the theory and as a consequence, it was not solved for 
+This conjecture can fail to hold when axioms such as function extensionality (see \Cref{extensionality}) or 
+univalence are added the theory. The conjecture was not solved for 
 homotopy type theory but was solved for its extension, cubical type theory, in 
-\cite{Huber2016} and published in \cite{Huber2017}. The proof was improved by 
+\cite{Huber2016} and \cite{Huber2017}. The proof was improved by 
 removing a necessary condition for path lifts in
 \cite{Coquand2019}.  
 
@@ -3900,14 +3885,11 @@ enough) in a numeral that uses only a finite number of applications of
 $\mathbb{N}$ type is not the most effective way of computing the number $n$ of 
 the standard reduced form and the most effective implementation for the effective procedure for computing the 
 number $2$ in the meta-theory (or internally) is 
-not given explicitly in \cite{Coquand2019}. It could be a future challenge to implement this procedure. 
+not given explicitly in \cite{Coquand2019}.
 
- There seem to be problems with 
-the current implementations of \texttt{Glue} types and there is ongoing work on 
-trying to replace them with more efficient alternatives such as 
-\texttt{V}-types (see \Cref{compuniv}) but cubes may not be a perfect solution after all
-according to \cite{Cubicalv92:online}.
+ 
 
+ 
 % \subsection{Equivalence extension property}
 % 
 % There is a general formulation of gluing called the ``equivalence extension 
@@ -3921,13 +3903,10 @@ according to \cite{Cubicalv92:online}.
 \chapter*{Conclusion}
 
 This text gave an overview of the concepts behind the cubical 
-set model and cubical type theory (see \Cref{cubical}) which is an extension of univalent type theory. With the help of the 
-\texttt{Glue} construction that is part of the cubical set model (see \Cref{glueOp}), it is possible to proof the univalence axiom in cubical type theory. This was discussed in \Cref{univalenceproof}. The application of the 
+set model and cubical type theory (see \Cref{cubical}) which is an extension of univalent type theory. With the help of the \texttt{Glue} construction that is part of the cubical set model (see \Cref{glueOp}), it is possible to proof the univalence axiom in cubical type theory. This was discussed in \Cref{univalenceproof}. The application of the 
 proof of univalence in cubical type theory to isomorphic algebraic structures in 
 \Cref{magmas} was not immediate and required defining severa new constructions. The eventual application returned a path between algebraic structers over which  properties of 
-structures could be transported. However, due to bugs in the implementation of numerals in the library, this transports could not be tested out. In standard univalent type theory it would not be possible to even define the transports of such properties but with the help of cubical type 
-theory this became (partially) possible. 
-
+structures could be transported. However, due to bugs in the implementation of numerals in the library, this transports could not be tested out. In standard univalent type theory it would not be possible to even define the transports of such properties but with the help of cubical type theory this became (partially) possible. 
 
 Studying these formalized proofs in cubical type 
 theory can give a (better) topological intuition about using the structure 
@@ -3935,10 +3914,17 @@ identity principle (see \cite{Aczel2012}) in computer assisted proofs. Having
 this intuition becomes very useful with the implementation of cubical type 
 theory because it allows to improve and understand the theorems from homotopy 
 type theory using the primitives of the cubical set model which are only
-cubes together with a composition operation. However, there remain big challenges to solve such as proving normalizability and 
+cubes together with a composition operation. 
+
+However, there remain big challenges to solve such as proving normalizability and 
 using canonicity in formalizing fundamental theorems in homotopy theory, see 
-\Cref{normalizing}. There is also ongoing research whether the primitives of cubical 
-type theory can be replaced by more general or efficient alternatives such as \texttt{V}-types.
+\Cref{normalizing}. There also seem to be problems with 
+the current implementations of \texttt{Glue} types and there is ongoing work on 
+trying to replace them with more efficient alternatives such as 
+\texttt{V}-types (see \Cref{compuniv}) but cubes may not be a perfect solution after all
+according to \cite{Cubicalv92:online}.
+
+Univalent foundations of mathematics (see for future applications \Cref{univalentfoundations} and \Cref{futapp}) might be useful in the future but without computational interpretation it is not to possible to verify every proof that uses univalence, or at least not by computation. First, the implementation of the primitives in cubical type theory will have to be optimized to increase the overall efficiency of the normalization process. 
 
 
 %\unsure{There are pieces of interesting information in the notes  \cite{Shiue2018} and \cite{Booij2018}}
