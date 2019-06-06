@@ -492,7 +492,7 @@ This theorem was conjectured in 1911 and proven much later in \cite{Feit1963}. I
 
 \subsection{Type theory}
 
-Type theory, in general, is different from set theory. Set theory has two main layers: sets and propositions about elements of sets. In type theory, the analogues of these two layers are called \keyword{type}s and \keyword{term}s of types. The main difference between set theory and type theory is that terms are always accompanied by their type. Types can be empty, but when they have a term, they are called \keyword{inhabited}. Terms do not exist on their own. Without a type annotation, terms do not have any meaning, while in set theory it is perfectly possible to speak about a mathematical object on its own. For example, in type theory there is the type of groups denoted by $\op{Group}$ and a group $G$ would be denoted by the notation $G : \op{Group}$. Although this difference can seem very superficial, it implies that set membership is not a logical proposition any more but becomes a judgement, see \Cref{judgements}.
+Type theory, in general, is different from set theory. Set theory has two main layers: sets and propositions about elements of sets. In type theory, the analogues of these two layers are called \keyword{type}s and \keyword{term}s of types. The main difference between set theory and type theory is that terms are always accompanied by their type. Types can be empty, but when they have a term, they are called \keyword{inhabited}. Terms do not exist on their own. Without a type annotation, terms do not have any meaning, while in set theory a mathematical object exists on its own. For example, in type theory there is the type of groups denoted by $\op{Group}$ and a group $G$ would be denoted by the notation $G : \op{Group}$. Although this difference can seem very superficial, it implies that set membership is not a logical proposition any more but becomes a judgement, see \Cref{judgements}.
 
 Designers of formal systems and proof assistants based on type theory are confronted with questions about the properties of their systems. For example, certain expressions written in the system can or can not normalize or other expressions can be invalid in the system but not according to a mathematician using the system. An in-depth overview of the history of type theory can be found in \cite{Coquand2013oct} or \cite{Constable2011} and \cite{Constable2015July}.
 
@@ -517,7 +517,7 @@ Judgements are always accompanied by transformation rules that describe how seve
 \begin{itemize}
 \item A \keyword{formation rule} states how to introduce a new type reference it once it is introduced. For example, the formation rule of natural numbers is simply $\mathbb{N}$.
 \item The \keyword{constructor}s of a type state how terms of the type can be constructed. For example, there are two ways to introduce a term of the type of natural numbers: the zero element or as a successor of a natural number. An exception to this is the empty type \texttt{⊥} which has no constructors.
-\item To compute with terms and types, \keyword{eliminator}s describe how it is possible to apply terms and types to other terms and types. For example, the eliminator of the natural numbers takes a property about the natural numbers and states that it is enough to prove this by induction to prove it for all natural numbers. The \keyword{computation rule}s determine how an eliminator can act on a constructor. 
+\item To compute with terms and types, \keyword{eliminator}s describe how to apply terms and types to other terms and types. For example, the eliminator of the natural numbers takes a property about the natural numbers and states that it is enough to prove this by induction to prove it for all natural numbers. The \keyword{computation rule}s determine how an eliminator can act on a constructor. 
 \end{itemize}
 \end{definition}
 
@@ -582,7 +582,8 @@ informal type theory, see for example the difficulties encountered in \Cref{magm
 
 \subsection{Natural deduction}\label{natural}
 
-Throughout this text, formal type theory will be studied as much as possible. 
+%Throughout this text, formal type theory will be studied as much as possible.
+
 Because context dependency is explicit in formal type theory, it is possible to 
 write very rigorous and explicit sequences of derivations in proofs that apply the typing rules of \Cref{typingrules}. In this text and many other 
 texts, there is a special notation for derivations that is inspired by natural 
@@ -696,7 +697,7 @@ implemented in many proof assistants. Examples of such implementations are:
 \begin{itemize}
 \item The proof assistant Agda is a functional programming language based on 
 intuitionistic type theory (see \Cref{typetheory}) in which programs double as 
-mathematical proofs \cite{Abel2019}. Program extraction is possible for 
+mathematical proofs \cite{Abel2019}. Program extraction can be done for 
 well-behaved parts of the theory but it is not the main purpose, see for an example of where proof extraction fails \Cref{higherhomotopy}.
 \item Idris is similar to Agda and compiles to imperative 
 languages, see \cite{Brady2018}. This programming language will not be further investigated.
@@ -789,7 +790,7 @@ generalization of the function type and the typing rules (see \Cref{typingrules}
 
 When the indexing type $A$ only has two terms, both the dependent product and the dependent sum 
 are equivalent with the finite product type $B \times B$. Using these two 
-dependent types it is possible to build other dependent types. See 
+dependent types, new dependent types can be built. See 
 \Cref{non-zeroNats} for an example of a custom dependent types used in practice. 
 When working in set-theoretic models, the definition of a dependent type can be 
 stated very precise in terms of sets, see \Cref{depmodel}.
@@ -823,7 +824,7 @@ of definitions. It denoted in this text by $\equiv$ and by $=$ in most programmi
  \item Equality by isomorphism: between objects of a category.
 \end{itemize}
 
-In the absence of any of such interpretations, it also possible to define equality based on whether properties are the same or different between objects. This way of identifying objects is called \keyword{extensional} because it is based on the behaviour of ``black-box'' objects which can not be well-behaved.  This equality is called \keyword{judgemental equality}. Judgemental equality is sometimes also called \keyword{propositional equality} to emphasize that the properties of equal objects (at least according to this equality) have the same properties.
+In the absence of any of such interpretations, equality can be defined based on whether properties are the same or different between objects. This way of identifying objects is called \keyword{extensional} because it is based on the behaviour of ``black-box'' objects which can not be well-behaved.  This equality is called \keyword{judgemental equality}. Judgemental equality is sometimes also called \keyword{propositional equality} to emphasize that the properties of equal objects (at least according to this equality) have the same properties.
 
 \begin{example}[Leibniz's function extensionality axiom]\label{extensionality}
 According to this axiom, two arbitrary set functions $f,g : X \rightarrow Y$ are identified when they take the same values:
@@ -853,7 +854,7 @@ $\op{Id}_X(a,b)$). The intensional identity type satisfies
 \Cref{reflprop,pathindprop}.
 \end{definition}
 
-When $a=_X b$, the terms $a$ and $b$ satisfy the  same properties and it is possible to treat the intensional identity type as the jugmental equality from mathematics which explains the notation ``$=$''. 
+When $a=_X b$, the terms $a$ and $b$ satisfy the  same properties and it is the intensional identity type can be treated as the jugmental equality from mathematics which explains the notation ``$=$''. 
 
 \begin{property}[Identity type introduction rule]\label{reflprop}
 There is only one constructor called \keyword{reflexivity} or in short 
@@ -910,8 +911,7 @@ identity type but consequences of \Cref{pathindprop}. This is what makes the int
 
 As mentioned earlier, the introduction of the intensional identity type was an 
 important step in the establishment of (Per-Martin L\"of) type theory. Having 
-defined the intensional identity type in \Cref{equalitytype}, it is possible to 
-summarize the previous sections in a definition. Because there are many 
+defined the intensional identity type in \Cref{equalitytype}, the previous sections can be summerized in a definition. Because there are many 
 definitions of type theory, it is also a good occasion to fix on a particular 
 definition.
 
@@ -939,9 +939,8 @@ applications of it in both assistants. For simplicity, this text not cover the d
 
 \subsubsection{Implications of equality as a type}\label{groupex}
 
-With equality having been defined and implemented, it is possible to translate 
-the definitions of mathematical objects that use equality relations between 
-elements of sets to the language of type theory. An example is the type 
+With equality having been defined and implemented, the definitions of mathematical objects that use equality relations between 
+elements of sets can be translated to the language of type theory. An example is the type 
 theoretic definition of a group. 
 
 \begin{example}[Naive group type]\label{simplegroup}
@@ -1099,11 +1098,11 @@ mathematics. The philosophical aspects of the univalence axiom as a foundation f
 \subsection{Multiple proofs of identity}
 
 In univalent type theory, the identity type may have multiple terms. To illustrate this, take two h-sets, or even two definitionally equal h-sets. In general, there are 
-multiple bijections possible between these h-sets. Bijections between h-sets 
+multiple bijections between these h-sets. Bijections between h-sets 
 are the equivalences between h-sets. Simplifying the finer aspects of 
 equivalences, the univalence axiom roughly gives a bijection between those equivalences and terms of the intensional identity 
 type between h-sets. However, in case there are multiple bijections, 
-multiple equalities can be possible and this is unsatisfactory. An h-set should only be equal to 
+there are also multiple equalities and this is unsatisfactory. An h-set should only be equal to 
 itself in one way. Furthermore, the universe in which those h-sets are contained 
 cannot be an h-set. Another example is categories: the type of objects in a category is not an h-set, see \cite{Voevodsky2013}, lemma 9.1.8. In general, there exist constructions of types that prove for any 
 positive integer $n$ that there is a nested tower of equalities which is non-trivial 
@@ -1133,8 +1132,7 @@ a \arrow[equal, r, bend left=50, "p"{name=U, below}]
  any type, there is also an intensional identity type 
  $\op{Id}_{\op{Id}_X(a,b)}(p,q)$. The type $\op{Id}_{\op{Id}_X(a,b)}(p,q)$ can be interpreted as a 
 ``second layer'' of intensional identity types. By the Curry-Howard correspondence (see \Cref{curryhoward}), this second layer 
-contains the proofs of equality between proofs of equality. It is possible to 
-continue this construction inductively, obtain a third layer and so on. }
+contains the proofs of equality between proofs of equality. This construction can be contained inductively to obtain a third layer etc. }
 \end{figure}
 
 
@@ -1451,8 +1449,8 @@ substitutions $\tau$: $\left(\sigma,a\right)\tau =
 There is an alternative presentation of the category with families model in 
 \cite{Orton2019}, Sec. 3.1.
 
-Given a category with families, it is possible to formalize the informal 
-description in \Cref{dependencies} with a very short definition:
+Given a category with families, the informal 
+description in \Cref{dependencies} becomes a very short definition:
 
 \begin{definition}\label{depmodel}
 A type $B$ is a \keyword{dependent type} depending on another type $A$ within 
@@ -1548,8 +1546,7 @@ as a set of nodes.
 In this interpretation, $\Gamma (f) \circ \Gamma (h) = id_{\Gamma 
 (0)}$ and $\Gamma (g) \circ \Gamma (h) = id_{\Gamma(0)}$. This means that for 
 each $v \in \Gamma (0)$, $\Gamma (h) (v)$ serves as a an edge with both 
-starting and ending vertex $v$. This means that from every pre-sheaf, it is 
-possible to derive a unique \keyword{directed reflexive graph}. 
+starting and ending vertex $v$. This means that from every pre-sheaf, a unique \keyword{directed reflexive graph} can be derived. 
 \end{example}
 
 More examples of pre-sheaves will arise later in the form of cubical sets (see \Cref{cubset}) or can be found in 
@@ -1582,7 +1579,7 @@ category with families according to \Cref{catprop} is a category of contexts.
 the functor $1$ mapping all the objects in the base category to a fixed set. 
 \end{property}
 
-Examples of possible contexts for pre-sheaf models can be found in \Cref{pre-sheafexs}. The central example in this text is cubical sets, see \Cref{cubset}. 
+Examples of contexts for pre-sheaf models can be found in \Cref{pre-sheafexs}. The central example in this text is cubical sets, see \Cref{cubset}. 
 
 There also has to be a functor from the category of pre-sheaves to families of 
 sets that satisfies \Cref{type_functor} for types and terms in a category with 
@@ -1788,8 +1785,8 @@ $A(0,v)$. Every edge in $\{ (1, e) \mid e \in \Gamma (1) \}$ is mapped to a set
 $A(1,e)$.
 
 \item The morphism $(f \mid e)$ in the category of elements is mapped to a set 
-map $A(f): A(1,e) \rightarrow A(0, \Gamma (f) (e))$.  It is possible to do the 
-same for the morphism $g$. Let $\Gamma (f) (e) =v$. $f$ can be interpreted as 
+map $A(f): A(1,e) \rightarrow A(0, \Gamma (f) (e))$.  The 
+same applies to the morphism $g$. Let $\Gamma (f) (e) =v$. $f$ can be interpreted as 
 sending an edge $e' \in A(1,e)$ in a new graph to an endpoint, a vertex $v'$ 
 which lies in a set $A(0, x)$ above the endpoint $v$ of $e$ in original graph 
 $\Gamma$.
@@ -1816,9 +1813,8 @@ condition: $$\forall J \in \mathcal{C}, f \in \homo{\mathcal{C}}{J}{I},
 (a(I,\rho))\Gamma(f)= a(I,\rho \Gamma (f)).$$ 
 \begin{itemize}
 
-\item If $I=0$, an element $\rho \in \Gamma (0)$ is an edge in $\Gamma$. It is 
-possible to check how the maps $f,g:0\rightarrow 1$ act on terms. Assume for 
-example that $f$ (actually $\Gamma(f)$)  is the map giving the source of edges. 
+\item If $I=0$, then an element $\rho \in \Gamma (0)$ is an edge in $\Gamma$. The morphisms $f,g:0\rightarrow 1$ act on terms. Assume for 
+example that $f$ (actually $\Gamma(f)$)  is the morphism giving the source of edges. 
 It is possible to do the same for $g$. The condition on terms tells that 
 $(a\rho)f \equiv (a \rho)A(f \mid e)$ has to be equal to $a(\rho \Gamma (f))$. 
 In other words, the source of $a\rho$ should be a vertex $a(\rho \Gamma (f))$ 
@@ -1885,7 +1881,7 @@ necessary to look further into specific base categories and types.
 \chapter{The pre-sheaf model of cubical type theory}\label{cubical}
 
 A general framework for making models of type 
-theory with pre-sheaves has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds in it and it possible to generate terms of it. 
+theory with pre-sheaves has been discussed in \Cref{catsem}. However, remember from \Cref{simpmod} that the goal is to find a constructive model in category theory. Such a model would allow to prove the univalence axiom by generating explicit terms of the univalence axiom. These terms would consist in explicit functions that can help in further computations related to univalent type theory. The model in cubical sets was proven to be a model of univalent type theory, so the univalence axiom holds. When the univalence axiom holds, its function can be explicitly given in terms of a mapping between the primitives of cubical type theory. 
 
 The model with cubical sets can help with computing with terms of the 
 univalence axiom because it is easier to implement than other models and is
@@ -1928,7 +1924,7 @@ is called the \keyword{set of names} because the elements $x \in \mathbb{A}$
 serve as names for dimensions of the cubes. 
 \end{definition}
 
-It is possible to consider a De Morgan algebra generated by dimension 
+Consider a De Morgan algebra generated by dimension 
 names. In this algebra, the individual variables describe the lines of a cube 
 but the composite lattice elements that are also present in the algebra allow 
 to define values on the interior of a cube.
@@ -1938,7 +1934,7 @@ to define values on the interior of a cube.
 Let $I \subset \mathbb{A}$ be a finite subset. The \keyword{free De Morgan 
 algebra} generated by $I$ is the smallest De Morgan algebra that contains all 
 expressions with elements of $I$, the operators $\vee, \wedge, \neg$ and  the 
-bounding elements $0, 1$. It can also be denoted by $dM(I)$ or $\mathbb{I}$.
+bounding elements $0, 1$. It can also be denoted by $dM(I)$.
 \end{definition}
 
 Every bounded distributive lattice (a partially ordered set with relations) gives rise to a free de Morgan algebra, see \Cref{lattice}. This means that the connections can be interpreted as follows: $\wedge$ corresponds to taking the minimum and $\vee$ corresponds to taking the maximum.
@@ -1968,8 +1964,7 @@ Morgan algebra $dM(J)$.
 
 From now on, until the rest of this chapter, the symbol $\cube$ will be 
 used to denote the category defined in \Cref{cubcat}. The category $\cube$ can be 
-interpreted as an abstract higher-dimensional cube on which it is possible to 
-apply operations described by a De Morgan algebra. As a base category it has 
+interpreted as an abstract higher-dimensional cube on which operations described by a De Morgan algebra can be applied. As a base category it has 
 much more objects and morphisms than the category that was used to construct 
 directed and reflexive graphs, see \Cref{reflgraph}. As a consequence, types in 
 a pre-sheaf model over this category will be more complicated than in 
@@ -2020,7 +2015,7 @@ The application of $\Gamma(f)$ to the object $u \in \Gamma (I)$ is written on
 the right and the context $\Gamma$ is implicit: $\rho f \in \Gamma(J)$. 
 
 \begin{example}[Faces of cubes]\label{cubfaces}
-If $I = \left\{x,y \right\}$, it is possible to interpret $u \in \Gamma(I)$ as 
+If $I = \left\{x,y \right\}$,  $u \in \Gamma(I)$ has an interpretation as 
 a square with an edge $u(x/0)$ and corner $u(x/0)(y/0)$. In 
 general, $u\in \Gamma (J)$ behaves like a $|J|$-dimensional cube and the face 
 maps give faces of this cube.
@@ -2032,8 +2027,7 @@ Another example gives an interpretation to the unknowns of polynomial rings as f
 Let $R$ be a commutative ring with a unit element. Define for $I$ a finite set 
 of unknowns $\left\{x_1 , ..., x_n \right\}$, the set $R[I]$ of all polynomials 
 in these unknowns. Then $R[-]$ can be considered as a functor and even a 
-cubical set. For example, if $p(x,y,z) = 1 + x^2y +z \in R[x,y,z]$, it is 
-possible to apply the face map $(y/0)$ to obtain $(1+x^2 y +z ) (y/0) = 1+z$.
+cubical set. For example, if $p(x,y,z) = 1 + x^2y +z \in R[x,y,z]$, then the application of the face map $(y/0)$ gives $(1+x^2 y +z ) (y/0) = 1+z$.
 \end{example}
 
 \section{The face lattice}
@@ -2096,9 +2090,9 @@ The interval object (or any other context) can also be seen as a type in the emp
 
 \section{Restricting contexts and types}
 
-It would now be possible to describe how traditional types that are defined in 
-(univalent) type theory can be interpreted in $\psh{\cube}$. However, the face and interval objects form a very important part of cubical 
-type theory because of they can be used to index and restrict contexts.  
+Traditional types that are defined in 
+(univalent) type theory can be interpreted in $\psh{\cube}$. However, the face and interval objects form a more important part of cubical 
+type theory because they can be used to index and restrict arbitrary contexts. 
 
 \subsection{Indexing contexts by dimensions}\label{contextindexing}
 
@@ -2114,7 +2108,7 @@ terms and types by dimension variables. For example, if $\Gamma$ is any context,
 there is the type $\Gamma \vdash \mathbb{I}$ and an extension $\Gamma. 
 \mathbb{I}$ but also a term $\Gamma. \mathbb{I} \vdash q : \mathbb{I}$.
 r $(\Gamma, q : \mathbb{I})$ where $q$ is as before but depends on the context 
-$\Gamma$ and type $\mathbb{I}$. In this situation and in literature $q$ is 
+$\Gamma$ and type $\mathbb{I}$. In this situation and in literature, $q$ is 
 replaced by a letter $i,j,k$ and written in the context extension part. More 
 precisely one writes $\Gamma, (i: \mathbb{I})$ instead of $\Gamma . 
 \mathbb{I}$. 
@@ -2192,8 +2186,7 @@ the extent $\varphi$.
 A term $i : \mathbb{I}, j: \mathbb{I} \vdash a : A$ can be thought of as a 
 square that is indexed by dimension variables $i$ and $j$. The top and left 
 sides of the square are described by the lattice formula $\varphi = (i=0) \vee 
-(j=1)$. So if the attention has to be restricted to these sides, it is possible 
-to look at $a$ in the restriction of the original context: $i , j : \mathbb{I}, 
+(j=1)$. So if the attention is restricted to these sides, it is clear that $a$ lies in the restriction of the original context: $i , j : \mathbb{I}, 
  \varphi \vdash a : A$. This is illustrated in \Cref{topleft}.
 \end{example}
 
@@ -2390,8 +2383,7 @@ defined for $g: K \rightarrow J$ as $u_{(f \circ g \cup (i/j))}$.
 \item $\op{comp}(I,i,\rho, 1_{\mathbb{F}}, u, a_0) = u_{(i/1)}$. In other 
 words, the values of $A$ on top of the hypercube $\rho$ can be extended to to 
 values on top of the faces of the hypercube $\rho$ for which $i=1$. In other 
-words, it is possible to close the ``lid'' of the box $\rho$ along the side 
-$i=1$.
+words, the ``lid'' of the ``open'' box $\rho$ can be closed along the side $i=1$.
 
 \end{itemize}
 
@@ -2698,7 +2690,7 @@ $\fillt{i}{A}{\varphi}{u}{a_0}$ to be the term $$\op{comp}^j \ A(i/i \wedge j)
 in context $\Gamma . (i, j: \mathbb{I})$.
 \end{definition}
 
-Using the definition of extents, it is possible to decompose the filling term 
+Using the definition of extents, the filling term can be decomposed
 $v$ into judgements (omitting $\Gamma, i,j : \mathbb{I}$):
 
 \begin{itemize}
@@ -2717,8 +2709,7 @@ Now $a_0\rho$ is on the left side of the hypercube $\rho \in \Gamma \left(
 
 The filling is the composition plus something else, also called the interior. 
 But the interior in this context is not the interior in a topological sense 
-because there is no concept of continuity or topology present in $\psh{\cube}$. In $\psh{\cube}$ it is only 
-possible to compute with a finite amount of (subsets of) corners of 
+because there is no concept of continuity or topology present in $\psh{\cube}$. In $\psh{\cube}$ it is only possible to compute with a finite amount of (subsets of) corners of 
 standardized hypercubes.
 
 The existence of Kan types, types with a composition operation is not so 
@@ -3003,8 +2994,8 @@ The path type in cubical type theory can be slightly modified (see
 \begin{theorem}[\texttt{EquivJ}]
 Given a property $P: (A \ B : \mathcal{U}) \rightarrow (e : B \simeq A) 
 \rightarrow \mathcal{U}$, a proof of the base step $r : (A : \mathcal{U}) 
-\rightarrow P \ A\ A \ (\texttt{idEquiv} \ A)$, then it is possible to produce 
-a proof of the property for any $A \ B: \mathcal{U}$: $$ P\  A \ B\ e.$$
+\rightarrow P \ A\ A \ (\texttt{idEquiv} \ A)$, then there is
+a proof of $P$ any $A \ B: \mathcal{U}$: $$ P\  A \ B\ e.$$
 \end{theorem}
 
 \begin{proof}
@@ -3086,8 +3077,8 @@ The theorem $\op{isoToIsEquiv}$ is a proof that any isomorphism $f: A
 
 
 \begin{example}
-Let $A = \op{Bool}$ and $B = \op{Fin}\ 2$. It is possible to prove that $A = 
-B$. This is done using any bijection between $A$ and $B$ which is also an 
+Let $A = \op{Bool}$ and $B = \op{Fin}\ 2$, then $A = 
+B$. This holds because every bijection between $A$ and $B$ which is also an 
 isomorphism. Such an isomorphism is also an equivalence and applying the map $\op{ua}$ returns path of type $A = B$.
 \end{example}
 
@@ -3121,7 +3112,7 @@ property that \texttt{ua} is a right-inverse for paths \texttt{p}: \texttt{ua
 \end{itemize}
 Although an isomorphism is not well-behaved (it is for example not a 
 proposition), it contains more information than equivalence and from an 
-isomorphism, an equivalences can be extracted. Applying $\op{isoToIsEquiv}$ 
+isomorphism, an equivalence can be extracted. Applying $\op{isoToIsEquiv}$ 
 gives that $\op{ua} : A = B \rightarrow A \simeq B$ is an equivalence or 
 $\op{isEquiv}\ \op{ua}$. 
 \end{proof}
@@ -3177,17 +3168,15 @@ concepts from univalent type theory, also called homotopy type theory, in
 cubical type theory. Cubical type theory was implemented in 
 \texttt{Cubical.Core.HoTT-UF} of \cite{Moertberg2018}.
 
-In combination with the standard library of Agda \cite{Danielsson2019}, it is 
-possible to produce concrete examples in univalent type theory of reasoning 
-with univalence.
+In combination with the standard library of Agda \cite{Danielsson2019}, concrete examples in univalent type theory of reasoning 
+with univalence can be produced.
 
 \subsection{Isomorphism invariant algebra}\label{magmas}
 
 In the theories of groups and other algebraic structures, proofs are preferably 
 done for only one structure in an isomorphism class. The proofs for other 
 structures in the same class are not considered valuable because they do not 
-add information. With the univalence axiom, it is possible to treat 
-different proofs for properties of isomorphic structures as equal. In \cite{Danielsson2012} this was proven already but not yet for a constructive interpretation of the univalence axiom.
+add information. With the univalence axiom, different proofs for properties of isomorphic structures are equal. In \cite{Danielsson2012} this was proven already but not yet for a constructive interpretation of the univalence axiom.
 
 \begin{definition}
 A \keyword{monoid} $A$ is a set $A$ with an associative binary operation $+_A$ and neutral element $0_A$. A monoid without neutral element is called a \keyword{semigroup} and a semigroup that is not necessarily associative is a \keyword{magma}. Given two monoids $A$ and $B$, an isomorphism $f : A \rightarrow B$ is:
@@ -3381,7 +3370,7 @@ term of equality \texttt{s₁ ≡ s₂} to give a proof of commutativity of
 
 \subsubsection{Conclusion}
 
-This example shows that it is possible to do a version of the ``isomorphism-invariant'' mathematics as claimed in \cite{Voevodsky2013} in practice with magmas using a constructive interpretation of the univalence axiom. 
+This example shows that ``isomorphism-invariant'' mathematics is (partially) possible as claimed in \cite{Voevodsky2013} in practice with magmas using a constructive interpretation of the univalence axiom. 
 
 The core requirements to be able to implement this example were
 \begin{itemize}
@@ -3427,7 +3416,7 @@ transpL z =
   \end{BVerbatim}
 
  \end{center}
-\caption{These lemmas proof that the transport used in \Cref{adaptedOp} are just applications of the given maps that are morphisms. To prove this lemmas it was necessary to use equivalence induction which is defined using a form of equivalence (based on a hint in \cite{Vez19} and meanwhile implemented in \cite{Moertberg2018})}
+\caption{These lemmas proof that the transport used in \Cref{adaptedOp} are just applications of the given maps that are morphisms. To prove this lemmas it was necessary to use equivalence induction (based on a hint in \cite{Vez19} and meanwhile implemented in \cite{Moertberg2018}) and the computation rule for univalence \texttt{uaβ}.}
 \end{figure}
 
 
@@ -3542,7 +3531,7 @@ b  \ b$. See \Cref{torus}. Another way to construct the torus is given in
 
 \subsubsection{Algebraic topology}\label{higherhomotopy}
 
-Based \keyword{loop spaces} in algebraic topology contain the loops in a topological space that start and end at a particular point. Because there can be many loops, the spaces become very big. It is possible to add an operation to a loop space that composes two loops, called concatenation. This type of space can be generalized to higher-dimensional based loop spaces by iterating the loop space construction. These higher-dimensional loop spaces can be interpreted as spaces that contain loops between loops and also have a concatenation operation. Loop spaces with such an operation in a topological space $X$ are denoted by $\Omega_i (X)$ (omitting the base point) but the operation does not have to be well-behaved. This is were homotopy comes into play. Loops can be considered up-to path-homotopy. This means in practice that an equivalence relation is defined on the loop space, identifying the loops that can be deformed without tearing into each other. The resulting space with this equivalence relation based on continuous deformations retains the concatenation operation but is more well-behaved. The concatenation operation is invertible and also commutative in higher-dimensional loop spaces with such an equivalence relation, a result that is called the Eckmann-Hilton theorem (see \cite{Voevodsky2013}, 2.1.6. Because the concatenation is invertible, the loop spaces form groups for this operation, called \keyword{homotopy groups}. Given a topological space $X$, this is denoted by $\pi_i(X)$ where the base point is often omitted for path-connected topological spaces. Homotopy groups are the same for homotopy equivalent spaces, they are homotopy invariants. The first homotopy group is called the \keyword{fundamental group}. For more information on general 
+Based \keyword{loop spaces} in algebraic topology contain the loops in a topological space that start and end at a particular point. Because there can be many loops, the spaces become very big. An operation can be added to a loop space that composes two loops, called concatenation. This type of space can be generalized to higher-dimensional based loop spaces by iterating the loop space construction. These higher-dimensional loop spaces can be interpreted as spaces that contain loops between loops and also have a concatenation operation. Loop spaces with such an operation in a topological space $X$ are denoted by $\Omega_i (X)$ (omitting the base point) but the operation does not have to be well-behaved. This is were homotopy comes into play. Loops can be considered up-to path-homotopy. This means in practice that an equivalence relation is defined on the loop space, identifying the loops that can be deformed without tearing into each other. The resulting space with this equivalence relation based on continuous deformations retains the concatenation operation but is more well-behaved. The concatenation operation is invertible and also commutative in higher-dimensional loop spaces with such an equivalence relation, a result that is called the Eckmann-Hilton theorem (see \cite{Voevodsky2013}, 2.1.6. Because the concatenation is invertible, the loop spaces form groups for this operation, called \keyword{homotopy groups}. Given a topological space $X$, this is denoted by $\pi_i(X)$ where the base point is often omitted for path-connected topological spaces. Homotopy groups are the same for homotopy equivalent spaces, they are homotopy invariants. The first homotopy group is called the \keyword{fundamental group}. For more information on general 
 algebraic topology, see the text \cite{Hatcher2001}.
 
 
@@ -3621,12 +3610,12 @@ and verify their correctness, at least for relatively low order homotopy groups.
 
 \chapter{Related work}
 
-\section{Other possible applications}\label{futapp}
+\section{Other applications}\label{futapp}
 
 Until now, most applications of cubical type theory are related to implementing 
 simple inductive types and higher inductive types. Most mathematical concepts 
 from univalent type theory \cite{Voevodsky2013}, part 2 are built with higher 
-inductive types. So it should be possible to formalize more advanced concepts in 
+inductive types. So more advanced concepts can also be formalized in 
 cubical type theory. Concepts from univalent type theory that can be useful and 
 have not been implemented with the help of cubical type theory and 
 \cite{Moertberg2018} include:
@@ -3648,8 +3637,8 @@ smaller parts of a space together. The proofs have been formulated in the
 programming language Agda as a library \cite{HoBr17} based on the theorems that 
 were more informally presented in \cite{Voevodsky2013}, Ch. 8. For now, 
 \Cref{higherhomotopy} shows that computations do not succeed for the fourth 
-fundamental group of $S^3$, but it can be possible that computations of other 
-homotopy groups of topological spaces are more efficient when \cite{HoBr17} is 
+fundamental group of $S^3$, but computations of other 
+homotopy groups of topological spaces could be more efficient when \cite{HoBr17} is 
 combined with an interface to cubical type theory, for example through 
 \cite{Moertberg2018}.
 
@@ -3739,8 +3728,8 @@ in a pre-sheaf model which was done for the cubical type theory introduced in
 earlier chapters of this text in \cite{Huber2016}, part 2. Instead, dimension 
 names such as $x,y,z$ are treated as variables that can be substituted 
 by \keyword{dimension term}s $r$, where $r$ is either an endpoint of the unit 
-interval ($0$ or $1$) or a dimension name. This makes substitutions possible of 
-the form $(x/y)$ that can be considered as diagonals in a square. This can also 
+interval ($0$ or $1$) or a dimension name. This alloes substitutions of 
+the form $(x/y)$ (or in alternative notation $x = y$) that can be considered as diagonals in a square. This can also 
 be seen as adding terms of the form $\varphi \equiv (x = y)$ to the face type 
 $\mathbb{F}$ of cubical type theory \cite{Huber2016}. This is where the name 
 ``cartesian'' comes from. Dimension names are grouped in \keyword{dimension 
@@ -3839,9 +3828,7 @@ Canonicity for homotopy theory was conjectured by Voevodsky according to
 \cite{Brunerie2018}:
 
 \begin{conjecture}[Homotopy canonicity]
-Given a term $t: \mathbb{N}$ constructed using the univalence axiom, it is 
-possible to 
-construct two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ (that can 
+Given a term $t: \mathbb{N}$ constructed using the univalence axiom, there are two terms $u : \mathbb{N}$ and $p : t =_{\mathbb{N}} u$ (that can 
 involve univalence) such that $u$ 
 does not involve the univalence axiom.
 \end{conjecture}
@@ -3903,7 +3890,7 @@ not given explicitly in \cite{Coquand2019}.
 \chapter*{Conclusion}
 
 This text gave an overview of the concepts behind the cubical 
-set model and cubical type theory (see \Cref{cubical}) which is an extension of univalent type theory. With the help of the \texttt{Glue} construction that is part of the cubical set model (see \Cref{glueOp}), it is possible to proof the univalence axiom in cubical type theory. This was discussed in \Cref{univalenceproof}. The application of the 
+set model and cubical type theory (see \Cref{cubical}) which is an extension of univalent type theory. With the help of the \texttt{Glue} construction that is part of the cubical set model (see \Cref{glueOp}), there is a proof the univalence axiom in cubical type theory. This was discussed in \Cref{univalenceproof}. The application of the 
 proof of univalence in cubical type theory to isomorphic algebraic structures in 
 \Cref{magmas} was not immediate and required defining severa new constructions. The eventual application returned a path between algebraic structers over which  properties of 
 structures could be transported. However, due to bugs in the implementation of numerals in the library, this transports could not be tested out. In standard univalent type theory it would not be possible to even define the transports of such properties but with the help of cubical type theory this became (partially) possible. 
@@ -3924,7 +3911,7 @@ trying to replace them with more efficient alternatives such as
 \texttt{V}-types (see \Cref{compuniv}) but cubes may not be a perfect solution after all
 according to \cite{Cubicalv92:online}.
 
-Univalent foundations of mathematics (see for future applications \Cref{univalentfoundations} and \Cref{futapp}) might be useful in the future but without computational interpretation it is not to possible to verify every proof that uses univalence, or at least not by computation. First, the implementation of the primitives in cubical type theory will have to be optimized to increase the overall efficiency of the normalization process. 
+Univalent foundations of mathematics (see for future applications \Cref{univalentfoundations} and \Cref{futapp}) might be useful in the future but without computational interpretation, not every proof that uses univalence can be verified, or at least not by computation. First, the implementation of the primitives in cubical type theory will have to be optimized to increase the overall efficiency of the normalization process. 
 
 
 %\unsure{There are pieces of interesting information in the notes  \cite{Shiue2018} and \cite{Booij2018}}
