@@ -8,7 +8,7 @@
 % -------------------------------------------------------------------
 \RequirePackage{fix-cm}
 %\documentclass[ebook, oneside, openany,xetex]{memoir} % for ebook
-\documentclass[12pt,a4paper,twoside,xetex]{book} % for publication
+\documentclass[12pt,a4paper,twoside,xetex,draft]{book} % for publication
 \usepackage{fancyvrb}
 
  % ----- Illustrations and general page layout  -----------------------------
@@ -2083,7 +2083,7 @@ sending $(I, \star )$ to the set $\mathbb{F}(I)$.
 
 \begin{definition}\label{interval}
 The \keyword{interval object} $\mathbb{I}$ represents the unit interval. It is 
-modelled as a context in $\psh{\cube}$. Such a model is a functor 
+modelled as a context in $\psh{\cube}$. Such a model is a functor  
 $\cube \rightarrow \set : I \mapsto dM(I)$.  $(i=0)$ acts as a term 
 $\mathbb{I} \vdash (i = 0) : \mathbb{F}$ on elements $\rho \in dM (I)$. This 
 map is defined as the map setting all the occurrences of $i$ in $\rho$ to $0$ 
